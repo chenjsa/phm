@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>tBizLeave</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+
+	<link href="/static/ace/css/bootstrap.min1.css" rel="stylesheet"> 
+		<link rel="stylesheet" href="/assets/css/font-awesome.min.css" />
+
+		<!--[if IE 7]>
+		  <link rel="stylesheet" href="/assets/css/font-awesome-ie7.min.css" />
+		<![endif]-->
+
+		<!-- page specific plugin styles -->
+
+		<link rel="stylesheet" href="/assets/css/jquery-ui-1.10.3.full.min.css" />
+		<link rel="stylesheet" href="/assets/css/datepicker.css" />
+		<link rel="stylesheet" href="/assets/css/ui.jqgrid.css" />
+
+		<!-- fonts -->
+ 
+
+		<!-- ace styles -->
+
+		<link rel="stylesheet" href="/assets/css/ace.min.css" />
+		<link rel="stylesheet" href="/assets/css/ace-rtl.min.css" />
+		<link rel="stylesheet" href="/assets/css/ace-skins.min.css" />
+
+		<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="/assets/css/ace-ie.min.css" />
+		<![endif]-->
+
+		<!-- inline styles related to this page -->
+
+		<!-- ace settings handler -->
+
+		<script src="/assets/js/ace-extra.min.js"></script>
+
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+		<!--[if lt IE 9]>
+		<script src="/assets/js/html5shiv.js"></script>
+		<script src="/assets/js/respond.min.js"></script>
+		<![endif]-->
+		
+		<!-- basic scripts -->
+
+	 <script src="/static/js/util.js"></script>
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='/assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+		</script>
+ 
+ 
+		<script type="text/javascript">
+		 window.jQuery || document.write("<script src='/assets/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+		</script>
+ 
+
+		<script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
+		<script src="/assets/js/bootstrap.min.js"></script>
+		<script src="/assets/js/typeahead-bs2.min.js"></script>
+
+		<!-- page specific plugin scripts -->
+
+		<script src="/assets/js/date-time/bootstrap-datepicker.min.js"></script>
+		<script src="/assets/js/jqGrid/jquery.jqGrid.min.js"></script>
+		<script src="/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
+
+		<!-- ace scripts -->
+
+		<script src="/assets/js/ace-elements.min.js"></script>
+		<script src="/assets/js/ace.min.js"></script> 
+	<script type="text/javascript" src="/plugins/layer/3.0/layer.js"></script>  
+	<script src="/static/ace/js/sweetalert/sweetalert.min.js"></script>
+	<link href="/static/ace/css/iCheck/custom.css" rel="stylesheet"> 
+	<script src="/static/ace/js/icheck.min.js"></script> 
+<style type="text/css">
+.tab .nav-tabs {
+border-bottom: 0 none;
+background: #eaeaea;
+}
+.tab .nav-tabs li a {
+background: transparent;
+border-radius: 0;
+font-size: 16px;
+border: none;
+color: #333;
+padding: 12px 22px;
+}
+.tab .nav-tabs li.active a, .tab .nav-tabs li.active a i {
+border: 0 none;
+background:#e67e22;
+color: #fff;
+}
+.tab .nav-tabs li.active a:after {
+content: "";
+position: absolute;
+left: 45%;
+bottom: -14px;
+border: 7px solid transparent;
+border-top: 1px solid #e67e22;
+}
+.tab .tab-content {
+padding: 0px;
+color: #5a5c5d;
+font-size: 14px;
+line-height: 20px;
+margin-top: 0px;
+border-bottom: 1px solid #e67e22;
+}
+ 
+body{
+  background: #fff;
+}
+
+  .container{
+           background-image: url(/images/wg3.png);  
+  background-repeat: no-repeat;   
+          
+        }
+ 
+</style>
+<link href="/static/highslide/highslide.css" rel="stylesheet"> 
+	<script src="/static/highslide/highslide.js"></script> 
+  </head>
+  
+<body>
+    
+    
+<ul id="myTab" class="nav nav-tabs">
+	<li class="active">
+		<a href="#home" data-toggle="tab">
+			 <span class="glyphicon glyphicon-floppy-open"></span> 流程图
+		</a>
+	</li>
+	<li><a href="#ios"  data-toggle="tab">  
+  <span class="glyphicon glyphicon-user"></span> 任务处理记录
+ 
+	  </a></li>
+ 
+	<li><a href="#bsdata" data-toggle="tab">
+	<span class="glyphicon glyphicon-credit-card"></span>
+		
+	业务数据</a></li>
+</ul>
+<div id="myTabContent" class="tab-content">
+	<div class="tab-pane fade in active" id="home" style="width:100%;"> 
+	<div id="coords" class="container" style="height:250px;overflow-y:auto;width:100%; border: 0px solid #0066cc;">
+		<a href="#" class="highslide" id='codeImgUrl'    onclick="return hs.expand(this, { captionId: 'caption1', align: 'center' });" >
+	 <img  id="codeImg" alt="流程图"   
+								title="流程图" src="" />
+	</a>
+	 
+				 	</div>
+			<div  style="width:100%;">					
+				  <table id="list3" style="width:100%;"></table> 
+    	  <div id="pager3"></div>      
+    	  </div>
+	</div>
+	<div class="tab-pane fade" id="ios">
+		   <table id="list2"></table> 
+    	  <div id="pager2"></div>      
+	</div> 
+	<div class="tab-pane fade" id="bsdata"> 
+        <iframe id="page1" align="center" width="100%" height="100%" src=""  frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="yes"></iframe>
+    
+	</div>
+ 
+</div>
+            
+</body>	
+ 
+<script type="text/javascript">
+		$(top.hangge());	  
+		$(function(){
+		   var url="/activitiMonitor/queryProHighLighted/"+getParamer("processInstanceId");
+		   //var url="/activitiController.do?getActivitiProccessImage&pProcessInstanceId="+getParamer("processInstanceId");
+		///  alert(url);
+  		    $("#codeImg").attr("src", url);
+  		     $("#codeImgUrl").attr("href",url);
+  		      var pageHeaderHeight =$(window).height(); 
+  		      $("#page1").height(pageHeaderHeight);
+  		     var processInstanceId= getParamer("processInstanceId");
+  		     /// alert(getParamer("processInstanceId")); 
+  		    　 $.ajax({
+				type: "GET",
+				url: '/activitiMonitor/getBusinesskey/'+processInstanceId, 
+				dataType:'json',
+				cache: false,
+				success: function(data){ 
+					if(data && data!=""){  
+					   ///  alert(data.msg); 
+					     $('#page1').attr('src',data.msg);
+					     
+				    } 
+				 }
+			   });
+	   });
+	    
+	 $('list2').css("margin-top","0px");
+	$(function(){
+       pageInit();
+        $(window).resize(function(){
+        $("#list2").setGridWidth($(window).width());
+    });
+    }); 
+ 
+    function pageInit(){ 
+       var pageHeaderHeight =$(window).height()-80; 
+       var postData={   
+
+		  'fromMenu':"2" 
+	   };
+	   var w=$(window).width()-20; 
+	   
+	    function beforeSelectRow()  
+    {  
+        $("#list2").jqGrid('resetSelection');  
+        return(true);  
+    }   
+      jQuery("#list2").jqGrid(
+      {
+        url : '/activitiMonitor/queryHistoricTaskInstance/'+getParamer("processInstanceId"),  
+		height:pageHeaderHeight-80,
+       width:w-20,  
+        multiselect : false, 
+		multiboxonly:true,  
+		rownumbers :true,
+		beforeSelectRow: beforeSelectRow,//js方法
+        datatype : "json",  
+      //  autowidth:true ,
+        caption:"<span class=\"glyphicon glyphicon-list\"></span>审核意见及建议 ", 
+        styleUI: 'Bootstrap',//设置jqgrid的全局样式为bootstrap样式 
+        onSelectRow:function(rowid, status){ 
+        	 $("input[name='id'][value='"+rowid+"']").attr("checked",true);
+        }, 
+        colNames :[  
+        			'编号',
+	    			'流程步骤',
+	    			'执行人', 
+	    			'审核', 
+	    			'签字意见',
+	    			'开始时间',
+	    			'结束时间' 
+	    			
+	    		   ],
+        colModel :  [    
+       				 {name : 'id',index : 'id',sortable:true},
+					{name : 'name',index : 'name',sortable:true},
+					{name : 'assignee',index : 'assignee',sortable:true},
+				    {name : 'actTaskExtend.outComeName',index : 'actTaskExtend.outComeName',sortable:false},
+					{name : 'actTaskExtend.auditContent',align:'center',index : 'actTaskExtend.auditContent',sortable:true}, 
+					{name : 'startTimeStr',align:'center',index : 'startTimeStr',sortable:true,
+						formatter :"date",formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}
+					},
+					{name : 'endTimeStr',align:'center',index : 'endTimeStr',sortable:true 
+					}
+	               
+	               ], 
+        postData:postData, //发送数据
+        mtype : "GET",
+        viewrecords : true,   
+        loadComplete:function(){ } 
+            
+      });    
+	     $("#cb_list2").hide();
+	$("#list2").closest(".ui-jqgrid-bdiv").css({ "overflow-y" : "hidden" }); 
+	  $("#list2").jqGrid('setGridParam',{  
+	          postData:postData, //发送数据 
+	          datatype:'json',  
+	          page:1 
+	      }).trigger("reloadGrid"); //重新载入  
+	}
+	 
+	  var pageHeaderHeight =$(window).height()-80; 
+       var postData={   
+
+		  'fromMenu':"2" 
+	   };
+	    var w=$("#home").width()-10; 
+ 
+	  jQuery("#list3").jqGrid(
+      {
+        url : '/activitiMonitor/queryHistoricActivitiInstance/'+getParamer("processInstanceId"),  
+	    //autoheight:true,
+	    heght:50,
+        // width:w,  
+        multiselect : false, 
+		multiboxonly:true,  
+		rownumbers :true,
+	 	autowidth:true ,
+	//	beforeSelectRow: beforeSelectRow,//js方法
+        datatype : "json",  
+        caption:"<span class=\"glyphicon glyphicon-list\"></span>流程历史跟踪 ", 
+        styleUI: 'Bootstrap',//设置jqgrid的全局样式为bootstrap样式 
+        onSelectRow:function(rowid, status){ 
+        	 $("input[name='id'][value='"+rowid+"']").attr("checked",true);
+        }, 
+        colNames :[  
+        
+        			'流程实例ID',
+        			'编号',
+	    			'流程节点',
+	    			'执行人',  
+	    			'开始时间',
+	    			'结束时间'  
+	    			
+	    		   ],
+        colModel :  [    
+        			 {name : 'procInstId',index : 'procInstId',sortable:true},
+       				 {name : 'id',index : 'id',sortable:true},
+					{name : 'actName',index : 'actName',sortable:true},
+					{name : 'assignee',index : 'assignee',sortable:true}, 
+					{name : 'startTimeStr',align:'center',index : 'startTimeStr',sortable:true,
+						formatter :"date",formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}
+					},
+					{name : 'endTimeStr',align:'center',index : 'endTimeStr',sortable:true 
+					}
+	               
+	               ], 
+        postData:postData, //发送数据
+        mtype : "GET",
+        viewrecords : true,   
+        loadComplete:function(){ } 
+            
+      });    
+	     $("#cb_list3").hide();
+	///$("#list3").closest(".ui-jqgrid-bdiv").css({ "overflow-y" : "scroll" }); 
+	  $("#list3").jqGrid('setGridParam',{  
+	          postData:postData, //发送数据 
+	          datatype:'json',  
+	          page:1 
+	      }).trigger("reloadGrid"); //重新载入  
+ 
+	  ///  $("#list3").setGridWidth($(window).width())-20; 
+	    $(window).resize(function(){  
+     $(window).unbind("onresize");  
+     $("#list3").setGridHeight($(window).height() - 450);  
+     $(window).bind("onresize", this);  
+});  
+
+ // 查看图片
+ 
+	
+    hs.graphicsDir = '/static/highslide/graphics/'; 
+    hs.align = 'center';  
+	hs.align = 'center'; 
+	hs.transitions = ['expand', 'crossfade']; 
+	hs.outlineType = 'rounded-white'; 
+	hs.wrapperClassName = 'controls-in-heading'; 
+	hs.fadeInOut = true; 
+	//hs.dimmingOpacity = 0.75; 
+	
+	// Add the controlbar 
+	if (hs.addSlideshow) hs.addSlideshow({ 
+		//slideshowGroup: 'group1', 
+		interval: 5000, 
+		repeat: false, 
+		useControls: true, 
+		fixedControls: false, 
+		overlayOptions: { 
+		opacity: 1, 
+		position: 'top right', 
+		hideOnMouseOut: false 
+		} 
+	}); 
+</SCRIPT>
+</html>

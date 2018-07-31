@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>个人账户</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+        <link rel="stylesheet" href="/static/ace/css/font-awesome1.css" />  
+	    <link href="/static/ace/css/style.min.css?v=4.1.0" rel="stylesheet">
+		<link href="/static/ace/css/bootstrap.min1.css" rel="stylesheet"> 
+		<!-- text fonts -->
+		<link rel="stylesheet" href="/static/ace/css/ace-fonts.css" />
+		<!-- ace styles -->
+		<link rel="stylesheet" href="/static/ace/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />   
+		<script type="text/javascript" src="/static/ace/js/jquery.js"></script>  
+		<script src="/static/ace/js/bootstrap.js"></script>
+		<script src="/static/js/util.js"></script>
+			<link href="/static/ace/js/sweetalert/sweetalert.css" rel="stylesheet">   
+  			<script src="/static/ace/js/sweetalert/sweetalert.min.js"></script>   
+
+  </head>
+  
+    <body class="no-skin">
+<div class="main-container" id="main-container">
+		<!-- /section:basics/sidebar -->
+		<div class="main-content">
+			<div class="main-content-inner">
+				<div class="page-content">
+					<div class="row">
+						<div class="col-xs-12">
+						<form action="people/save.do" name="peopleForm" id="peopleForm" method="post">
+							<input type="hidden" name="id" id='id' > 
+							<div id="zhongxin" style="padding-top: 13px;">
+							<table id="table_report" class="table table-striped table-bordered table-hover"> 			
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										账户：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="no" name="no"   placeholder="输入notesCode" title="账户" style="width:98%;" readonly="readonly"/>
+								 	</td>									
+								</tr>	
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										用户名：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="name" name="name"   placeholder="输入notesCode" title="用户名" style="width:98%;" readonly="readonly"/>
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										手机号：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="mobile" name="mobile"   placeholder="输入notesType" title="手机" style="width:98%;" />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										Email：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="email" name="email"  placeholder="Email" title="email" style="width:98%;"  />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										旧密码：
+									</td>
+									<td class="controlcontent" >
+										<input type="password" id="oldPassword" name="oldPassword" onblur="vaild_oldPassword();";  placeholder="输入旧密码" title="输入旧密码" style="width:98%;" />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										新密码：
+									</td>
+									<td class="controlcontent" >
+										<input type="password" id="password" name="password" onblur="vaild_password();";  placeholder="输入密码" title="输入密码" style="width:98%;" />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										确认密码：
+									</td>
+									<td class="controlcontent" >
+										<input type="password" id="passwordConfirm" name="passwordConfirm" onblur="vaild_passwordConfirm();";  placeholder="输入密码" title="输入密码" style="width:98%;" />
+								 	</td>									
+								</tr>			 
+								<div id="msg"></div>
+								<tr>
+									<td class="center" colspan="2">
+										<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
+										<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
+									</td>
+								</tr>
+							</table>
+							</div>
+						 	</form>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.page-content -->
+			</div>
+		</div>
+		<!-- /.main-content -->
+	</div> 	                  
+</body>	
+ 
+<script type="text/javascript">
+		$(top.hangge());
+	
+		//保存	
+	 function save(){
+		    if(vaild_all()){
+		    var oldPwd=$("#password").val();
+		    var oldPwdConfrim=$("#passwordConfirm").val();
+		    if(oldPwd!==oldPwdConfrim){
+		    	$("#passwordConfirm").tips({
+					side:3,
+		            msg:'两次输入密码不一致',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#passwordConfirm").focus();
+				return false;
+		    }
+		    $.ajax({
+				type: "GET",
+				url: '/SysStrategy/getSetting',
+				contentType: 'application/json',
+				dataType:'json',
+				cache: false,
+				success: function(data){
+					if(data && data!=""){ 
+						console.log(JSON.stringify(data[0]));							 
+						if(data[0].isUseOrdinaryStrage==1){
+							//密码最小字符个数
+							var pwd=$("#password").val();
+							console.log(pwd.length) 
+							if(pwd.length<data[0].passMinLength){ 
+								 swal("", "新密码最小字符个数大于等于"+data[0].passMinLength, "error")	;
+								return false;
+							}
+							//允许同一字符出现次数
+							for(var j=0;j<pwd.length;j++){
+								var sub=pwd.substr(j, 1);
+								if(patch(sub,pwd)>data[0].someCharCount){ 
+									 swal("", "新密码同一字符出现次数不超过："+data[0].someCharCount.err_msg, "error")	;
+									return false;
+								}
+							}
+							
+							//只是保护一个特殊字符
+							if(data[0].isContainSpecialChar==1){
+								var reg="/["+data[0].specialChars+"]/";
+								reg=eval(reg)
+								if(!reg.test(pwd)){ 
+									 swal("", "新密码至少包含一个特殊字符:"+data[0].specialChars, "error")	;
+									return false;
+								}
+							}  
+						}
+						 
+							updatePwd(); 
+				    } 
+				 },
+				 error:function(err)
+				 {
+					 alert("获取密码策略失败:"+err);
+				 }
+			});
+		
+		}
+		
+			
+			function updatePwd(){
+				$.ajax({
+				type: "POST",
+				url: '/user/updatePwd', 
+				//contentType: 'application/json', // 这句不加出现415错误:Unsupported Media Type
+				traditional: true, //traditional 为true阻止深度序列化
+				data:{   
+					  'id':$("#id").val(),
+					  'oldpwd':$("#oldPassword").val(),
+					  'newpwd':$("#password").val(),
+					  'mobile':$("#mobile").val(),
+					  'email':$("#email").val()
+					  
+				  },
+				dataType:'json',
+				cache: false,
+				success: function(data){
+					if(data && data!=""){  	
+							 swal("", data.err_msg, "error");	     
+							 top.Dialog.close();
+				    } 
+				 },
+				 error:function(err)
+				 {
+					 alert("设置失败");
+				 }
+			   });
+		      }
+			　
+			 }
+		     
+		
+	  /***
+	    验证字段notesCode是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_oldPassword(){
+	     if($("#oldPassword").val()==""){
+			$("#oldPassword").tips({
+				side:3,
+	            msg:'请输入旧密码',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#oldPassword").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段notesType是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_password(){
+	     if($("#password").val()==""){
+			$("#password").tips({
+				side:3,
+	            msg:'请输入密码',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#password").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段notesReadTime是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_passwordConfirm(){
+	     if($("#passwordConfirm").val()==""){
+			$("#passwordConfirm").tips({
+				side:3,
+	            msg:'请输入确认密码',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#passwordConfirm").focus();
+			return false;
+		}
+	  }
+
+     function vaild_all(){
+	     if($("#oldPassword").val()==""){
+			$("#oldPassword").tips({
+				side:3,
+	            msg:'请输入旧密码',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			//$("#oldPassword").focus();
+			return false;
+		}
+	     if($("#password").val()==""){
+			$("#password").tips({
+				side:3,
+	            msg:'请输入密码',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			//$("#password").focus();
+			return false;
+		}
+	     if($("#passwordConfirm").val()==""){
+			$("#passwordConfirm").tips({
+				side:3,
+	            msg:'请输入确认密码',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			//$("#passwordConfirm").focus();
+			return false;
+		}
+
+		 return true;
+	  }
+	  
+	$(function(){
+  		init();
+	});
+	function init(){
+		  　 $.ajax({
+				type: "GET",
+				url: '/user/getLoginUser', 
+				dataType:'json',
+				cache: false,
+				success: function(data){
+				  //  alert(data);
+					if(data && data!=""){  
+					  $("#no").val(data.no);
+					  $("#name").val(data.name);
+					  $("#mobile").val(data.mobile);
+					  $("#email").val(data.email);
+					  $("#id").val(data.id);				     
+				    } 
+				 }
+			   });
+		}
+	
+	/**
+	**返回re在S中出现的次数
+	**/
+	 function patch(re,s){
+	  re=eval("/"+re+"/ig")
+	  return s.match(re).length;
+	}
+		
+		
+</SCRIPT>
+<!-- ace scripts --> 
+	<!-- inline scripts related to this page -->
+	<!-- 下拉框 -->
+	<script src="static/ace/js/chosen.jquery.js"></script>
+	<!-- 日期框 -->
+	<script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
+	<!--提示框-->
+	<script type="text/javascript" src="/static/js/jquery.tips.js"></script>
+  <script type="text/javascript">
+		$(top.hangge());
+</script>	 
+</html>

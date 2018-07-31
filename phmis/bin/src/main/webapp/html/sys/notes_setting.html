@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>系统通知设置</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    	<link type="text/css" rel="stylesheet" href="/plugins/zTree/3.5/zTreeStyle.css"/>
+	 
+        <link rel="stylesheet" href="/static/ace/css/font-awesome1.css" />  
+	    <link href="/static/ace/css/style.min.css?v=4.1.0" rel="stylesheet">
+		<link href="/static/ace/css/bootstrap.min1.css" rel="stylesheet"> 
+		<!-- text fonts -->
+		<link rel="stylesheet" href="/static/ace/css/ace-fonts.css" />
+		<!-- ace styles -->
+		<link rel="stylesheet" href="/static/ace/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />   
+		<script type="text/javascript" src="/static/ace/js/jquery.js"></script>  
+		<script src="/static/ace/js/bootstrap.js"></script>
+		<script src="/static/js/util.js"></script>
+	 
+		<link href="/static/ace/js/sweetalert/sweetalert.css" rel="stylesheet">      
+		<script src="/static/ace/js/sweetalert/sweetalert.min.js"></script>
+  </head>
+  
+    <body class="no-skin">
+<div class="main-container" id="main-container">
+		<!-- /section:basics/sidebar -->
+		<div class="main-content">
+			<div class="main-content-inner">
+				<div class="page-content">
+					<div class="row">
+						<div class="col-xs-12">
+							<div id="zhongxin" style="padding-top: 13px;text-align: center;" >
+							<table id="table_report" class="table table-striped table-bordered table-hover" style="width: 40%;margin: auto;"> 			
+							    <tr>								
+									<td style="width:50%;text-align: right;padding-top: 13px;background-color: white;" rowspan="3">
+										系统消息通知形式：
+									</td>
+									<td class="controlcontent" >
+										系统提醒：<input type="checkbox" name="notesPostType" value="1"  tag="系统提醒" > 	 
+								 	</td> 
+								</tr>
+								<tr>
+								 	<td class="controlcontent" >
+										短信提醒：<input type="checkbox" name="notesPostType" value="2"  tag="短信提醒"> 	 
+								 	</td>
+								</tr>
+								<tr>
+								 	<td class="controlcontent" >
+										邮件提醒：<input type="checkbox" name="notesPostType" value="3"  tag="邮件提醒"> 	 
+								 	</td>									
+								</tr>		 
+							</table>
+							</div>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+					<div class="row">
+                            <div class="col-xs-12" style="text-align: center;margin-top:20px;">
+                                <button class="btn btn-primary" id="btnOk" type="submit">提交</button>
+                            </div>
+                        </div>
+				</div>
+				<!-- /.page-content -->
+			</div>
+		</div>
+		<!-- /.main-content -->
+	</div> 	                  
+</body>	
+ 
+
+<!-- ace scripts --> 
+	<!-- inline scripts related to this page -->
+	<!-- 下拉框 -->
+	<script src="/static/ace/js/chosen.jquery.js"></script>
+	<!-- 日期框 -->
+	<script src="/static/ace/js/date-time/bootstrap-datepicker.js"></script>
+	<!--提示框-->
+	<script type="text/javascript" src="/static/js/jquery.tips.js"></script>
+	
+	<script type="text/javascript" src="/static/js/json2.js"></script>
+  	<script type="text/javascript">
+		$(top.hangge());
+</script>	
+
+<script type="text/javascript">
+function save(){
+	
+	var chks=$("#table_report input[type='checkbox']");
+	
+	var arr=new Array();
+
+	for(var i=0;i<chks.length;i++)
+	{
+		 var chk=$(chks[i]);
+		 
+		 arr.push({
+			 id:chk.prop("id")==undefined?"":chk.prop("id"),
+			 code:chk.attr("value"),
+			 actionPath:'',
+			 name:chk.attr("tag"),
+			 parentCode:'0000',
+			 remark:'',
+			 nocheck:chk.is(':checked')
+		 });
+	}
+	
+
+	$.ajax({
+		type: "POST",
+		url: '/paramSet/noteSettingSave', 
+		data: JSON.stringify(arr),
+		dataType:'json',
+		contentType: 'application/json;charset=utf-8',
+		cache: false,
+		success: function(data){
+			
+			setIds(data);
+			
+			swal({  
+				title:'',
+	            text: "操作成功！",  
+	            type: "success",  
+	            confirmButtonText: '确认',  
+	            confirmButtonColor: '#4cd964',  
+	        }) ;
+		 },
+		 error:function(err)
+		 {
+			 swal({  
+				 	title:'',
+		            text: "操作失败！",  
+		            type: "error",  
+		            confirmButtonText: '确认',  
+		            confirmButtonColor: '#4cd964',  
+		        }) ;
+		 }
+		});
+}
+
+function setIds(data)
+{
+	var chks=$("#table_report input[type='checkbox']");
+	for(var i=0;i<chks.length;i++)
+	{
+		 $(chks[i]).prop("id","");
+	}
+	for(var j=0;j<data.length;j++)
+	{
+		var obj=$(":checkbox[value="+data[j].code+"]");
+		obj.prop("id",data[j].id);
+		obj.prop('checked', true);
+	}
+	
+	}
+function GetNotes(){
+	　 $.ajax({
+		type: "GET",
+		url: '/paramSet/getPlanSetting', 
+		data : {
+				'parentCode' :'0000'
+		},
+		dataType:'json',
+		cache: false,
+		success: function(data){
+			
+			setIds(data);
+			 
+			
+		 },
+		 error:function(err)
+		 {
+			 swal({  
+				 	title:'',
+		            text: "初始化失败！",  
+		            type: "error",  
+		            confirmButtonText: '确认',  
+		            confirmButtonColor: '#4cd964',  
+		        }) ;
+		 }
+	   });
+}
+
+
+	
+	$(function(){
+		$("#btnOk").click(save);
+		
+		GetNotes();
+	});
+</SCRIPT> 
+</html>

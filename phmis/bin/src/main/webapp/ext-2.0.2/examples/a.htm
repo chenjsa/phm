@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> New Document </TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="">
+<META NAME="Keywords" CONTENT="">
+<META NAME="Description" CONTENT="">
+</HEAD>
+<BODY>
+ <INPUT TYPE="button" NAME="" onclick="alert('看到效果没有啊,我将消失',);" value="Test">
+</BODY>
+</HTML>
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+   function autoCloseAlert(msg)
+   {
+      var tempFrm=document.getElementByIdx_x("msgFrm");
+   if(tempFrm==null||typeof(tempFrm)=="undefined")
+   {
+     tempFrm =document.createElement_x("iframe");
+  document.body.appendChild(tempFrm);
+  tempFrm.id = "msgFrm";  
+     tempFrm.name ="msgFrm";
+     tempFrm.style.display="none";
+   }
+   msg=msg.replace(/"/g,"\\\"");
+   msg=msg.replace(/\n/g,"\\n");
+   var sfeature="status:no;resizable:no;help:no;dialogHeight:height:30px;dialogHeight:40px;";
+   msgFrm.showModelessDialog("javascript:alert(\""+msg+"\");window.close();","",sfeature);
+   setTimeout("msgFrm.location.reload();",1500);
+ }
+    //重写弹出框
+ var oldAlert = window.alert;
+    window.alert = function(msg)
+    {
+      var tempEvent=window.event;
+    if(tempEvent==null)
+    {
+       oldAlert(msg);
+    }else
+    {
+       autoCloseAlert(msg);
+    }
+    }
+  alert('还是以前那个');
+//-->
+</SCRIPT>

@@ -1,0 +1,17 @@
+ClearCase CopyAreaDB|4
+YZGL\src\yzgl\WebRoot\js\jquery-ui
+2
+d
+9:cupertino|2|0|0|0|c8fb9b90e7fb4efbaf1139086fc6ef61|0
+11:jquery-ui.min.css|1|15708b62291|75d3|a5fac493|9bbbc5a349c74815ae509e45603369c1|0
+d:jquery-ui.css|1|15708b621b7|8a14|17002a8|00d4ceddeb364e6ea4e64443ccb4a457|0
+6:images|2|0|0|0|b3231df5b202405a88cb4a66e77536a0|0
+a:index.html|1|15708b62188|7be0|f8f61c3e|5f6776c06b2e4ab6997e3b6ef8838465|0
+13:jquery-ui.theme.css|1|15708b6233d|440c|e9cfe9d4|3cba2ba076a547f29d51a9828f0c1812|0
+1b:jquery-ui.structure.min.css|1|15708b622df|39b1|9ceb0b95|c039df5205324e24a6a950691873ce4f|0
+a:smoothness|2|0|0|0|f5016b267c1946bebc6f8c1cd06c799d|0
+17:jquery-ui.structure.css|1|15708b622d0|4665|1fb82de5|06c60ae5640f4fdcae501070596fe3a7|0
+8:external|2|0|0|0|d48da1dd7f594cd7aea5b1e505d3ab68|0
+c:jquery-ui.js|1|15708b62272|72e43|1327cf57|8b33b78c271c4d5a982d4ab2fcb222f9|0
+10:jquery-ui.min.js|1|15708b622b0|3210b|c2c8e2fd|7723ca0225754ae6890af6f65e6afdba|0
+17:jquery-ui.theme.min.css|1|15708b6234c|362c|78da8688|3cae204d5bae497aa4bd8a536706233a|0

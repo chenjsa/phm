@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>sealApplyForm编辑</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8"> 
+		 	<!-- basic styles -->
+ 
+	<link href="/static/ace/css/bootstrap.min1.css" rel="stylesheet"> 
+		<link rel="stylesheet" href="/assets/css/font-awesome.min.css" />
+
+		<!--[if IE 7]>
+		  <link rel="stylesheet" href="/assets/css/font-awesome-ie7.min.css" />
+		<![endif]-->
+
+		<!-- page specific plugin styles -->
+
+		<link rel="stylesheet" href="/assets/css/jquery-ui-1.10.3.full.min.css" />
+		<link rel="stylesheet" href="/assets/css/datepicker.css" />
+		<link rel="stylesheet" href="/assets/css/ui.jqgrid.css" />
+
+		<!-- fonts -->
+ 
+
+		<!-- ace styles -->
+
+		<link rel="stylesheet" href="/assets/css/ace.min.css" />
+		<link rel="stylesheet" href="/assets/css/ace-rtl.min.css" />
+		<link rel="stylesheet" href="/assets/css/ace-skins.min.css" />
+
+		<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="/assets/css/ace-ie.min.css" />
+		<![endif]-->
+
+		<!-- inline styles related to this page -->
+
+		<!-- ace settings handler -->
+
+		<script src="/assets/js/ace-extra.min.js"></script>
+
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+		<!--[if lt IE 9]>
+		<script src="/assets/js/html5shiv.js"></script>
+		<script src="/assets/js/respond.min.js"></script>
+		<![endif]-->
+		
+		<!-- basic scripts -->
+
+	 <script src="/static/js/util.js"></script>
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='/assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+		</script>
+ 
+ 
+		<script type="text/javascript">
+		 window.jQuery || document.write("<script src='/assets/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+		</script>
+ 
+
+		<script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
+		<script src="/assets/js/bootstrap.min.js"></script>
+		<script src="/assets/js/typeahead-bs2.min.js"></script>
+
+		<!-- page specific plugin scripts -->
+
+		<script src="/assets/js/date-time/bootstrap-datepicker.min.js"></script>
+		<script src="/assets/js/jqGrid/jquery.jqGrid.min.js"></script>
+		<script src="/assets/js/jqGrid/i18n/grid.locale-cn.js"></script>
+
+		<!-- ace scripts -->
+
+		<script src="/assets/js/ace-elements.min.js"></script>
+		<script src="/assets/js/ace.min.js"></script>
+	<script type="text/javascript" src="/plugins/layer/3.0/layer.js"></script>
+		<!-- inline scripts related to this page -->
+		<style>
+		.page-content1 {
+    background: #fff;
+    margin: 0;
+     font-size: 18;
+    padding: 0px 2px 0px;}
+  .ui-jqgrid tr.jqgrow td{font-size: 13px;}
+    .ui-jqgrid .ui-jqgrid-labels th{font-size: 13px; }
+     
+  .ui-jqgrid .ui-jqgrid-htable th div {
+     font-size: 13px;
+    }
+    
+    .ui-jqgrid .ui-jqgrid-pager {
+    line-height: 5px;
+    height: 45px;
+    padding-top: 3px !important;
+    padding-bottom: 5px !important;
+    background-color: rgb(239, 243, 248) !important;
+    border-bottom: 1px solid rgb(225, 225, 225) !important;
+    border-top: 1px solid rgb(225, 225, 225) !important;
+}
+.ui-jqgrid .ui-pager-control {
+    height: 45px;
+    position: relative;
+    padding-left: 9px;
+    padding-right: 9px;
+}
+
+.layui-layer-btn .layui-layer-btn0 {
+      color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+		</style> 
+  </head>
+ <body> 
+ 
+  <div class="page-content1">
+ <table id="list2"></table> 
+ <div id="pager2"></div>    
+ </div>
+ </body>
+  <script type="text/javascript">
+	$(top.hangge());
+	$(function(){
+       pageInit();
+    }); 
+   var w=  $(window).width();
+   var h=$(window).height(); 
+    function pageInit(){ 
+       var pageHeaderHeight =$(window).height()-130
+       var postData={  
+		  'rev':$('#rev').val(),
+		  'name':$('#name').val(),
+		  'parentTaskId':$('#parentTaskId').val(),
+		  'description':$('#description').val(),
+		  'taskDefKey':$('#taskDefKey').val(),
+		  'owner':$('#owner').val(),
+		  'assignee':$('#assignee').val(),
+		  'delegation':$('#delegation').val(),
+		  'priority':$('#priority').val(),
+		  'createTime':$('#createTime').val(),
+		  'dueDate':$('#dueDate').val(),
+		  'category':$('#category').val(),
+		  'suspensionState':$('#suspensionState').val(),
+		  'tenantId':$('#tenantId').val(),
+		  'formKey':$('#formKey').val(),
+
+		  'fromMenu':"2" 
+	   };
+      jQuery("#list2").jqGrid(
+      {
+        url : '/actRuTask/list',
+        width : $(window).width()-5, 
+		multiselect : true,  		
+		multiboxonly:true,  
+		rownumbers :true,
+		 altRows: true,
+		height:pageHeaderHeight, 
+        datatype : "json",
+         caption:"<span class=\"glyphicon glyphicon-list\"></span>待办任务信息 ", 
+        styleUI: 'Bootstrap',//设置jqgrid的全局样式为bootstrap样式  
+        shrinkToFit: true,
+        colNames :[ 
+        			'任务编号',
+        			'任务类别',
+	    			'流程名称',
+	    			'任务名称', 
+	    			'创建时间', 
+
+	    			'操作'
+	    		   ],
+        colModel :  [  
+       
+        
+        			{name : 'id',index : 'id',sortable:true}, 
+        			{name : 'assignee',index : 'assignee',sortable:true,
+					formatter:function(value, options, rData){ 
+						    if(value!=""){
+						      return '<span class="label label-success arrowed-right arrowed-in">个人任务</span>';
+						    }else{
+						    	  return '<span class="label label-danger arrowed-right arrowed-in">分组任务</span>';
+						    }
+					   		
+					   
+					   
+					 }
+					},  
+					{name : 'actReProcdef.name',index : 'actReProcdef.name',sortable:true},
+					{name : 'name',index : 'name',sortable:true,
+					formatter:function(value, options, rData){ 
+					   		 return '<span class="label label-success arrowed-right arrowed-in">'+value+'</span>';
+					   
+					   
+					 }
+					},  
+					{name : 'createTime',index : 'createTime',sortable:true},
+					 
+	                {name:'id',index:'id', width:100, fixed:true, sortable:false, resize:false,
+						 
+						formatter :function(value, options, rData) {     
+			         		  var html="<a id='goView-"+value+"'    class='btn btn-xs btn btn-danger' title='处理任务' onclick=taskHandle('"+rData.formKey+"','"+value+"');><i class='glyphicon glyphicon-user' title='处理任务'></i></a>";
+			          	 	  html=html+"&nbsp;&nbsp;<a id='goEdit-"+value+"'   class='btn btn-xs btn-success' title='流转信息' onclick=viewActInfo('"+rData.procInstId+"');><i class='glyphicon glyphicon-share' title='流转信息'></i></a>";
+			          	 	  html=html+"&nbsp;&nbsp;<a id='delete-"+value+"'  style='display:none' class='btn btn-xs btn-danger' title='删除' onclick=del('"+value+"');><i class='ace-icon fa fa-trash-o bigger-120' title='查看'></i></a>";
+			          	 	  return html; 
+			           }     	   
+					}
+	               ],
+        rowNum : 20,
+        rowList : [ 10, 20, 30 ],
+        pager : '#pager2',
+        sortname : 'id',
+        postData:postData, //发送数据
+        mtype : "post",
+        viewrecords : true, 
+      //  toolbar: [true, "top"],
+        loadComplete:function(){
+        		var table = this;
+        	setTimeout(function(){
+							styleCheckbox(table);
+							
+							updateActionIcons(table);
+							updatePagerIcons(table);
+							enableTooltips(table);
+						}, 0);
+        } 
+            
+      });
+   //navButtons
+				jQuery("#list2").jqGrid('navGrid',"#pager2",
+					{ 	//navbar options
+						edit: true,
+						editicon : 'ace-icon fa fa-pencil blue',
+						add: true,
+						addicon : 'ace-icon fa fa-plus-circle purple',
+						del: true,
+						delicon : 'ace-icon fa fa-trash-o red',
+						search: true,
+						searchicon : 'ace-icon fa fa-search orange',
+						refresh: true,
+						refreshicon : 'ace-icon fa fa-refresh green',
+						view: true,
+						viewicon : 'ace-icon fa fa-search-plus grey',
+					},
+					{
+						//edit record form
+						//closeAfterEdit: true,
+						//width: 700,
+						recreateForm: true,
+						beforeShowForm : function(e) {
+							var form = $(e[0]);
+							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+							style_edit_form(form);
+						}
+					},
+					{
+						//new record form
+						//width: 700,
+						closeAfterAdd: true,
+						recreateForm: true,
+						viewPagerButtons: false,
+						beforeShowForm : function(e) {
+							var form = $(e[0]);
+							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar')
+							.wrapInner('<div class="widget-header" />')
+							style_edit_form(form);
+						}
+					},
+					{
+						//delete record form
+						recreateForm: true,
+						beforeShowForm : function(e) {
+							var form = $(e[0]);
+							if(form.data('styled')) return false;
+							
+							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+							style_delete_form(form);
+							
+							form.data('styled', true);
+						},
+						onClick : function(e) {
+							//alert(1);
+						}
+					},
+					{
+						//search form
+						recreateForm: true,
+						afterShowSearch: function(e){
+							var form = $(e[0]);
+							form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+							style_search_form(form);
+						},
+						afterRedraw: function(){
+							style_search_filters($(this));
+						}
+						,
+						multipleSearch: true,
+						/**
+						multipleGroup:true,
+						showQuery: true
+						*/
+					},
+					{
+						//view record form
+						recreateForm: true,
+						beforeShowForm: function(e){
+							var form = $(e[0]);
+							form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+						}
+					}
+				)
+			
+
+	}  
+
+
+	function queryList() {
+	  var postData={  
+		  'rev':$('#rev').val(),
+		  'name':$('#name').val(),
+		  'parentTaskId':$('#parentTaskId').val(),
+		  'description':$('#description').val(),
+		  'taskDefKey':$('#taskDefKey').val(),
+		  'owner':$('#owner').val(),
+		  'assignee':$('#assignee').val(),
+		  'delegation':$('#delegation').val(),
+		  'priority':$('#priority').val(),
+		  'createTime':$('#createTime').val(),
+		  'dueDate':$('#dueDate').val(),
+		  'category':$('#category').val(),
+		  'suspensionState':$('#suspensionState').val(),
+		  'tenantId':$('#tenantId').val(),
+		  'formKey':$('#formKey').val(),
+
+		  'fromMenu':"2" 
+	   };
+	  $("#list2").jqGrid('setGridParam',{  
+	          postData:postData, //发送数据 
+	          datatype:'json',  
+	          page:1 
+	      }).trigger("reloadGrid"); //重新载入  
+	}
+  </script>
+  
+  <script type="text/javascript"> 
+		//检索
+		function gsearch(){ 	
+	     layer.open({
+			 	 type: 1, 
+			 	 title:'<span class=\"glyphicon glyphicon-list\"></span>筛选条件',
+			 	 closeBtn: 1,
+			 	 offset: 'auto', 
+				 content: $("#gsearch"),
+				 btn: [' <span class="glyphicon glyphicon-search"></span>查询','<span class="glyphicon glyphicon-remove"></span>取消'],
+			     area: ['500px'],
+				 maxmin: true,
+      			 shadeClose: true, //点击遮罩关闭层
+				 yes: function(index, layero){ 
+				 	queryList();
+					layer.close(index);
+				}, 
+				no: function(index){ 
+					layer.close(index);
+				} 
+	       });  
+		} 
+		 
+		
+		///删除
+		function viewActInfo(Id){ 	   
+		   var index1=layer.open({
+			 	type: 2, 
+			 	closeBtn: 1,
+			 	title:'<span class="glyphicon glyphicon-book"></span> 流程信息',
+			 	offset: 'auto',
+			 	area: [w+'px', h+'px'],
+				content: '/html/activitiMonitor/activiti_monitor.html?processInstanceId='+Id, 
+				shadeClose: false,
+			    maxmin: true,
+			     btn: ['<span class="glyphicon glyphicon-remove"></span>关闭'],
+			  ///  btn: ['<span class="glyphicon glyphicon-remove"></span>返回'],
+				yes: function(index, layero){ 
+					layer.close(index); 
+				}, 
+				no: function(index){ 
+					layer.close(index);
+				}
+			  });   
+			  
+			  layer.full(index1);
+			     
+		}
+		//信息查看
+		function taskHandle(url,Id){
+			///  alert(url);
+		    if(url==""){
+		       url="/html/task/actRuTask_claim.html?id="+Id;
+		    }else{
+		      url=url+"?id="+Id;
+		    }
+		   ///alert(url);
+			var index1=layer.open({
+			 	type: 2, 
+			 	closeBtn: 1,
+			 	title:'<span class="glyphicon glyphicon-import"></span>任务处理',
+			 	offset: 'auto',
+			 	skin: 'layui-layer-demo', //样式类名
+			 	area: [w+'px', h+'px'],
+				content: url, 
+				shadeClose: false,
+			    maxmin: true,
+			     btn: ['<span class="glyphicon glyphicon-remove"></span>关闭'],
+			   // btn: ['<span class="glyphicon glyphicon-remove"></span>取消'],
+				yes: function(index, layero){ 
+					layer.close(index); 
+				}, 
+				no: function(index){ 
+					layer.close(index);
+				}
+			  });   
+			  layer.full(index1);
+		}
+		  
+	</script> 
+
+</body>
+</html>

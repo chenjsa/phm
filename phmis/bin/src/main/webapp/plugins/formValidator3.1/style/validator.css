@@ -1,0 +1,46 @@
+.onShow
+{
+    background:url(../images/reg1.gif) no-repeat; 
+    padding-left:25px; 
+	font-size: 12px;
+	line-height:22px; 
+	vertical-align:middle;
+}
+.onFocus
+{
+    background:#E9F0FF url(../images/reg2.gif) no-repeat; 
+    padding-left:25px; 
+	font-size: 12px;
+	line-height:22px; 
+	vertical-align:middle;
+}
+.onError
+{
+	/*2008-8-23 zengchuixin*/
+    /*background:#FFF2E9 url(../images/reg3.gif) no-repeat;*/
+	
+	background:url(../images/reg3.gif) no-repeat 0 0px;
+    padding-left:25px;
+    height:25px;
+	font-size: 12px;
+	line-height:22px; 
+	vertical-align:middle;
+	color:red;
+	white-space: nowrap;
+}
+.onSuccess
+{
+    background:#E9FFEB url(../images/reg4.gif) no-repeat;
+    padding-left:25px;
+	font-size: 12px;
+	line-height:22px; 
+	vertical-align:middle;
+}
+.onLoad
+{
+    background:#E9FFEB url(../images/loading.gif) no-repeat 3px 3px;
+    padding-left:25px;
+	font-size: 12px;
+	line-height:22px; 
+	vertical-align:middle;
+} 

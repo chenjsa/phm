@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>srsDevice编辑</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8"> 
+	<link rel="stylesheet" href="/static/ace/css/font-awesome1.css" />  
+	    <link href="/static/ace/css/style.min.css?v=4.1.0" rel="stylesheet">
+		<link href="/static/ace/css/bootstrap.min1.css" rel="stylesheet"> 
+  		<link href="/static/ace/css/ui.jqgrid.css" rel="stylesheet">  
+  		<link href="/static/ace/js/sweetalert/sweetalert.css" rel="stylesheet">      
+		<script src="/static/ace/js/ace-extra.js"></script>
+		<script type="text/javascript" src="/static/ace/js/jquery.js"></script> 
+		<script type="text/javascript" src="/static/ace/js/jqGrid/jquery.jqGrid.min.js"></script>
+		<script type="text/javascript" src="/static/ace/js/jqGrid/jquery.tablednd.js"></script>
+		<script src="/static/ace/js/jquery.peity.min.js"></script>
+		<script type="text/javascript" src="/static/ace/js/jqGrid/i18n/grid.locale-cn.js"></script>
+		<script src="/static/ace/js/bootstrap.js"></script> 
+		<script src="/static/ace/js/sweetalert/sweetalert.min.js"></script>
+		<script src="/static/js/util.js"></script>
+		<script type="text/javascript" src="/static/ext-2.0/core.js"></script>  
+		<link href="/static/ext-2.0/resources/css/ext-all.css" type="text/css" rel="stylesheet"/> 
+		<script type="text/javascript" src="/plugins/layer/3.0/layer.js"></script>
+		
+		 <style type="text/css">
+  .dragHandle {
+  
+ }
+   .showDragHandle {
+      background-image: url(images/updown2.gif);
+      background-repeat: no-repeat;
+      background-position: center right;
+      cursor: move;
+  }
+  </style>
+  </head>
+ <body> 
+  
+   
+     <div id="topic-grid"></div>      
+      		<table align='right' id='btn'  >	
+	<tr align='right'  class="ui-corner-tr">
+	 							
+		<td style=" text-align: right; ">
+			模板名称：
+		</td>
+		<td class="controlcontent" >
+			<input type="text" id="modelName" name="modelName"  class='form-control'  placeholder="输入模板名称" title="模板名称" style="width:98%;" />
+	 	</td>									
+	 								
+ 								
+		<td style=" text-align: right; ">
+			备注：
+		</td>
+		<td class="controlcontent" >
+			<input type="text" class='form-control' id="remark" name="remark"   title="remark" style="width:98%;" />
+	 	</td>	  
+	 	
+		<td >
+		 <button  type='button' onclick='getSelectRow();' class='btn btn-default btn-sm'><span class="glyphicon glyphicon-chevron-left"></span> 保存</button>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+		    <button  type='button' onclick='window.history.go(-1);' class='btn btn-default btn-sm'><span class="glyphicon glyphicon-chevron-left"></span> 返回</button>
+			 	</td>
+		<td >
+		 
+	   </td> 
+	   <td > 
+	   </td> 
+	</tr>
+	<tr style="display:none;">								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										user_id：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="userId" name="userId"   placeholder="输入userId" title="userId" style="width:98%;" />
+								 	</td>									
+								</tr>
+								<tr style="display:none;">										
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										dept_id：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="deptId" name="deptId"   placeholder="输入deptId" title="deptId" style="width:98%;" />
+								 	</td>									
+								</tr>	
+								<tr style="display:none;">									
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										model_gen_time：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="modelGenTime" name="modelGenTime"   placeholder="输入modelGenTime" title="modelGenTime" style="width:98%;" />
+								 	</td>									
+								</tr>	
+ 														
+</table> 
+	 
+  </body>
+  <script type="text/javascript">
+ 
+ 
+ Ext.override(Ext.grid.CheckboxSelectionModel, {   
+    handleMouseDown : function(g, rowIndex, e){     
+      if(e.button !== 0 || this.isLocked()){     
+        return;     
+      }     
+      var view = this.grid.getView();     
+      if(e.shiftKey && !this.singleSelect && this.last !== false){     
+        var last = this.last;     
+        this.selectRange(last, rowIndex, e.ctrlKey);     
+        this.last = last; // reset the last     
+        view.focusRow(rowIndex);     
+      }else{     
+        var isSelected = this.isSelected(rowIndex);     
+        if(isSelected){     
+          this.deselectRow(rowIndex);     
+        }else if(!isSelected || this.getCount() > 1){     
+          this.selectRow(rowIndex, true);     
+          view.focusRow(rowIndex);     
+        }     
+      }     
+    }   
+});  
+ Ext.onReady(function() {
+   var reader=new Ext.data.JsonReader({  
+            root:'',   
+            fields: ['id','deviceCode','deviceType','deviceAddr','deviceEreaAdd','deviceName','deviceSeq','deviceProducer']
+        });  
+  
+     var store=new Ext.data.GroupingStore({  
+        id:'GroupStore',  
+        reader: reader,  
+        remoteSort:true,    
+        groupField:'deviceAddr',  
+         url: '/srsDevice/findByDepartId' 
+       });  
+       
+      
+ var sm = new Ext.grid.CheckboxSelectionModel();   
+ var offsetHeight=window.document.body.offsetHeight; 
+ var autoHeight=offsetHeight-76; 
+
+ var grid = new Ext.grid.GridPanel({
+       id : 'gridID',  
+         el:'topic-grid',
+       bodyStyle:'width:100%', 
+       height : autoHeight,
+       store : store, 
+       enableDragDrop  : true,  
+         bodyStyle:'width:100%',
+       stateful: true, 
+       title:'<span class=\"glyphicon glyphicon-list\"></span>可选设备信息',
+       trackMouseOver : true,
+       disableSelection : false,
+       loadMask : true,
+       cm: new Ext.grid.ColumnModel([ 
+            new Ext.grid.RowNumberer(),        
+        sm, 
+            { 
+          header : "id",
+          title : "id",
+          width:'350px',
+          dataIndex : 'id',
+          hidden : true
+          },
+          { 
+          header : "设备编号",
+          title : "设备编号",
+          width:'350px',
+          dataIndex : 'deviceCode',
+          sortable : true
+          },
+           { 
+          header : "设备类型",
+          title : "设备类型",
+          dataIndex : 'deviceType',
+          locked : true,//锁定该列
+          sortable : true
+          },
+           { 
+          header : "设备名称",
+          title : "设备名称",
+          dataIndex : 'deviceName',
+          sortable : true
+          },
+          { 
+          header : "序列号",
+          title : "序列号",
+          dataIndex : 'deviceSeq',
+          sortable : true
+          } 
+          ,
+          { 
+          header : "供应商",
+          title : "供应商",
+          dataIndex : 'deviceProducer',
+          sortable : true
+          } ,
+          { 
+          header : "所在区域", 
+          dataIndex : 'deviceAddr',
+          sortable : true ,
+          hidden:true
+          },  
+          { 
+          header : "备注",
+          title : "备注",
+          dataIndex : 'deviceRemark',
+          sortable : true
+          } 
+             ]),
+              sm: sm,
+          view: new Ext.grid.GroupingView({  
+             sortAscText: "升序",   
+        sortDescText: "降序",   
+        columnsText: "表格字段",   
+        groupByText: "使用当前字段进行分组",   
+        showGroupsText: "表格分组",   
+        groupTextTpl: "{text}(共{[values.rs.length]}条)"  
+        }),  
+      	viewConfig:{
+
+		  forceFit : true,
+     enableRowBody : true,
+     showPreview : true
+		
+		},
+		
+		 tbar:[{
+          xtype : 'box',
+          autoEl: {html:'<div id="tbarId">'}          }],
+		
+		
+		 		layout:"fit",
+         ddGroup: "GridDD", 
+		 iconCls:'icon-grid',
+		  stripeRows:true, 
+		  listeners: {
+        "render": {
+          scope: this,
+          fn: function(grid) {
+            
+                     //拖动排序必须的代码
+				    var ddrow = new Ext.dd.DropTarget(grid.getEl(), {
+				        ddGroup: "GridDD",  // Data come from
+				        // copy:true,
+				        notifyDrop : function(dd, e, data){
+				            var rows=grid.getSelectionModel().getSelections();
+				            var count = rows.length;
+				            if(count>1){
+				            	swal("移动失败！", "移动失败，只能选择一个设备进行移动", "error")		
+				                 return ;
+				            }
+				            var cindex=dd.getDragData(e).rowIndex;
+				            var array=[];
+				            for(var i=0;i<count;i++){
+				                var index = cindex+i;
+				                array.push(index);
+				            }  
+				             var dataIndex = store.indexOf(data.selections[0]);
+				          
+				             var row =store.getAt(cindex);  
+				             var groupId = grid.getView().getGroupId(data.selections[0].data.deviceAddr);// 通过得到表格视图，进而取得一组的id （groupId） 
+				             
+				              var groupIdEnd = row._groupId;// 通过得到表格视图，进而取得一组的id （groupId）  
+				              if(groupId!=groupIdEnd){
+				                	swal("移动失败！", "移动失败，禁止跨区域移动设备。", "error")		
+				                 return ;
+				              }
+				              
+				            store.remove(store.getById( data.selections[0].id));
+				            
+				            store.insert(cindex,data.selections); 
+				
+				           grid.getView().refresh(); 
+				            grid.getSelectionModel().selectRows(array); 
+				        }
+				    });
+				 
+				        // load the grid store
+              // after the grid has been rendered
+            
+    
+       
+            }
+          }
+          }
+            
+});
+  // render it
+  store.load(); 
+    grid.render(); 
+ 
+  $("#btn").appendTo("#tbarId");  
+   
+     });
+  
+		
+		
+function getSelectRow(){
+      var grid=Ext.getCmp("gridID");
+	  if (grid.getSelectionModel().hasSelection()) {
+        var records = grid.getSelectionModel().getSelections();
+        var mycars = new Array();
+        for ( var i = 0; i < records.length; i++) { 
+               var dataIndex = grid.store.indexOf(records[i]);
+               mycars[i] = records[i].data.id+"@"+dataIndex; 
+        }  
+        return mycars
+    } else {
+    	swal("失败！", "至少选择一个设备。", "error")		 
+    }
+}
+	</script> 
+
+</body>
+</html>

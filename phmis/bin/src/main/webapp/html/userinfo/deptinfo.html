@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>srsCheckPlanExe</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+        <link rel="stylesheet" href="/static/ace/css/font-awesome1.css" />  
+	    <link href="/static/ace/css/style.min.css?v=4.1.0" rel="stylesheet">
+		<link href="/static/ace/css/bootstrap.min1.css" rel="stylesheet"> 
+		<!-- text fonts -->
+		<link rel="stylesheet" href="/static/ace/css/ace-fonts.css" />
+		<!-- ace styles -->
+		<link rel="stylesheet" href="/static/ace/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />   
+		<script type="text/javascript" src="/static/ace/js/jquery.js"></script>  
+		<script src="/static/ace/js/bootstrap.js"></script>
+		<script src="/static/js/util.js"></script>
+
+  </head>
+  
+    <body class="no-skin">
+<div class="main-container" id="main-container">
+		<!-- /section:basics/sidebar -->
+		<div class="main-content">
+			<div class="main-content-inner">
+				<div class="page-content">
+					<div class="row">
+						<div class="col-xs-12">
+						<form action="people/save.do" name="peopleForm" id="peopleForm" method="post"> 
+							<table id="table_report" class="table table-striped table-bordered table-hover"> 			
+							    <tr>								
+									<td style="width:130px;text-align: right;padding-top: 13px;">
+										编号：<input type="hidden" name="id" id="id"> 
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="deptNo" name="deptNo"  title="编号" style="width:98%;" />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:130px;text-align: right;padding-top: 13px;">
+									    名称：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="deptName" name=deptName  title=" 姓名" style="width:98%;" />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:130px;text-align: right;padding-top: 13px;">
+										 联系人：
+									</td>
+									<td class="controlcontent" >
+									<input type="text" id="connMan" name="connMan"  title=" 电子邮箱" style="width:98%;" />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:130px;text-align: right;padding-top: 13px;">
+										电话：
+									</td>
+									<td class="controlcontent" >
+									<input type="text" id="phone" name="phone"  title=" 手机号码" style="width:98%;" />
+									</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:130px;text-align: right;padding-top: 13px;">
+										备注：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="remark" name="remark"  title="所属组织机构" style="width:98%;" />
+									 </td>									
+								</tr>			 
+							   	 
+							    
+							</table>
+							</div>
+						 	</form>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.page-content -->
+			</div>
+		</div>
+		<!-- /.main-content -->
+	</div> 	                  
+</body>	
+ 
+<script type="text/javascript">
+		 
+		$(function(){
+  		init();
+	});
+	function init(){ 
+		  　 $.ajax({
+				type: "GET",
+				url: '/department/getById?id='+getParamer("id"), 
+				dataType:'json',
+				cache: false,
+				success: function(data){
+				  //  alert(data);
+					if(data && data!=""){ 
+						 $("#deptNo").val(data.deptNo);
+						 $("#connMan").val(data.connMan);
+						 $("#remark").val(data.remark);
+						 $("#phone").val(data.phone);
+						 $("#deptName").val(data.deptName);  
+						 				     
+				    } 
+				 }
+			   });
+		} 
+	 
+</SCRIPT>
+</html>

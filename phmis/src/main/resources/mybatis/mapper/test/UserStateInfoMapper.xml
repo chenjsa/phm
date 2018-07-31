@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pms.rcm.sys.manager.UserStateInfoMapper" > 
+    
+    <select id="getAll" resultType="com.pms.rcm.sys.vo.UserStateInfo"  >
+        SELECT 
+        User_state_id as  userStateId,
+
+		User_state_name as  userStateName,
+		User_state_description as  userStateDescription,
+
+        10 as pageSize
+        FROM user_state_info
+    </select>
+
+    <select id="get" parameterType="java.lang.String" resultType="com.pms.rcm.sys.vo.UserStateInfo" >
+        SELECT 
+        User_state_id as  userStateId,
+
+		User_state_name as  userStateName,
+		User_state_description as  userStateDescription,
+
+        10 as pageSize
+        FROM user_state_info
+        WHERE 
+          User_state_id=#{userStateId}
+
+    </select>
+    
+     <select id="listPage"  parameterType="page" resultType="com.pms.rcm.sys.vo.UserStateInfo">
+       SELECT 
+        t.User_state_id as  userStateId,
+
+		t.User_state_name as  userStateName,
+		t.User_state_description as  userStateDescription,
+
+        20 as pageSize
+        FROM user_state_info t
+        where 1 = 1
+		<if test="pd.entity.userStateName!=null and pd.entity.userStateName!=''">
+		 	and t.User_state_name =#{pd.entity.userStateName}
+		 </if>
+		<if test="pd.entity.userStateDescription!=null and pd.entity.userStateDescription!=''">
+		 	and t.User_state_description =#{pd.entity.userStateDescription}
+		 </if>
+
+      </select>
+
+    <insert id="insert" parameterType="com.pms.rcm.sys.vo.UserStateInfo" >
+       INSERT INTO 
+            user_state_info
+            (
+		       User_state_name,  
+		       User_state_description,  
+
+       		   User_state_id
+
+            ) 
+        VALUES
+             (
+		      #{userStateName}, 
+		      #{userStateDescription}, 
+
+       		  #{userStateId}
+
+			  )
+    </insert>
+
+    <update id="update" parameterType="com.pms.rcm.sys.vo.UserStateInfo" >
+       UPDATE 
+             user_state_info
+       SET 
+        <if test="userStateName!=null and userStateName!=''">
+		  User_state_name=#{userStateName},
+	   </if>   
+          User_state_id=#{userStateId}
+        <if test="userStateDescription!=null and userStateDescription!=''">
+		  User_state_description=#{userStateDescription},
+	   </if>   
+          User_state_id=#{userStateId}
+
+       WHERE 
+          User_state_id=#{userStateId}
+
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String" >
+       DELETE FROM
+             user_state_info
+       WHERE 
+          User_state_id=#{userStateId}
+
+    </delete>  
+</mapper>

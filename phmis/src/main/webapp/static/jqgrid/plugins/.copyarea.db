@@ -1,0 +1,13 @@
+ClearCase CopyAreaDB|4
+YZGL\src\yzgl\WebRoot\js\jqgrid\plugins
+2
+9
+11:ui.multiselect.js|1|15708b61fa4|2cb3|6616570a|2b0c587b4df849ef9c0b709ab66671ec|0
+12:grid.setcolumns.js|1|15708b61eda|1606|150e6281|a0424660331f4c59b197deef3771b311|0
+12:jquery.tablednd.js|1|15708b61f47|42c3|c0b5e067|11fa560a9e364a97b70b46e36f1989e2|0
+10:searchFilter.css|1|15708b61f56|18e|4ed98c9f|fb91c40634154aa0908f5ae42529e5d5|0
+f:grid.postext.js|1|15708b61eca|648|e894e64e|eec383d752664ec599ac35fdd4adef1e|0
+15:jquery.contextmenu.js|1|15708b61f08|1164|7a312396|c3d46e0192114e25ae9f1e9874be1cd8|0
+e:grid.addons.js|1|15708b61dff|6743|137e75c1|4ee0fbc72b914ad3b795408f9b86bafb|0
+12:ui.multiselect.css|1|15708b61f85|77b|1688896a|4ec208dd71f94f88b93eccb21df4f9ba|0
+16:jquery.searchFilter.js|1|15708b61f28|9399|5c2f89ce|a200518dba794bf59c32d17fe6604077|0

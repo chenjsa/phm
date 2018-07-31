@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pms.rcm.people.mapper.PeopleMapper" >
+	 <resultMap id="BaseResultMap" type="com.pms.rcm.people.vo.People" >       
+          <id column="id" property="id"/> 
+	      <result column="name" property="name"/>
+	      <result column="sex" property="sex"/>
+	      <result column="addr" property="addr"/>
+
+    </resultMap>  
+    
+    <select id="getAll" resultMap="BaseResultMap"  >
+        SELECT 
+        id as  id,
+
+		name as  name,
+		sex as  sex,
+		addr as  addr,
+
+        10 as pageSize
+        FROM people
+    </select>
+
+    <select id="get" parameterType="java.lang.String" resultMap="BaseResultMap" >
+        SELECT 
+        id as  id,
+
+		name as  name,
+		sex as  sex,
+		addr as  addr,
+
+        10 as pageSize
+        FROM people
+        WHERE id = #{id}
+    </select>
+    
+     <select id="listPage"  parameterType="page" resultMap="BaseResultMap">
+       SELECT 
+        id as  id,
+
+		name as  name,
+		sex as  sex,
+		addr as  addr,
+
+        20 as pageSize
+        FROM people
+        where 1 = 1
+		<if test="pd.entity.name!=null and pd.entity.name!=''">
+		 	and name LIKE CONCAT('%',#{pd.entity.name})
+		 </if>
+		<if test="pd.entity.sex!=null and pd.entity.sex!=''">
+		 	and sex LIKE CONCAT('%',#{pd.entity.sex})
+		 </if>
+		<if test="pd.entity.addr!=null and pd.entity.addr!=''">
+		 	and addr LIKE CONCAT('%',#{pd.entity.addr})
+		 </if>
+
+      </select>
+
+    <insert id="insert" parameterType="com.pms.rcm.people.vo.People" >
+       INSERT INTO 
+            people
+            (
+		       name,  
+		       sex,  
+		       addr,  
+
+       		   id
+
+            ) 
+        VALUES
+             (
+		      #{name}, 
+		      #{sex}, 
+		      #{addr},  
+		      #{id}
+			  )
+    </insert>
+
+    <update id="update" parameterType="com.pms.rcm.people.vo.People" >
+       UPDATE 
+             people
+       SET 
+        <if test="name!=null and name!=''">
+		  name=#{name},
+	   </if>  
+        <if test="sex!=null and sex!=''">
+		  sex=#{sex},
+	   </if>  
+        <if test="addr!=null and addr!=''">
+		  addr=#{addr},
+	   </if>  
+
+       WHERE 
+            id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String" >
+       DELETE FROM
+             people
+       WHERE 
+             id =#{id}
+    </delete>  
+</mapper>

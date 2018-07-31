@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pms.rcm.test.manager.TestMapper" >
+	 <resultMap id="BaseResultMap" type="com.pms.rcm.test.vo.Test" >       
+          <id column="id" property="id"/>
+
+	      <result column="no" property="no"/>
+	      <result column="name" property="name"/>
+	      <result column="addr" property="addr"/>
+	      <result column="tel" property="tel"/>
+
+    </resultMap>  
+    
+    <select id="getAll" resultMap="BaseResultMap"  >
+        SELECT 
+        id as  id,
+
+		no as  no,
+		name as  name,
+		addr as  addr,
+		tel as  tel,
+
+        10 as pageSize
+        FROM test
+    </select>
+
+    <select id="get" parameterType="java.lang.String" resultMap="BaseResultMap" >
+        SELECT 
+        id as  id,
+
+		no as  no,
+		name as  name,
+		addr as  addr,
+		tel as  tel,
+
+        10 as pageSize
+        FROM test
+        WHERE id = #{id}
+    </select>
+    
+     <select id="listPage"  parameterType="page" resultMap="BaseResultMap">
+       SELECT 
+        t.id as  id,
+
+		t.no as  no,
+		t.name as  name,
+		t.addr as  addr,
+		t.tel as  tel,
+
+        20 as pageSize
+        FROM test t
+        where 1 = 1
+		<if test="pd.entity.no!=null and pd.entity.no!=''">
+		 	and t.no =#{pd.entity.no}
+		 </if>
+		<if test="pd.entity.name!=null and pd.entity.name!=''">
+		 	and t.name =#{pd.entity.name}
+		 </if>
+		<if test="pd.entity.addr!=null and pd.entity.addr!=''">
+		 	and t.addr =#{pd.entity.addr}
+		 </if>
+		<if test="pd.entity.tel!=null and pd.entity.tel!=''">
+		 	and t.tel =#{pd.entity.tel}
+		 </if>
+
+      </select>
+
+    <insert id="insert" parameterType="com.pms.rcm.test.vo.Test" >
+       INSERT INTO 
+            test
+            (
+		       no,  
+		       name,  
+		       addr,  
+		       tel,  
+
+       		   id
+
+            ) 
+        VALUES
+             (
+		      #{no}, 
+		      #{name}, 
+		      #{addr}, 
+		      #{tel}, 
+
+       		  #{id}
+
+			  )
+    </insert>
+
+    <update id="update" parameterType="com.pms.rcm.test.vo.Test" >
+       UPDATE 
+             test
+       SET 
+        <if test="no!=null and no!=''">
+		  no=#{no},
+	   </if>  
+	    id = #{id}
+        <if test="name!=null and name!=''">
+		  name=#{name},
+	   </if>  
+	    id = #{id}
+        <if test="addr!=null and addr!=''">
+		  addr=#{addr},
+	   </if>  
+	    id = #{id}
+        <if test="tel!=null and tel!=''">
+		  tel=#{tel},
+	   </if>  
+	    id = #{id}
+
+       WHERE 
+            id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String" >
+       DELETE FROM
+             test
+       WHERE 
+             id =#{id}
+    </delete>  
+</mapper>

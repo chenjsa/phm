@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>radarUserInfo</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+        <link rel="stylesheet" href="/static/ace/css/font-awesome1.css" />  
+	    <link href="/static/ace/css/style.min.css?v=4.1.0" rel="stylesheet">
+		<link href="/static/ace/css/bootstrap.min1.css" rel="stylesheet"> 
+		<!-- text fonts -->
+		<link rel="stylesheet" href="/static/ace/css/ace-fonts.css" />
+		<!-- ace styles -->
+		<link rel="stylesheet" href="/static/ace/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" /> 
+		<link href="/static/ace/js/sweetalert/sweetalert.css" rel="stylesheet">        
+		<script type="text/javascript" src="/static/ace/js/jquery.js"></script>  
+		<script src="/static/ace/js/bootstrap.js"></script>
+		<script src="/static/js/util.js"></script>
+		<script src="/static/ace/js/sweetalert/sweetalert.min.js"></script>
+		
+		
+
+  </head>
+  
+    <body class="no-skin">
+<div class="main-container" id="main-container">
+		<!-- /section:basics/sidebar -->
+		<div class="main-content">
+			<div class="main-content-inner">
+				<div class="page-content">
+					<div class="row">
+						<div class="col-xs-12">
+						<form action="people/save.do" name="peopleForm" id="peopleForm" method="post">
+							
+							
+							<table id="table_report" class="table table-striped table-bordered table-hover"> 			
+							    <tr>								
+									<td style="width:100px;text-align: right;padding-top: 13px;">
+										站区编号：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="stationId" name="stationId" onblur="vaild_stationId();";  placeholder="" title="stationId" style="width:98%;" />
+								 	</td>									
+								 							
+									<td style="width:100px;text-align: right;padding-top: 13px;">
+										站区名称：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="stationName" name="stationName" onblur="vaild_stationName();";  placeholder="" title="stationName" style="width:98%;" />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:100px;text-align: right;padding-top: 13px;">
+										区域：
+									</td>
+									<td class="controlcontent" >
+										<select class="chosen-select form-control"  onblur="vaild_provinceId();"; name="provinceId" id=provinceId data-placeholder="请选择省份" style="vertical-align:top;"  title="省份" style="width:98%;" >
+								  			<option  value=''>请选择</option> 
+										</select>
+								  	</td>									
+								 	<td style="width:100px;text-align: right;padding-top: 13px;">
+										部队番号：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="designationCode" name="designationCode"   placeholder="" title="designationCode" style="width:98%;" />
+								 	</td>								
+															
+								</tr>		
+								  <tr>								
+									<td style="width:100px;text-align: right;padding-top: 13px;">
+										单位：
+									</td>
+									<td class="controlcontent" colspan=3>
+										<input type="text" id="unit" name="unit"   placeholder="" title="unit" style="width:98%;" />
+								 	</td>									
+								</tr>		 
+							   
+							    <tr>								
+									<td style="width:100px;text-align: right;padding-top: 13px;">
+										通信地址：
+									</td>
+									<td class="controlcontent"  colspan=3  >
+										<input type="text" id="mailingAddress" name="mailingAddress"  title="mailingAddress" style="width:98%;" />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:100px;text-align: right;padding-top: 13px;">
+										联系方式：
+									</td>
+									<td class="controlcontent" colspan=3  >
+										<textarea rows="3" cols="46" name="contactInfo" id="contactInfo" placeholder=""  maxlength="255" title="备注"  style="width:98%;"></textarea>
+							 	 	</td>									
+								</tr>			 
+
+								<input type="hidden" name="id" id='id' > 	
+								<div id="zhongxin" style="padding-top: 13px;">
+								<tr>
+									<td class="center" colspan="4">
+										 <button  type='button' onclick='save();' class='btn btn-sm btn-info'><span class="glyphicon glyphicon-save"></span> 保存</button>
+											&nbsp;&nbsp;&nbsp;&nbsp;
+		  								  <button  type='button' onclick='closeWin();' class='btn btn-xs btn-danger'><span class="glyphicon glyphicon-remove"></span> 取消</button>
+	 
+									</td>
+								</tr>
+							</table>
+							</div>
+						 	</form>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.page-content -->
+			</div>
+		</div>
+		<!-- /.main-content -->
+	</div> 	                  
+</body>	
+ 
+<script type="text/javascript">
+		$(top.hangge());
+	 
+		//保存	
+	 function save(){
+		    if(vaild_all()){
+		     $.ajax({
+				type: "POST",
+				url: '/radarUserInfo/save', 
+				contentType: 'application/json', // 这句不加出现415错误:Unsupported Media Type
+				data:JSON.stringify({   
+					  'stationId':$("#stationId").val(),
+					  'stationName':$("#stationName").val(),
+					  'provinceId':$("#provinceId").val(),
+					  'designationCode':$("#designationCode").val(),
+					  'unit':$("#unit").val(),
+					  'mailingAddress':$("#mailingAddress").val(),
+					  'contactInfo':$("#contactInfo").val(), 
+
+					  'id':$("#id").val()
+				  }),
+				dataType:'json',
+				cache: false,
+				success: function(data){ 
+					if(data && data!=""){ 
+						if("success" == data.result){
+						  parent.queryList(); 
+                          var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+      					  parent.layer.close(index);
+      					  parent.swal("保存成功！", "您已经成功新增了这条信息。", "success");
+						}
+						else if("err" == data.result){ 
+						   parent.swal("保存失败！", data.msg, "err");	
+						}						     
+				    } 
+				 }
+			   });
+		    }
+			　
+		}
+		
+	  /***
+	    验证字段stationId是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_stationId(){
+	     if($("#stationId").val()==""){
+			$("#stationId").tips({
+				side:3,
+	            msg:'Station_id为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#stationId").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段stationName是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_stationName(){
+	     if($("#stationName").val()==""){
+			$("#stationName").tips({
+				side:3,
+	            msg:'Station_name为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#stationName").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段provinceId是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_provinceId(){
+	     if($("#provinceId").val()==""){
+			$("#provinceId").tips({
+				side:3,
+	            msg:'Province_id为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#provinceId").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段userName是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_userName(){
+	     if($("#userName").val()==""){
+			$("#userName").tips({
+				side:3,
+	            msg:'user_name为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#userName").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段userTelephone是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_userTelephone(){
+	     if($("#userTelephone").val()==""){
+			$("#userTelephone").tips({
+				side:3,
+	            msg:'user_telephone为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#userTelephone").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段cityName是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_cityName(){
+	     if($("#cityName").val()==""){
+			$("#cityName").tips({
+				side:3,
+	            msg:'City_name为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#cityName").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段stationAreaDescription是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_stationAreaDescription(){
+	     if($("#stationAreaDescription").val()==""){
+			$("#stationAreaDescription").tips({
+				side:3,
+	            msg:'Station_Area_description为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#stationAreaDescription").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段addressDescription是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_addressDescription(){
+	     if($("#addressDescription").val()==""){
+			$("#addressDescription").tips({
+				side:3,
+	            msg:'address_description为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#addressDescription").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段other是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_other(){
+	     if($("#other").val()==""){
+			$("#other").tips({
+				side:3,
+	            msg:'other为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#other").focus();
+			return false;
+		}
+	  }
+
+     function vaild_all(){
+	     if($("#stationId").val()==""){
+			$("#stationId").tips({
+				side:3,
+	            msg:'Station_id为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#stationId").focus();
+			return false;
+		}
+	     if($("#stationName").val()==""){
+			$("#stationName").tips({
+				side:3,
+	            msg:'Station_name为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#stationName").focus();
+			return false;
+		}
+	     if($("#provinceId").val()==""){
+			$("#provinceId").tips({
+				side:3,
+	            msg:'Province_id为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#provinceId").focus();
+			return false;
+		}
+	     if($("#userName").val()==""){
+			$("#userName").tips({
+				side:3,
+	            msg:'user_name为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#userName").focus();
+			return false;
+		}
+	     if($("#userTelephone").val()==""){
+			$("#userTelephone").tips({
+				side:3,
+	            msg:'user_telephone为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#userTelephone").focus();
+			return false;
+		}
+	    
+
+		 return true;
+	  }
+	  
+	$(function(){
+  		init();
+	});
+	function init(){ 
+	
+	$.ajax({
+				type: "GET",
+				url: '/provinceInfo/getAll', 
+				dataType:'json',
+				cache: false,
+				success: function(data){
+				  //  alert(data);
+					if(data && data!=""){  
+				    	$("#provinceId").html("");
+				        $("#provinceId").append('<option value="">请选择</option>');
+						$.each(data,function(i,item){  	 
+						     //  alert(item.id);  
+						      	$("#provinceId").append("<option  value='"+item.id+"'>"+item.provinceName+"</option>");	 
+					      　});     
+					   var provinceId=getParamer("provinceId");
+					 //  debugger
+					  /// alert(provinceId);
+					   $("#provinceId").val(provinceId);
+				    } 
+				 }
+			   }); 
+		  　 $.ajax({
+				type: "GET",
+				url: '/radarUserInfo/getEntityById/'+getParamer("id"), 
+				dataType:'json',
+				cache: false,
+				success: function(data){
+				  //  alert(data);
+					if(data && data!=""){  
+					  $("#stationId").val(data.stationId);
+					  $("#stationName").val(data.stationName);
+					  $("#provinceId").val(data.provinceId); 
+					  $("#designationCode").val(data.cityName);
+					  $("#unit").val(data.stationAreaDescription);
+					  $("#mailingAddress").val(data.addressDescription);
+					  $("#contactInfo").val(data.other);
+
+					  $("#id").val(data.id);				     
+				    } 
+				 }
+			   });
+		} 
+		
+		
+		jQuery.validator.addMethod("phone", function (value, element) {
+					return this.optional(element) || /^\(\d{3}\) \d{3}\-\d{4}( x\d{1,6})?$/.test(value);
+				}, "Enter a valid phone number.");
+			
+				$('#validation-form').validate({
+					errorElement: 'div',
+					errorClass: 'help-block',
+					focusInvalid: false,
+					ignore: "",
+					rules: {
+						email: {
+							required: true,
+							email:true
+						},
+						password: {
+							required: true,
+							minlength: 5
+						},
+						password2: {
+							required: true,
+							minlength: 5,
+							equalTo: "#password"
+						},
+						userName: {
+							required: true
+						},
+						phone: {
+							required: true,
+							phone: 'required'
+						},
+						url: {
+							required: true,
+							url: true
+						},
+						comment: {
+							required: true
+						},
+						state: {
+							required: true
+						},
+						platform: {
+							required: true
+						},
+						subscription: {
+							required: true
+						},
+						gender: {
+							required: true,
+						},
+						agree: {
+							required: true,
+						}
+					},
+			
+					messages: {
+						email: {
+							required: "Please provide a valid email.",
+							email: "Please provide a valid email."
+						},
+						password: {
+							required: "Please specify a password.",
+							minlength: "Please specify a secure password."
+						},
+						state: "Please choose state",
+						subscription: "Please choose at least one option",
+						gender: "Please choose gender",
+						agree: "Please accept our policy"
+					},
+			
+			
+					highlight: function (e) {
+						$(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+					},
+			
+					success: function (e) {
+						$(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
+						$(e).remove();
+					},
+			
+					errorPlacement: function (error, element) {
+						if(element.is('input[type=checkbox]') || element.is('input[type=radio]')) {
+							var controls = element.closest('div[class*="col-"]');
+							if(controls.find(':checkbox,:radio').length > 1) controls.append(error);
+							else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
+						}
+						else if(element.is('.select2')) {
+							error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
+						}
+						else if(element.is('.chosen-select')) {
+							error.insertAfter(element.siblings('[class*="chosen-container"]:eq(0)'));
+						}
+						else error.insertAfter(element.parent());
+					},
+			
+					submitHandler: function (form) {
+					},
+					invalidHandler: function (form) {
+					}
+				});
+			
+		
+		
+		
+		
+</SCRIPT>
+<!-- ace scripts --> 
+	<!-- inline scripts related to this page -->
+	<!-- 下拉框 -->
+	<script src="static/ace/js/chosen.jquery.js"></script>
+	<!-- 日期框 -->
+	<script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
+	<!--提示框-->
+	<script type="text/javascript" src="/static/js/jquery.tips.js"></script>
+  <script type="text/javascript">
+		$(top.hangge());
+</script>	 
+</html>

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>systemParametersInfo</title>
+
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta name="content-type" content="text/html; charset=UTF-8">
+
+<link rel="stylesheet" href="/static/ace/css/font-awesome1.css" />
+<link href="/static/ace/css/style.min.css?v=4.1.0" rel="stylesheet">
+<link href="/static/ace/css/bootstrap.min1.css" rel="stylesheet">
+<!-- text fonts -->
+<link rel="stylesheet" href="/static/ace/css/ace-fonts.css" />
+<!-- ace styles -->
+<link rel="stylesheet" href="/static/ace/css/ace.css"
+	class="ace-main-stylesheet" id="main-ace-style" />
+<link href="/static/ace/js/sweetalert/sweetalert.css" rel="stylesheet">
+<script type="text/javascript" src="/static/ace/js/jquery.js"></script>
+<script src="/static/ace/js/bootstrap.js"></script>
+<script src="/static/js/util.js"></script>
+<script src="/static/ace/js/sweetalert/sweetalert.min.js"></script
+</head>
+
+<body class="no-skin">
+	<div class="main-container" id="main-container">
+		<!-- /section:basics/sidebar -->
+		<div class="main-content">
+			<div class="main-content-inner">
+				<div class="page-content">
+					<div class="row">
+						<div class="col-xs-12">
+							<form action="people/save.do" name="peopleForm" id="peopleForm"
+								method="post">
+
+
+								<table id="table_report"
+									class="table table-striped table-bordered table-hover">
+									<tr>
+										<td style="width:100px;text-align: right;padding-top: 13px;">
+											参数代码：</td>
+										<td class="controlcontent"><input type="text"
+											id="systemParametersCode" name="systemParametersCode"
+											onblur="vaild_systemParametersCode();"
+											;  placeholder="输入systemParametersCode"
+											title="systemParametersCode" style="width:98%;" /></td>
+									</tr>
+									<tr>
+										<td style="width:100px;text-align: right;padding-top: 13px;">
+											参数值类型：</td> 
+										<td class="controlcontent" id="parTypeId"></td>
+									</tr>
+									<tr>
+										<td style="width:100px;text-align: right;padding-top: 13px;">
+											参数值：</td>
+										<td class="controlcontent"><input type="text"
+											id="parametersValues" name="parametersValues"
+											onblur="vaild_parametersValues();"
+											;  placeholder="输入parametersValues" title="parametersValues"
+											style="width:98%;" /></td>
+									</tr>
+									<!--  
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										维护时间：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="maintenanceTime" name="maintenanceTime" onblur="vaild_maintenanceTime();";  placeholder="输入maintenanceTime" title="maintenanceTime" style="width:98%;" />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										维护人员：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="stationId" name="stationId" onblur="vaild_stationId();";  placeholder="输入stationId" title="stationId" style="width:98%;" />
+								 	</td>									
+								</tr>			 
+								-->
+									<input type="hidden" name="id" id='id'>
+									<div id="zhongxin" style="padding-top: 13px;">
+										<tr>
+											<td class="center" colspan="2">
+												<button type='button' onclick='save();'
+													class='btn btn-sm btn-info'>
+													<span class="glyphicon glyphicon-save"></span> 保存
+												</button> &nbsp;&nbsp;&nbsp;&nbsp;
+												<button type='button' onclick='closeWin();'
+													class='btn btn-xs btn-danger'>
+													<span class="glyphicon glyphicon-remove"></span> 取消
+												</button>
+
+											</td>
+										</tr>
+								</table>
+						</div>
+						</form>
+					</div>
+					<!-- /.col -->
+				</div>
+				<!-- /.row -->
+			</div>
+			<!-- /.page-content -->
+		</div>
+	</div>
+	<!-- /.main-content -->
+	</div>
+</body>
+
+<script type="text/javascript">
+	$(top.hangge());
+
+	//保存	
+	function save() {
+		if (vaild_all()) {
+			$.ajax({
+				type : "POST",
+				url : '/systemParametersInfo/save',
+				contentType : 'application/json', // 这句不加出现415错误:Unsupported Media Type
+				data : JSON.stringify({
+					'systemParametersCode' : $("#systemParametersCode").val(),
+					'parametersTypeId' : $("#parametersTypeId").val(),
+					'parametersValues' : $("#parametersValues").val(),
+					'maintenanceTime' : $("#maintenanceTime").val(),
+					'stationId' : $("#stationId").val(),
+
+					'id' : $("#id").val()
+				}),
+				dataType : 'json',
+				cache : false,
+				success : function(data) {
+					if (data && data != "") {
+						if ("success" == data.result) {
+							parent.queryList();
+							var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+							parent.layer.close(index);
+							parent.swal("保存成功！", "您已经成功新增了这条信息。", "success");
+						} else if ("err" == data.result) {
+							parent.swal("保存失败！", data.msg, "err");
+						}
+					}
+				}
+			});
+		}
+
+	}
+
+
+	/***
+	  获取系统参数值类型表，构建select框	
+	***/
+	function getParTypeInfo(id) {
+		var html = '<select id = "parametersTypeId" name = "parametersTypeId">';
+		html = html + '<option value = "">-----请选择parametersTypeId-----</option>';
+		$.ajax({
+			type : "GET",
+			url : '/parTypeInfo/list',
+			dataType : 'json',
+			cache : false,
+			success : function(data) {
+				if (data && data != "") {
+					var resultStr = data.rows;
+					$.each(resultStr, function(index, value) {
+					    if(id == value.id){//修改
+					  	    html = html + "<option value='" + value.id + "' selected>" + value.typeName + "</option>";
+					    }else{//新增
+					    	html = html + "<option value='" + value.id + "'>" + value.typeName + "</option>";
+					    }
+						
+					});
+					html = html + '/<select>';
+				}
+				$("#parTypeId").html(html);
+			}
+		});
+
+	}
+
+	/***
+	  验证字段systemParametersCode是否为空或别的验证逻辑都写在这里
+	***/
+	function vaild_systemParametersCode() {
+		if ($("#systemParametersCode").val() == "") {
+			$("#systemParametersCode").tips({
+				side : 3,
+				msg : 'System_parameters_code为必填项',
+				bg : '#AE81FF',
+				time : 2
+			});
+			$("#systemParametersCode").focus();
+			return false;
+		}
+	}
+	/***
+	  验证字段parametersTypeId是否为空或别的验证逻辑都写在这里
+	***/
+	function vaild_parametersTypeId() {
+		if ($("#parametersTypeId").val() == "") {
+			$("#parametersTypeId").tips({
+				side : 3,
+				msg : 'Parameters_type_id为必填项',
+				bg : '#AE81FF',
+				time : 2
+			});
+			$("#parametersTypeId").focus();
+			return false;
+		}
+	}
+	/***
+	  验证字段parametersValues是否为空或别的验证逻辑都写在这里
+	***/
+	function vaild_parametersValues() {
+		if ($("#parametersValues").val() == "") {
+			$("#parametersValues").tips({
+				side : 3,
+				msg : 'Parameters_values为必填项',
+				bg : '#AE81FF',
+				time : 2
+			});
+			$("#parametersValues").focus();
+			return false;
+		}
+	}
+	/***
+	  验证字段maintenanceTime是否为空或别的验证逻辑都写在这里
+	***/
+	function vaild_maintenanceTime() {
+		if ($("#maintenanceTime").val() == "") {
+			$("#maintenanceTime").tips({
+				side : 3,
+				msg : 'Maintenance_time为必填项',
+				bg : '#AE81FF',
+				time : 2
+			});
+			$("#maintenanceTime").focus();
+			return false;
+		}
+	}
+	/***
+	  验证字段stationId是否为空或别的验证逻辑都写在这里
+	***/
+	function vaild_stationId() {
+		if ($("#stationId").val() == "") {
+			$("#stationId").tips({
+				side : 3,
+				msg : 'Station_id为必填项',
+				bg : '#AE81FF',
+				time : 2
+			});
+			$("#stationId").focus();
+			return false;
+		}
+	}
+
+	function vaild_all() {
+		if ($("#systemParametersCode").val() == "") {
+			$("#systemParametersCode").tips({
+				side : 3,
+				msg : 'System_parameters_code为必填项',
+				bg : '#AE81FF',
+				time : 2
+			});
+			$("#systemParametersCode").focus();
+			return false;
+		}
+		if ($("#parametersTypeId").val() == "") {
+			$("#parametersTypeId").tips({
+				side : 3,
+				msg : 'Parameters_type_id为必填项',
+				bg : '#AE81FF',
+				time : 2
+			});
+			$("#parametersTypeId").focus();
+			return false;
+		}
+		if ($("#parametersValues").val() == "") {
+			$("#parametersValues").tips({
+				side : 3,
+				msg : 'Parameters_values为必填项',
+				bg : '#AE81FF',
+				time : 2
+			});
+			$("#parametersValues").focus();
+			return false;
+		}
+		if ($("#maintenanceTime").val() == "") {
+			$("#maintenanceTime").tips({
+				side : 3,
+				msg : 'Maintenance_time为必填项',
+				bg : '#AE81FF',
+				time : 2
+			});
+			$("#maintenanceTime").focus();
+			return false;
+		}
+		if ($("#stationId").val() == "") {
+			$("#stationId").tips({
+				side : 3,
+				msg : 'Station_id为必填项',
+				bg : '#AE81FF',
+				time : 2
+			});
+			$("#stationId").focus();
+			return false;
+		}
+
+		return true;
+	}
+
+	$(function() {
+	    getParTypeInfo('');
+		init();
+		
+	});
+	function init() {
+		$.ajax({
+			type : "GET",
+			url : '/systemParametersInfo/getEntityById/' + getParamer("id"),
+			dataType : 'json',
+			cache : false,
+			success : function(data) {
+				if (data && data != "") {
+					$("#systemParametersCode").val(data.systemParametersCode);
+					$("#parametersTypeId").val(data.parTypeInfo.typeName);
+					$("#parametersValues").val(data.parametersValues);
+					$("#id").val(data.id);
+					getParTypeInfo(data.parametersTypeId);
+				}
+			}
+		});
+	}
+</SCRIPT>
+<!-- ace scripts -->
+<!-- inline scripts related to this page -->
+<!-- 下拉框 -->
+<script src="static/ace/js/chosen.jquery.js"></script>
+<!-- 日期框 -->
+<script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
+<!--提示框-->
+<script type="text/javascript" src="/static/js/jquery.tips.js"></script>
+<script type="text/javascript">
+	$(top.hangge());
+</script>
+</html>

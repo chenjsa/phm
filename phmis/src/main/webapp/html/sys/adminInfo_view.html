@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>adminInfo</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+        <link rel="stylesheet" href="/static/ace/css/font-awesome1.css" />  
+	    <link href="/static/ace/css/style.min.css?v=4.1.0" rel="stylesheet">
+		<link href="/static/ace/css/bootstrap.min1.css" rel="stylesheet"> 
+		<!-- text fonts -->
+		<link rel="stylesheet" href="/static/ace/css/ace-fonts.css" />
+		<!-- ace styles -->
+		<link rel="stylesheet" href="/static/ace/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />   
+		<script type="text/javascript" src="/static/ace/js/jquery.js"></script>  
+		<script src="/static/ace/js/bootstrap.js"></script>
+		<script src="/static/js/util.js"></script>
+
+  </head>
+  
+    <body class="no-skin">
+<div class="main-container" id="main-container">
+		<!-- /section:basics/sidebar -->
+		<div class="main-content">
+			<div class="main-content-inner">
+				<div class="page-content">
+					<div class="row">
+						<div class="col-xs-12">
+						<form action="people/save.do" name="peopleForm" id="peopleForm" method="post">
+						
+							<div id="zhongxin" style="padding-top: 13px;">
+							<table id="table_report" class="table table-striped table-bordered table-hover"> 			
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										管理员ID：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="adminId" name="adminId"  placeholder="输入管理员ID" title="adminId" style="width:98%;"  />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										管理员密码：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="adminPassword" name="adminPassword"  placeholder="输入管理员密码" title="adminPassword" style="width:98%;"  />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										电话：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="telephone" name="telephone"  placeholder="输入电话" title="telephone" style="width:98%;"  />
+								 	</td>									
+								</tr>			 
+
+								 	<input type="hidden" name="id" id='id' > 
+							</table>
+							</div>
+						 	</form>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.page-content -->
+			</div>
+		</div>
+		<!-- /.main-content -->
+	</div> 	                  
+</body>	
+ 
+<script type="text/javascript">
+		$(top.hangge());	  
+		$(function(){
+  		init();
+	});
+	function init(){ 
+		  　 $.ajax({
+				type: "GET",
+				url: '/adminInfo/getEntityById/'+getParamer("id"), 
+				dataType:'json',
+				cache: false,
+				success: function(data){
+				  //  alert(data);
+					if(data && data!=""){ 
+						 $("#adminId").val(data.adminId);
+						 $("#adminPassword").val(data.adminPassword);
+						 $("#telephone").val(data.telephone);
+
+						 $("#id").val(data.id);						     
+				    } 
+				 }
+			   });
+		} 
+	 
+</SCRIPT>
+</html>

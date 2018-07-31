@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>actRuTask</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+        <link rel="stylesheet" href="/static/ace/css/font-awesome1.css" />  
+	    <link href="/static/ace/css/style.min.css?v=4.1.0" rel="stylesheet">
+		<link href="/static/ace/css/bootstrap.min1.css" rel="stylesheet"> 
+		<!-- text fonts -->
+		<link rel="stylesheet" href="/static/ace/css/ace-fonts.css" />
+		<!-- ace styles -->
+		<link rel="stylesheet" href="/static/ace/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />   
+		<script type="text/javascript" src="/static/ace/js/jquery.js"></script>  
+		<script src="/static/ace/js/bootstrap.js"></script>
+		<script src="/static/js/util.js"></script>
+
+  </head>
+  
+    <body class="no-skin">
+<div class="main-container" id="main-container">
+		<!-- /section:basics/sidebar -->
+		<div class="main-content">
+			<div class="main-content-inner">
+				<div class="page-content">
+					<div class="row">
+						<div class="col-xs-12">
+						<form action="people/save.do" name="peopleForm" id="peopleForm" method="post">
+						
+							<div id="zhongxin" style="padding-top: 13px;">
+							<table id="table_report" class="table table-striped table-bordered table-hover"> 			
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										REV_：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="rev" name="rev"  placeholder="输入rev" title="rev" style="width:98%;"  />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										NAME_：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="name" name="name"  placeholder="输入name" title="name" style="width:98%;"  />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										PARENT_TASK_ID_：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="parentTaskId" name="parentTaskId"  placeholder="输入parentTaskId" title="parentTaskId" style="width:98%;"  />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										DESCRIPTION_：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="description" name="description"  placeholder="输入description" title="description" style="width:98%;"  />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										TASK_DEF_KEY_：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="taskDefKey" name="taskDefKey"  placeholder="输入taskDefKey" title="taskDefKey" style="width:98%;"  />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										OWNER_：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="owner" name="owner"  placeholder="输入owner" title="owner" style="width:98%;"  />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										ASSIGNEE_：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="assignee" name="assignee"  placeholder="输入assignee" title="assignee" style="width:98%;"  />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										DELEGATION_：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="delegation" name="delegation"  placeholder="输入delegation" title="delegation" style="width:98%;"  />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										PRIORITY_：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="priority" name="priority"  placeholder="输入priority" title="priority" style="width:98%;"  />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										CREATE_TIME_：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="createTime" name="createTime"  placeholder="输入createTime" title="createTime" style="width:98%;"  />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										DUE_DATE_：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="dueDate" name="dueDate"  placeholder="输入dueDate" title="dueDate" style="width:98%;"  />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										CATEGORY_：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="category" name="category"  placeholder="输入category" title="category" style="width:98%;"  />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										SUSPENSION_STATE_：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="suspensionState" name="suspensionState"  placeholder="输入suspensionState" title="suspensionState" style="width:98%;"  />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										TENANT_ID_：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="tenantId" name="tenantId"  placeholder="输入tenantId" title="tenantId" style="width:98%;"  />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										FORM_KEY_：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="formKey" name="formKey"  placeholder="输入formKey" title="formKey" style="width:98%;"  />
+								 	</td>									
+								</tr>			 
+
+								 	<input type="hidden" name="id" id='id' > 
+							</table>
+							</div>
+						 	</form>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.page-content -->
+			</div>
+		</div>
+		<!-- /.main-content -->
+	</div> 	                  
+</body>	
+ 
+<script type="text/javascript">
+		$(top.hangge());	  
+		$(function(){
+  		init();
+	});
+	function init(){  
+		  　 $.ajax({
+				type: "GET",
+				url: '/actRuTask/getEntityById/'+getParamer("id"), 
+				dataType:'json',
+				cache: false,
+				success: function(data){
+				  //  alert(data);
+					if(data && data!=""){ 
+						 $("#rev").val(data.rev);
+						 $("#name").val(data.name);
+						 $("#parentTaskId").val(data.parentTaskId);
+						 $("#description").val(data.description);
+						 $("#taskDefKey").val(data.taskDefKey);
+						 $("#owner").val(data.owner);
+						 $("#assignee").val(data.assignee);
+						 $("#delegation").val(data.delegation);
+						 $("#priority").val(data.priority);
+						 $("#createTime").val(data.createTime);
+						 $("#dueDate").val(data.dueDate);
+						 $("#category").val(data.category);
+						 $("#suspensionState").val(data.suspensionState);
+						 $("#tenantId").val(data.tenantId);
+						 $("#formKey").val(data.formKey);
+
+						 $("#id").val(data.id);						     
+				    } 
+				 }
+			   });
+		} 
+	 
+</SCRIPT>
+</html>

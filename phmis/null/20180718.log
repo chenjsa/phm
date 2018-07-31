@@ -1,0 +1,13 @@
+2018-07-18 23:35:35 INFO com.pms.base.controller.BaseController.logBefore(BaseController.java:242) | 
+2018-07-18 23:35:35 INFO com.pms.base.controller.BaseController.logBefore(BaseController.java:243) | start
+2018-07-18 23:35:35 INFO com.pms.base.controller.BaseController.logBefore(BaseController.java:244) | 超级管理员列表user
+2018-07-18 23:35:35 INFO com.pms.rcm.sys.controller.UserController.list(UserController.java:109) | DEPARTMENT_ID:86AABBE2C24848AEBA7E0499761C2D7A
+2018-07-18 23:41:52 INFO com.pms.base.controller.BaseController.logBefore(BaseController.java:227) | 
+2018-07-18 23:41:52 INFO com.pms.base.controller.BaseController.logBefore(BaseController.java:228) | start
+2018-07-18 23:41:52 INFO com.pms.base.controller.BaseController.logBefore(BaseController.java:229) | 超级管理员列表user
+2018-07-18 23:41:52 INFO com.pms.rcm.sys.controller.UserController.list(UserController.java:135) | DEPARTMENT_ID:86AABBE2C24848AEBA7E0499761C2D7A
+2018-07-18 23:50:34 INFO com.pms.base.controller.BaseController.logBefore(BaseController.java:227) | 
+2018-07-18 23:50:34 INFO com.pms.base.controller.BaseController.logBefore(BaseController.java:228) | start
+2018-07-18 23:50:34 INFO com.pms.base.controller.BaseController.logBefore(BaseController.java:229) | 超级管理员列表user
+2018-07-18 23:50:34 INFO com.pms.rcm.sys.controller.UserController.list(UserController.java:135) | DEPARTMENT_ID:86AABBE2C24848AEBA7E0499761C2D7A
+2018-07-18 23:51:07 INFO com.pms.rcm.sys.controller.UserController.toEdit(UserController.java:221) | 中国银行----false

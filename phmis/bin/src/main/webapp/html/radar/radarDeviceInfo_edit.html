@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>radarDeviceInfo</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+        <link rel="stylesheet" href="/static/ace/css/font-awesome1.css" />  
+	    <link href="/static/ace/css/style.min.css?v=4.1.0" rel="stylesheet">
+		<link href="/static/ace/css/bootstrap.min1.css" rel="stylesheet"> 
+		<!-- text fonts -->
+		<link rel="stylesheet" href="/static/ace/css/ace-fonts.css" />
+		<!-- ace styles -->
+		<link rel="stylesheet" href="/static/ace/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" /> 
+		<link href="/static/ace/js/sweetalert/sweetalert.css" rel="stylesheet">        
+		<script type="text/javascript" src="/static/ace/js/jquery.js"></script>  
+		<script src="/static/ace/js/bootstrap.js"></script>
+		<script src="/static/js/util.js"></script>
+		<script src="/static/ace/js/sweetalert/sweetalert.min.js"></script>
+		
+		   <script src="/static/ace/js/bootstrap-datetimepicker.js"></script>
+		<script src="/static/ace/js/bootstrap-datetimepicker.zh-CN.js"></script>
+		<link rel="stylesheet" href="/static/ace/css/bootstrap-datetimepicker.min.css" class="ace-main-stylesheet" id="main-ace-style" /> 
+		
+
+  </head>
+  
+    <body class="no-skin">
+<div class="main-container" id="main-container">
+		<!-- /section:basics/sidebar -->
+		<div class="main-content">
+			<div class="main-content-inner">
+				<div class="page-content">
+					<div class="row">
+						<div class="col-xs-12">
+						<form action="people/save.do" name="peopleForm" id="peopleForm" method="post">
+							
+							
+							<table id="table_report" class="table table-striped table-bordered table-hover"> 			
+							    <tr>				
+							    	<td style="width:120px;text-align: right;padding-top: 13px;">
+										站区/用户编号：
+									</td>
+									<td class="controlcontent" >
+										<select class="chosen-select form-control"  onblur="vaild_stationId();"; name="stationId" id=stationId data-placeholder="请选择省份" style="vertical-align:top;"  title="省份" style="width:98%;" >
+								  			<option  value=''>请选择</option> 
+										</select>
+								    </td>						
+									<td style="width:120px;text-align: right;padding-top: 13px;">
+										雷达名称：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="radarName" name="radarName" onblur="vaild_radarName();";  placeholder="输入radarName" title="radarName" style="width:98%;" />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:120px;text-align: right;padding-top: 13px;">
+										型号编号：
+									</td>
+									<td class="controlcontent" >
+										<select class="chosen-select form-control"  onblur="vaild_typeId();"; name="typeId" id=typeId data-placeholder="请选择省份" style="vertical-align:top;"  title="省份" style="width:98%;" >
+								  			<option  value=''>请选择</option> 
+										</select>
+								 	</td>									
+													
+									<td style="width:120px;text-align: right;padding-top: 13px;">
+										生产厂家：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="manufacturer" name="manufacturer" onblur="vaild_manufacturer();";  placeholder="输入manufacturer" title="manufacturer" style="width:98%;" />
+								 	</td>									
+								</tr>			 
+							    	 
+							    <tr>								
+									<td style="width:120px;text-align: right;padding-top: 13px;">
+										生产日期：
+									</td>
+									<td class="controlcontent" >
+									<div style="width:98%;" id='manufacturerDateD' class="input-group date form_date col-md-5" data-date="" data-date-format="" data-link-field="dtp_input1" data-link-format="yyyy-mm-dd">
+								            <input style="width:98%;"   id="manufacturerDate" placeholder="生产日期"  name="manufacturerDate" class="form-control" size="16" type="text" value="" readonly>
+								            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+								     </div> 
+ 								 	</td>									
+								 						
+									<td style="width:120px;text-align: right;padding-top: 13px;">
+										安装位置：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="address" name="address" onblur="vaild_address();";  placeholder="输入address" title="address" style="width:98%;" />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:120px;text-align: right;padding-top: 13px;">
+										工作令：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="workOrder" name="workOrder" onblur="vaild_workOrder();";  placeholder="输入workOrder" title="workOrder" style="width:98%;" />
+								 	</td>									
+								 							
+									<td style="width:120px;text-align: right;padding-top: 13px;">
+										架设时间：
+									</td>
+									<td class="controlcontent" >
+									<div style="width:98%;" id='erectionTimeD' class="input-group date form_date col-md-5" data-date="" data-date-format="" data-link-field="dtp_input1" data-link-format="yyyy-mm-dd">
+								            <input style="width:98%;"   id="erectionTime" placeholder="生产日期"  name="erectionTime" class="form-control" size="16" type="text" value="" readonly>
+								            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+								     </div> 
+ 								 	</td>									
+								</tr>			 
+							    <tr  id="trdd">								
+									<td style="width:120px;text-align: right;padding-top: 13px;">
+										在役状态：
+									</td>
+									<td class="controlcontent" >
+									<select class="chosen-select form-control"  onblur="vaild_inServiceState();"; name="inServiceState" id=inServiceState data-placeholder="请选择省份" style="vertical-align:top;"  title="省份" style="width:98%;" >
+								  			<option  value=''>请选择</option> 
+								  			<option  value='1'>是</option> 
+								  			<option  value='0'>否</option> 
+										</select>
+								  	</td>									
+								 							
+									<td style="width:120px;text-align: right;padding-top: 13px;">
+										任务属性：
+									</td>
+									<td class="controlcontent" >
+										<select class="chosen-select form-control"  onblur="vaild_taskAttributeId();"; name="taskAttributeId" id=taskAttributeId data-placeholder="请选择省份" style="vertical-align:top;"  title="省份" style="width:98%;" >
+								  			<option  value=''>请选择</option> 
+										</select>
+							 		 	</td>									
+								</tr>		 	 
+							    <tr>								
+									<td style="width:120px;text-align: right;padding-top: 13px;">
+										功能说明：
+									</td>
+									<td class="controlcontent" colspan=3>
+									 <textarea rows="3" cols="46" maxlength="255" name="description" id="description" placeholder="这里输入描述" title="描述"  style="width:100%;"></textarea>
+									
+ 								 	</td>									
+								</tr>		 
+								<input type="hidden" name="id" id='id' > 	 
+								<tr>
+									<td class="center" colspan="4">
+										 <button  type='button' onclick='save();' class='btn btn-sm btn-info'><span class="glyphicon glyphicon-save"></span> 保存</button>
+											&nbsp;&nbsp;&nbsp;&nbsp;
+		  								  <button  type='button' onclick='closeWin();' class='btn btn-xs btn-danger'><span class="glyphicon glyphicon-remove"></span> 取消</button>
+	 
+									</td>
+								</tr>
+							</table>
+							</div>
+						 	</form>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.page-content -->
+			</div>
+		</div>
+		<!-- /.main-content -->
+	</div> 	                  
+</body>	
+ 
+<script type="text/javascript">
+		$(top.hangge());
+	  var radarStateMap=new Map();
+		//保存	
+	 function save(){
+	 		  var radarBasicStateInfoArr=new Array();
+	 	     for ( var i = 0; i < radarStateMap.arr.length; i++) {
+		        var radarBasicStateInfo=new Object();
+		        radarBasicStateInfo=radarStateMap.get(radarStateMap.arr[i].key); 
+		        radarBasicStateInfo.radarStateInfoValueId=$("#radarStateInfoValues_"+radarStateMap.arr[i].value.radarStateInfoId).val();
+		        radarBasicStateInfoArr[i]=radarBasicStateInfo;
+		        ///alert(i+"----------"+sealApplyFormExtensionMap.arr[i].key+"---"+sealApplyFormExtension.sealUseExtensionContent);
+				 
+			}
+		    if(vaild_all()){
+		     $.ajax({
+				type: "POST",
+				url: '/radarDeviceInfo/save', 
+				contentType: 'application/json', // 这句不加出现415错误:Unsupported Media Type
+				data:JSON.stringify({   
+					  'radarName':$("#radarName").val(),
+					  'typeId':$("#typeId").val(),
+					  'description':$("#description").val(),
+					  'manufacturer':$("#manufacturer").val(),
+					  'stationId':$("#stationId").val(),
+					  'manufacturerDate':$("#manufacturerDate").val(),
+					  'address':$("#address").val(),
+					  'workOrder':$("#workOrder").val(),
+					  'erectionTime':$("#erectionTime").val(),
+					  'inServiceState':$("#inServiceState").val(),
+					  'taskAttributeId':$("#taskAttributeId").val(),
+					  'radarBasicStateInfos':radarBasicStateInfoArr,
+					  'id':$("#id").val()
+				  }),
+				dataType:'json',
+				cache: false,
+				success: function(data){ 
+					if(data && data!=""){ 
+						if("success" == data.result){
+						  parent.queryList(); 
+                          var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+      					  parent.layer.close(index);
+      					  parent.swal("保存成功！", "您已经成功新增了这条信息。", "success");
+						}
+						else if("err" == data.result){ 
+						   parent.swal("保存失败！", data.msg, "error");	
+						}						     
+				    } 
+				 }
+			   });
+		    }
+			　
+		}
+		
+	  /***
+	    验证字段radarName是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_radarName(){
+	     if($("#radarName").val()==""){
+			$("#radarName").tips({
+				side:3,
+	            msg:'雷达名称为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#radarName").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段typeId是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_typeId(){
+	     if($("#typeId").val()==""){
+			$("#typeId").tips({
+				side:3,
+	            msg:'型号编号为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#typeId").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段description是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_description(){
+	     if($("#description").val()==""){
+			$("#description").tips({
+				side:3,
+	            msg:'功能说明为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#description").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段manufacturer是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_manufacturer(){
+	     if($("#manufacturer").val()==""){
+			$("#manufacturer").tips({
+				side:3,
+	            msg:'生产厂家为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#manufacturer").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段stationId是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_stationId(){
+	     if($("#stationId").val()==""){
+			$("#stationId").tips({
+				side:3,
+	            msg:'站区/用户编号为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#stationId").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段manufacturerDate是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_manufacturerDate(){
+	     if($("#manufacturerDate").val()==""){
+			$("#manufacturerDate").tips({
+				side:3,
+	            msg:'生产日期为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#manufacturerDate").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段address是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_address(){
+	     if($("#address").val()==""){
+			$("#address").tips({
+				side:3,
+	            msg:'安装位置为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#address").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段workOrder是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_workOrder(){
+	     if($("#workOrder").val()==""){
+			$("#workOrder").tips({
+				side:3,
+	            msg:'工作令为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#workOrder").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段erectionTime是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_erectionTime(){
+	     if($("#erectionTime").val()==""){
+			$("#erectionTime").tips({
+				side:3,
+	            msg:'架设时间为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#erectionTime").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段inServiceState是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_inServiceState(){
+	     if($("#inServiceState").val()==""){
+			$("#inServiceState").tips({
+				side:3,
+	            msg:'在役状态为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#inServiceState").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段taskAttributeId是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_taskAttributeId(){
+	     if($("#taskAttributeId").val()==""){
+			$("#taskAttributeId").tips({
+				side:3,
+	            msg:'任务属性为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#taskAttributeId").focus();
+			return false;
+		}
+	  }
+
+     function vaild_all(){
+	     if($("#radarName").val()==""){
+			$("#radarName").tips({
+				side:3,
+	            msg:'雷达名称为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#radarName").focus();
+			return false;
+		}
+	     if($("#typeId").val()==""){
+			$("#typeId").tips({
+				side:3,
+	            msg:'型号编号为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#typeId").focus();
+			return false;
+		}
+	     if($("#description").val()==""){
+			$("#description").tips({
+				side:3,
+	            msg:'功能说明为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#description").focus();
+			return false;
+		}
+	     if($("#manufacturer").val()==""){
+			$("#manufacturer").tips({
+				side:3,
+	            msg:'生产厂家为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#manufacturer").focus();
+			return false;
+		}
+	     if($("#stationId").val()==""){
+			$("#stationId").tips({
+				side:3,
+	            msg:'站区/用户编号为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#stationId").focus();
+			return false;
+		}
+	     if($("#manufacturerDate").val()==""){
+			$("#manufacturerDate").tips({
+				side:3,
+	            msg:'生产日期为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#manufacturerDate").focus();
+			return false;
+		}
+	     if($("#address").val()==""){
+			$("#address").tips({
+				side:3,
+	            msg:'安装位置为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#address").focus();
+			return false;
+		}
+	     if($("#workOrder").val()==""){
+			$("#workOrder").tips({
+				side:3,
+	            msg:'工作令为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#workOrder").focus();
+			return false;
+		}
+	     if($("#erectionTime").val()==""){
+			$("#erectionTime").tips({
+				side:3,
+	            msg:'架设时间为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#erectionTime").focus();
+			return false;
+		}
+	     if($("#inServiceState").val()==""){
+			$("#inServiceState").tips({
+				side:3,
+	            msg:'在役状态为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#inServiceState").focus();
+			return false;
+		}
+	     if($("#taskAttributeId").val()==""){
+			$("#taskAttributeId").tips({
+				side:3,
+	            msg:'任务属性为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#taskAttributeId").focus();
+			return false;
+		}
+
+		 return true;
+	  }
+	  
+	$(function(){
+  		init();
+	});
+	function init(){ 
+		  　 $.ajax({
+				type: "GET",
+				url: '/radarDeviceInfo/getAll', 
+				dataType:'json',
+				cache: false,
+				success: function(data){
+				  //  alert(data);
+					if(data && data!=""){  
+				 	  $("#typeId").html("");
+				        $("#typeId").append('<option value="">请选择</option>');
+						$.each(data.radarTypeInfos,function(i,item){  	 
+						     //  alert(item.id);  
+						      	$("#typeId").append("<option  value='"+item.id+"'>"+item.radarTypeName+"</option>");	 
+					      　});      
+					      
+					   $("#stationId").html("");
+				        $("#stationId").append('<option value="">请选择</option>');
+						$.each(data.radarUserInfos,function(i,item){  	 
+						     //  alert(item.id);  
+						      	$("#stationId").append("<option  value='"+item.id+"'>"+item.stationName+"</option>");	 
+					      　});      		
+					     $("#taskAttributeId").html("");
+				        $("#taskAttributeId").append('<option value="">请选择</option>');
+						$.each(data.taskAttributes,function(i,item){  	 
+						     //  alert(item.id);  
+						      	$("#taskAttributeId").append("<option  value='"+item.id+"'>"+item.tname+"</option>");	 
+					      　});       
+					    var html="";
+					   $.each(data.radarStateInfos,function(i,item){  	 
+						      var radarBasicStateInfo=new Object();	
+					    	  radarBasicStateInfo.radarStateInfoId=item.id;					    	  
+						      radarStateMap.put(item.id,radarBasicStateInfo);
+					 		  html=html+"<tr>";								
+					          html=html+"<td style=\"width:120px;text-align: right;padding-top: 13px;\">";
+							  html=html+item.sname;
+							  html=html+"</td>";
+							  html=html+"<td class=\"controlcontent\" colspan=3>";
+							  html=html+"<select class=\"chosen-select form-control\"  id='radarStateInfoValues_"+item.id+"'  style=\"width:98%;\" >";
+							   html=html+"<option  value=''>请选择</option> ";
+							  $.each(item.radarStateInfoValues,function(i,item1){  
+							  	 html=html+"<option  value='"+item1.id+"'>"+item1.svalue+"</option> ";
+							  });
+							  html=html+"</select>";
+ 							  html=html+"</td>";									
+						      html=html+"</tr>";	  
+					      　});      
+					  $("#trdd").after(html);  
+					     		
+					  
+					   initVo();		     
+				    } 
+				 }
+			   });
+	} 
+		
+   function initVo(){
+   	 $.ajax({
+				type: "GET",
+				url: '/radarDeviceInfo/getEntityById/'+getParamer("id"), 
+				dataType:'json',
+				cache: false,
+				success: function(data){
+				  //  alert(data);
+					if(data && data!=""){  
+					  $("#radarName").val(data.radarName);
+					  $("#typeId").val(data.typeId);
+					  $("#description").val(data.description);
+					  $("#manufacturer").val(data.manufacturer);
+					  $("#stationId").val(data.stationId);
+					  $("#manufacturerDate").val(data.manufacturerDateStr);
+					  $("#address").val(data.address);
+					  $("#workOrder").val(data.workOrder);
+					  $("#erectionTime").val(data.erectionTimeStr);
+					  $("#inServiceState").val(data.inServiceState);
+					  $("#taskAttributeId").val(data.taskAttributeId);
+
+					  $("#id").val(data.id);	
+					   if(id!='-1'){	
+					   var html="";
+					   debugger
+					   $.each(data.radarBasicStateInfoes,function(i,item){  	 
+					   		 
+						     $("#radarStateInfoValues_"+item.radarStateInfoId).val(item.radarStateInfoValueId);
+					      　});      
+					      }
+					  $("#trdd").after(html); 		     
+				    } 
+				 }
+			   });
+   }
+		
+		
+		 $('#manufacturerDateD').datetimepicker({  
+		    format: 'yyyy-mm-dd',
+	        minView:'month',
+	        language: 'zh-CN',
+	        autoclose:true,
+	        weekStart:1 
+		 });
+		 
+		  $('#erectionTimeD').datetimepicker({  
+		    format: 'yyyy-mm-dd',
+	        minView:'month',
+	        language: 'zh-CN',
+	        autoclose:true,
+	        weekStart:1 
+		 });
+		
+</SCRIPT>
+<!-- ace scripts --> 
+	<!-- inline scripts related to this page -->
+	<!-- 下拉框 -->
+	<script src="static/ace/js/chosen.jquery.js"></script>
+	<!-- 日期框 -->
+	<script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
+	<!--提示框-->
+	<script type="text/javascript" src="/static/js/jquery.tips.js"></script>
+  <script type="text/javascript">
+		$(top.hangge());
+</script>	 
+</html>

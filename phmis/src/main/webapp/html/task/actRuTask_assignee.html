@@ -1,0 +1,202 @@
+ 
+
+<!DOCTYPE html >
+<html>
+<head>
+<title>选择人员</title>
+ <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8"> 
+    <link href="/static/ace/css/bootstrap.min1.css" rel="stylesheet">   
+    <link rel="stylesheet" type="text/css" href="/static/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/static/easyui/themes/icon.css"> 
+	<script type="text/javascript" src="/static/easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="/static/easyui/jquery.easyui.min.js"></script> 
+	<script src="/static/js/util.js"></script>
+<style>
+table.table-list { 
+ 		width: 99.6%;
+ 	font-size: 12px;
+ 	margin:5px auto;
+ 	border:0px solid #e5e5e5;
+}
+table.table-list thead {
+}
+
+table.table-list thead > tr > td{
+	text-align: left;
+	padding-left: 5px;
+	
+}
+table.table-list  tr {
+	height: 32px;
+}
+table.table-list thead th {
+	background: #FDFDFF;
+	height: 32px;
+	text-align: center;
+	background-color: #e5e5e5
+}
+table.table-list tr > th {
+	background-color: #FBFCFF;
+	padding: 0px 5px;
+	text-align: center;
+	color: #282831;
+	font-weight: bold;
+	font-size:12px;
+	border:1px solid #e5e5e5;
+}
+table.table-list td {
+	font-weight: normal;
+	padding: 5px 5px;
+	border:1px solid #e5e5e5;
+}
+
+</style>
+</head>
+<body >
+<div class="easyui-layout" style="width:99%;height:400px;">
+<div data-options="region:'east',split:true" title="用户选择" style="width:200px;">
+        	<table class="table-list" cellspacing="0" id="table1">
+				<thead>
+					<tr>
+						<th>用户账号</th>
+						<th>操作 <a href="javascript:javaScript:void(0)"
+							ng-click="clear()" class="btn btn-sm fa fa-close" onclick="deleteAll()"></a></th>
+					</tr>
+				</thead>
+				<tbody>
+				
+				</tbody>
+			</table>
+    </div>
+    <div data-options="region:'center'">
+		
+			 
+<script type="text/javascript"> 
+    $(function () {    
+        var isJointlySign=getParamer("isJointlySign");
+       $('#entrusterList').datagrid({
+        singleSelect:true,
+        collapsible:true,
+        pagination:false,//如果为true，则在DataGrid控件底部显示分页工具栏。
+        fitColumns:true,
+        selectOnCheck:false,
+        singleSelect:false,
+        rownumbers: true,
+        pageSize:10,//在设置分页属性的时候初始化页面大小。
+        fit:true,
+        nowrap:false,
+      //  view: detailview, 
+        idField: 'id',title: '<span class="glyphicon glyphicon-user">选择人员</span> -<font color=red>点击左边列表的用户即可进行选择</font>',
+        url:'/actRuTask/getUsers/'+getParamer("roleCode"),
+        method:'post', 
+        toolbar:'entrusterListtb',
+        onClickRow:function(rowIndex,rowData){
+          rowid=rowData.id;
+          gridname='entrusterList';
+          checkSelect(rowIndex,rowData);
+         },
+          onBeforeSelect: function(index,row){  
+              //取消选择行  
+				$('#entrusterList').datagrid('clearSelections');   
+          },  
+        
+        columns:[[ 
+        	{field:'deptName',title:'所在部门'},
+            {field:'no',title:'用户账号'},
+            {field:'name',title:'姓名',width:50} 
+        ]]
+    });
+    
+    })
+   
+	   
+    </script>
+     <table width="100%"   id="entrusterList" toolbar="#entrusterListtb">
+         <thead>  
+                    <tr>   
+                        <th field="no" width="100" align="center">编号</th>  
+                        <th field="name" width="100" align="center" sortable="true">用户名</th>   
+                    </tr>  
+                </thead>  
+     </table>
+      
+<!-- update-begin--Author:zhoujf  Date:20180104 for：TASK #1215 【改造】会签支持配置固定的会签人员，不用再下一步节点的时候，手工选择 -->
+</body>
+<script type="text/javascript"> 
+function getValuesById(id){
+	var str='';
+	$("#table1").find("tbody tr").each(function() {
+		str += $(this).find("input[id="+id+"]").val()+",";
+	});
+	str = str.substring(0,str.length-1);
+	return str;
+} 
+var isJointlySign=getParamer("isJointlySign");
+function checkSelect() {
+	var rows = $("#entrusterList").datagrid("getChecked");
+	 //是否是会签，会签就多选，isJointlySign=yes 多选 no 当选
+    
+    //alert(isJointlySign );
+	if(rows.length>=1) {
+		for(var i =0; i<rows.length;i++) {
+			var rowsName = rows[i]['name'];
+			var userName = rows[i]['name'];
+    		var rowsId = rows[i]['no'];    	
+    		if(hasRepeart(rowsId)) {    		 	
+    		    if(isJointlySign=='no'){ 
+    		    	 $("#table1 tbody").empty(""); 
+    		    }
+    		   
+				var newRow = '<tr><td><input type="hidden" name="no" value='+rowsId+' id="no"><input type="hidden" name="userName" value='+userName+' id="userName"><span>'+rowsName+'</span></td><td><a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i class=" fa fa-trash-o"></i>删除</a></td></tr>';
+				$("#table1").append(newRow);
+		  	}
+		}
+		
+	}
+}
+function selectOne(){ 
+  var arr=$('[name="userName"]');//获取相同name的对象，然后再遍历这个数组就行了。
+  var userName="";
+  for(var i=0;i<arr.length;i++){
+	var val=$(arr[i]).val();//获取value值
+	if(i==arr.length-1){
+	  userName=userName+val;
+	}else{
+	  userName=userName+val+",";
+	}
+  }
+  var arr1=$('[name="no"]');//获取相同name的对象，然后再遍历这个数组就行了。
+  var no="";
+  for(var i=0;i<arr1.length;i++){
+	var val=$(arr1[i]).val();//获取value值
+	if(i==arr1.length-1){
+	  no=no+val;
+	}else{
+	  no=no+val+",";
+	}
+  } 
+  return {no:no,userName:userName};
+}
+function hasRepeart(col) {
+	var flag = true;
+	$("#table1").find("tbody").find("tr").each(function() {
+		if ($(this).find("input").val() == col) {
+			flag = false;
+			return false;
+		}
+	});
+	return flag;
+}
+function deleteRow(row) {
+	var tr = row.parentNode.parentNode;
+	var tbody = tr.parentNode;
+	tbody.removeChild(tr);
+}
+function deleteAll() {
+	$("#table1 tbody").html("");
+}
+</script>
+</html>
+

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>账号安全设置</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+        <link rel="stylesheet" href="/static/ace/css/font-awesome1.css" />  
+	    <link href="/static/ace/css/style.min.css?v=4.1.0" rel="stylesheet">
+		<link href="/static/ace/css/bootstrap.min1.css" rel="stylesheet"> 
+		<!-- text fonts -->
+		<link rel="stylesheet" href="/static/ace/css/ace-fonts.css" />
+		<!-- ace styles -->
+		<link rel="stylesheet" href="/static/ace/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />   
+		<script type="text/javascript" src="/static/ace/js/jquery.js"></script>  
+		<script src="/static/ace/js/bootstrap.js"></script>
+			<script src="/static/js/util.js"></script>
+		<link href="/static/ace/js/sweetalert/sweetalert.css" rel="stylesheet">      
+		<script src="/static/ace/js/sweetalert/sweetalert.min.js"></script>
+  </head>
+  
+    <body class="no-skin">
+<div class="main-container" id="main-container">
+		<!-- /section:basics/sidebar -->
+		<div class="main-content">
+			<div class="main-content-inner">
+				<div class="page-content">
+					<div class="row">
+						<div class="col-xs-12">
+							<div id="zhongxin" style="padding-top: 13px;text-align: center;" >
+							<table id="table_report" class="table table-striped table-bordered table-hover" style="width: 60%;margin: auto;">
+								<tr>
+									<td colspan="3">账号策略</td>
+									<input type="hidden" id="id" >
+								</tr>
+							    <tr>								
+									<td class="controlcontent" style="text-align: right;">
+										<input type="checkbox" name="accountStopSetting" value="1"  id="accountStopStrage">启用账号停用策略
+									</td>
+									<td class="controlcontent" style="text-align: right;">
+										账号连续未使用(天)： 
+									</td>
+									<td class="controlcontent" >
+										<input type="text" name="settingValue" id="noUseDays" value="1"  style="width: 30px;"> 	 
+								 	</td>
+								</tr>
+				 
+								<tr>
+								<td class="controlcontent" rowspan="3" style="text-align: right;">
+										<input type="checkbox" name="accountLockStrage" value="1" id="accountLockStrage">启用账号锁定策略
+								 	</td>
+								 	<td class="controlcontent" style="text-align: right;">
+										限定时间长度(分钟)： 
+									</td>
+									<td class="controlcontent" >
+										<input type="text" name="settingValue" id="limitTime" value="1"  style="width: 30px;"> 
+								 	</td>									
+								</tr>
+								<tr>
+								 	<td class="controlcontent" style="text-align: right;">
+										连续登陆失败次数：
+										
+									</td>
+									<td class="controlcontent" >
+										<input type="text" name="settingValue" value="1" id="loginErrCount"  style="width: 30px;"> 
+								 	</td>									
+								</tr>
+								<tr>
+								 	<td class="controlcontent" style="text-align: right;">
+										锁定时长(分钟)： 
+									</td>
+									<td class="controlcontent" >
+										<input type="text" name="settingValue" value="1" id="loginErrLimtTime" style="width: 30px;"> 
+								 	</td>									
+								</tr>		 
+							</table>
+							<hr>
+							<table id="table_report1" class="table table-striped table-bordered table-hover" style="width: 60%;margin: auto;">
+								<tr>
+									<td colspan="3">密码策略</td>
+								</tr>
+							 
+								<tr>
+									<td class="controlcontent" rowspan="3" style="text-align: right;">
+										<input type="checkbox" name="isUseOrdinaryStrage" value="1"  id="isUseOrdinaryStrage">普通策略
+								 	</td>
+								 	<td class="controlcontent" style="text-align: right;">
+										密码最小字符个数： 
+									</td>
+									<td class="controlcontent">
+										<input type="text" name="settingValue" value="1" id="passMinLength"  style="width: 30px;"> 
+								 	</td>									
+								</tr>
+								<tr>
+								 	<td class="controlcontent" style="text-align: right;">
+										允许同一字符出现次数： 
+									</td>
+									<td class="controlcontent" >
+										<input type="text" name="settingValue" value="1" id="someCharCount" style="width: 30px;"> 
+								 	</td>
+								</tr>
+								<tr>
+								 	<td class="controlcontent" style="text-align: right;">
+								 	<input type="checkbox" name="specialStringSetting" value="1" id="isContainSpecialChar">
+										至少包含一个特殊字符： 
+									</td>
+									<td class="controlcontent" style="width: 30%;" >
+										<span id="specialChar">!@#$%^&*()_+:</span>
+										<!-- <input type="text" name="settingValue" id="specialStringSettingValue" value=" !@#$%^&*()_+:"  style="width: 150px;" readonly="readonly">  -->
+								 	</td>
+								</tr>
+							 
+								<tr>
+									<td class="controlcontent" rowspan="2" style="text-align: right;">
+										<input type="checkbox" name="accountPasswordSetting" value="1"  id="isUsePassStrage">启用密码过期强制策略
+								 	</td>
+								 	<td class="controlcontent" style="text-align: right;">
+										密码有效期(天)： 
+									</td>
+									<td class="controlcontent" >
+										<input type="text" name="settingValue" value="1" id="passUseDays"  style="width: 30px;"> 
+								 	</td>
+								</tr>
+								<tr>
+								 	<td class="controlcontent" style="text-align: right;">
+										密码即将到期提醒(天)： 
+									</td>
+									<td class="controlcontent" >
+										<input type="text" name="settingValue" value="1" id="passExpireRemindDays" style="width: 30px;"> 
+								 	</td>
+								</tr>
+								<tr>
+								<td></td>
+								 	<td class="controlcontent" style="text-align: right;">
+										通知提醒方式：
+									</td>
+									<td class="controlcontent" id="noticeSet" >
+										<input type="checkbox" name="accountLockSetting" value="1" >系统通知
+										<br>
+										<input type="checkbox" name="accountLockSetting" value="2" >短信通知
+										<br>
+										<input type="checkbox" name="accountLockSetting" value="3" >邮件通知
+										<br>
+								 	</td>
+								</tr>
+							</table>
+							</div>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+					<div class="row">
+                            <div class="col-xs-12" style="text-align: center;margin-top:20px;">
+                                <button class="btn btn-primary" id="goView-btnOk" type="submit">提交</button>
+                            </div>
+                        </div>
+				</div>
+				<!-- /.page-content -->
+			</div>
+		</div>
+		<!-- /.main-content -->
+	</div> 	                  
+</body>	
+ 
+
+<!-- ace scripts --> 
+	<!-- inline scripts related to this page -->
+	
+	<!--提示框-->
+	<script type="text/javascript" src="/static/js/jquery.tips.js"></script>
+	
+	<script type="text/javascript" src="/static/js/json2.js"></script> 
+  	<script type="text/javascript">
+		$(top.hangge());
+</script>	
+
+<script type="text/javascript">
+
+function checkIsEmpty(id,msg,state)
+{
+	if(state)
+		{
+		if($.trim($("#"+id).val())=="")
+				{
+					$("#"+id).tips({
+						side : 2,
+						msg : msg,
+						bg : '#FF5080',
+						time : 2
+					});
+					return false;
+				}
+				else
+					{
+					  return true;
+					}
+		}
+	else
+		{
+		  return state;//已经出错
+		}
+}
+
+function checkIsGenZero(id,msg,state)
+{
+	if(state)
+		{
+		var value=$("#"+id).val();
+		if(!isNaN(value) && value<=0)
+				{
+					$("#"+id).tips({
+						side : 2,
+						msg : msg,
+						bg : '#FF5080',
+						time : 2
+					});
+					return false;
+				}
+				else
+					{
+					  return true;
+					}
+		}
+	else
+		{
+		  return state;//已经出错
+		}
+}
+
+function checkIsInteger(id,msg,state)
+{
+	if(state)
+		{
+		var value=$("#"+id).val();
+		var ex = /^\d+$/;
+		if(!ex.test(value))
+				{
+					$("#"+id).tips({
+						side : 2,
+						msg : msg,
+						bg : '#FF5080',
+						time : 2
+					});
+					return false;
+				}
+				else
+					{
+					  return true;
+					}
+		}
+	else
+		{
+		  return state;//已经出错
+		}
+}
+
+function check()
+{
+	var blResult=true;
+	
+/* 	noUseDays 账号连续未使用(天)
+	limitTime 限定时间长度(分钟)
+	loginErrCount 连续登陆失败次数
+	loginErrLimtTime 锁定时长(分钟)
+	passMinLength 密码最小字符个数
+	someCharCount 允许同一字符出现次数
+	passUseDays 密码有效期(天)
+	passExpireRemindDays 密码即将到期提醒(天)： */
+	
+	blResult=checkIsEmpty("noUseDays","不能为 ",blResult);
+	blResult=checkIsEmpty("limitTime","不能为 ",blResult);
+	blResult=checkIsEmpty("loginErrCount","不能为 ",blResult);
+	blResult=checkIsEmpty("loginErrLimtTime","不能为 ",blResult);
+	blResult=checkIsEmpty("passMinLength","不能为 ",blResult);
+	blResult=checkIsEmpty("someCharCount","不能为 ",blResult);
+	blResult=checkIsEmpty("passUseDays","不能为 ",blResult);
+	blResult=checkIsEmpty("passExpireRemindDays","不能为 ",blResult);
+	
+	
+	blResult=checkIsGenZero("noUseDays","必须大于0 ",blResult);
+	blResult=checkIsGenZero("limitTime","必须大于0 ",blResult);
+	blResult=checkIsGenZero("loginErrCount","必须大于0 ",blResult);
+	blResult=checkIsGenZero("loginErrLimtTime","必须大于0 ",blResult);
+	blResult=checkIsGenZero("passMinLength","必须大于0 ",blResult);
+	blResult=checkIsGenZero("someCharCount","必须大于0 ",blResult);
+	blResult=checkIsGenZero("passUseDays","必须大于0",blResult);
+	blResult=checkIsGenZero("passExpireRemindDays","必须大于0 ",blResult);
+	
+	blResult=checkIsInteger("noUseDays","必须为整数 ",blResult);
+	blResult=checkIsInteger("limitTime","必须为整数 ",blResult);
+	blResult=checkIsInteger("loginErrCount","必须为整数 ",blResult);
+	blResult=checkIsInteger("loginErrLimtTime","必须为整数 ",blResult);
+	blResult=checkIsInteger("passMinLength","必须为整数",blResult);
+	blResult=checkIsInteger("someCharCount","必须为整数 ",blResult);
+	blResult=checkIsInteger("passUseDays","必须为整数",blResult);
+	blResult=checkIsInteger("passExpireRemindDays","必须为整数 ",blResult);
+	
+	return blResult;
+}
+function save(){
+	
+	if(!check())
+		return;
+	
+	var arr=new Array();
+	 var chks= $("input:checkbox[name='accountLockSetting']");
+    //var chks=$("#noticeSet input[type='checkbox']"); 
+	for(var i=0;i<chks.length;i++)
+	{
+		 if($(chks[i]).is(':checked'))
+			 {
+			 arr.push($(chks[i]).val());
+			 }
+	}
+	
+	var obj={
+			id:$("#id").val(),
+			isUseOrdinaryStrage:$("#isUseOrdinaryStrage").is(':checked')==true?1:0,
+			accountStopStrage:$("#accountStopStrage").is(':checked')==true?1:0,
+			accountLockStrage:$("#accountLockStrage").is(':checked')==true?1:0,
+			noUseDays:$("#noUseDays").val(),
+			limitTime:$("#limitTime").val(),
+			loginErrCount:$("#loginErrCount").val(),
+			loginErrLimtTime:$("#loginErrLimtTime").val(),
+			passMinLength:$("#passMinLength").val(),
+			someCharCount:$("#someCharCount").val(),
+			specialChars:$("#specialChar").text(),
+			isContainSpecialChar:$("#isContainSpecialChar").is(':checked')==true?1:0,
+			passUseDays:$("#passUseDays").val(),
+			passExpireRemindDays:$("#passExpireRemindDays").val(),
+			isUsePassStrage:$("#isUsePassStrage").is(':checked')==true?1:0,
+		
+			noticeType:arr.join(",")
+			
+	}; 
+//	
+
+	$.ajax({
+		type: "POST",
+		url: '/SysStrategy/saveSetting', 
+		data: obj,
+		dataType:'json',
+		
+		cache: false,
+		success: function(data){
+			$("#id").val(data.id);
+			  console.log(JSON.stringify(obj));	
+			 
+			swal({  
+				title:'',
+	            text: "操作成功！",  
+	            type: "success",  
+	            confirmButtonText: '确认',  
+	            confirmButtonColor: '#4cd964',  
+	        }) ;
+		 },
+		 error:function(err)
+		 {
+			 swal({  
+				 	title:'',
+		            text: "操作失败！",  
+		            type: "error",  
+		            confirmButtonText: '确认',  
+		            confirmButtonColor: '#4cd964',  
+		        }) ;
+		 }
+		});
+}
+
+function setValue(data)
+{
+console.log(JSON.stringify(data));	
+	for (o in data)  
+	  {  
+		var obj=$("#"+o);
+		if(obj.is("input"))
+			{
+				if(obj.attr("type")=="text")
+					{
+					obj.val(data[o]);
+					}
+				else if(obj.attr("type")=="hidden")
+					{
+					obj.val(data[o]);
+					}
+				else if(obj.attr("type")=="checkbox")
+					{ 
+						if(data[o]==1)
+							{
+							  obj.prop('checked', true);
+							}
+						else
+							{
+							obj.prop('checked', false);
+							}
+					}
+			}
+		else
+			{
+			
+			}
+	  } 
+	}
+
+function setData(datas)
+{
+	if(datas.length>0)
+		{
+		var data=datas[0];
+			
+		setValue(data);
+			if(data.noticeType!=null)
+				{
+					var arr=data.noticeType.split(",")
+					//设置通知方式
+					for(var j=0;j<arr.length;j++)
+					{
+						//var obj=$("#accountLockSetting:checkbox[value="+arr[j]+"]");
+						 $("input:checkbox[name='accountLockSetting'][value='"+arr[j]+"']").attr('checked','true');
+						//obj.prop('checked', true);
+					}
+				}
+			else
+				{
+				//没有设置通知方式
+				}
+
+			$("#id").val(data.id);
+			
+		}
+	}
+function GetDatas(){  
+	　 $.ajax({
+		type: "GET",
+		url: '/SysStrategy/getSetting',
+		dataType:'json',
+		cache: false,
+		success: function(data){
+			setData(data);
+		 },
+		 error:function(err)
+		 { 
+			 swal({  
+				 	title:'',
+		            text: "初始化失败！",  
+		            type: "error",  
+		            confirmButtonText: '确认',  
+		            confirmButtonColor: '#4cd964',  
+		        }) ;
+		 }
+	   });
+}
+
+
+	$(function(){
+		init();
+		
+		$("#goView-btnOk").click(save);
+		
+		GetDatas();
+		
+	});
+	
+	function init(){ 
+		  　 $.ajax({
+				type: "GET",
+				url: '/SysStrategy/getMenuFun?menuId='+getParamer("menuId"), 
+				dataType:'json',
+				cache: false,
+				success: function(data){
+				  //  alert(data);
+					if(data && data!=""){ 
+						//console.log("机构下的库房编码最大值："+data[0].id);
+						//alert(data[0].id);
+						$.each(data,function(i,item){ 
+		                      //$("#"+item.btnCode).show();		
+		                      $("[id^='"+item.btnCode+"']").show();		
+						　　});
+				    } 
+				 }
+		  });
+	} 
+		
+</SCRIPT> 
+</html>

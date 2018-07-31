@@ -1,0 +1,88 @@
+.layui-layer-title {
+    height: 42px;
+    line-height: 42px;
+    font-size: 14px;
+   font-family: inherit;
+       color: white; 
+    background-color: #357ebd;
+    padding: 0px 80px 0px 20px;
+    border-bottom: 1px solid rgb(238, 238, 238);
+    overflow: hidden;
+    border-radius: 2px 2px 0px 0px;
+}
+.layui-layer-setwin a{
+    color: white; 
+}
+.layui-layer-content {
+    color: white; 
+}
+
+.layui-layer-setwin {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+     color: white; 
+    font-size: 0px;
+    line-height: initial;
+}
+
+
+.layui-layer-btn .layui-layer-btn0 {
+      color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+
+.body {
+    background: #fff;
+    margin: 0;
+     font-size: 18;
+     width:99%;
+    padding: 0px 2px 0px;}
+  .ui-jqgrid tr.jqgrow td{font-size: 13px;}
+    .ui-jqgrid .ui-jqgrid-labels th{font-size: 13px; }
+     
+  .ui-jqgrid .ui-jqgrid-htable th div {
+     font-size: 13px;
+    }
+    
+    .ui-jqgrid .ui-jqgrid-pager {
+    line-height: 5px;
+    height: 50px;
+    padding-top: 3px !important;
+    padding-bottom: 5px !important;
+    background-color: rgb(239, 243, 248) !important;
+    border-bottom: 1px solid rgb(225, 225, 225) !important;
+    border-top: 1px solid rgb(225, 225, 225) !important;
+}
+.ui-jqgrid .ui-pager-control {
+    position: relative;
+    padding-left: 9px;
+    padding-right: 9px;
+}
+.widget-box {
+    margin-top: 1px;
+    margin-bottom: 1px;
+    width:100%;
+}
+.widget-main {
+    padding: 0px;
+}
+
+.layui-layer-btn .layui-layer-btn0 {
+      color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+.layui-layer-setwin .layui-layer-max { 
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+        color: white;
+    background-color: rgb(53, 126, 189);
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+}

@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>phmtaskInfo</title>
+
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta name="content-type" content="text/html; charset=UTF-8">
+
+
+<link rel="stylesheet" href="/static/ace/css/font-awesome1.css" />
+<link href="/static/ace/css/style.min.css?v=4.1.0" rel="stylesheet">
+<link href="/static/ace/css/bootstrap.min1.css" rel="stylesheet">
+<!-- text fonts -->
+<link rel="stylesheet" href="/static/ace/css/ace-fonts.css" />
+<!-- ace styles -->
+<link rel="stylesheet" href="/assets/css/ace.min.css" />
+<link rel="stylesheet" href="/assets/css/ace-rtl.min.css" />
+<link rel="stylesheet" href="/assets/css/ace-skins.min.css" />
+<link href="/static/ace/js/sweetalert/sweetalert.css" rel="stylesheet">
+<script type="text/javascript" src="/static/ace/js/jquery.js"></script>
+<script src="/static/ace/js/bootstrap.js"></script>
+<script src="/static/js/util.js"></script>
+<script src="/static/ace/js/sweetalert/sweetalert.min.js"></script>
+<script type="text/javascript" src="/plugins/layer/3.0/layer.js"></script>
+<script src="/static/ace/js/bootstrap-datetimepicker.js"></script>
+		<script src="/static/ace/js/bootstrap-datetimepicker.zh-CN.js"></script>
+		<link rel="stylesheet" href="/static/ace/css/bootstrap-datetimepicker.min.css" class="ace-main-stylesheet" id="main-ace-style" /> 
+ <script src="/static/js/util.js"></script>
+
+<style>
+body {
+	background: #fff;
+	margin: 0;
+	font-size: 18;
+	width: 99%;
+	padding: 0px 2px 0px;
+}
+
+.layui-layer-title {
+	height: 42px;
+	line-height: 42px;
+	font-size: 14px;
+	font-family: inherit;
+	color: white;
+	background-color: #357ebd;
+	padding: 0px 80px 0px 20px;
+	border-bottom: 1px solid rgb(238, 238, 238);
+	overflow: hidden;
+	border-radius: 2px 2px 0px 0px;
+}
+td {text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+.layui-layer-setwin a {
+	color: white;
+}
+
+.layui-layer-content {
+	color: white;
+}
+/* 表格容器样式，用flex布局可保证table内容能铺满剩余空间 */
+.sti-tbl-container {
+	height: 200px;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+}
+/* 设置表格的布局方式，用于宽度对齐 */
+.sti-tbl-body>table, .sti-tbl-header>table {
+	table-layout: fixed;
+}
+/* 设置表格内容容器，用于铺满整个剩余空间 */
+.sti-tbl-container .sti-tbl-body {
+	flex-grow: 1;
+	overflow-y: scroll;
+}
+</style>
+
+
+</head>
+
+<body class="no-skin">
+
+
+
+	<table style="margin-top: 0px;" class="table  table-bordered">
+		<tr>
+			<td>
+				<table id="table_report" style="width:100%">
+					<tr>
+						<td colspan=3 style="margin-top: 0px;">
+							<div class="widget-box" id="widget-box-2">
+								<div style="margin-top: 0px;" class="widget-header">
+									<h5 class="widget-title bigger lighter">
+										<i class="ace-icon fa fa-table"></i> 任务基础信息配置
+									</h5>
+
+									<div class="widget-toolbar">
+										<a href="#" data-action="reload"> <i class="icon-refresh"></i>
+										</a> <a href="#" data-action="collapse"> <i
+											class="icon-chevron-up"></i>
+											<input type="hidden" id="id">
+										</a>
+									</div>
+
+								</div>
+
+								<div class="widget-body">
+									<table id="table_report"
+										class="table table-striped table-bordered table-hover">
+										<tr>
+											<td style="width:110px;text-align: right;padding-top: 13px;">
+												 功能类型： 
+											</td>
+											<td class="controlcontent">
+											
+										    	<select class="form-control"  name="phmfunctionTypeId" id='phmfunctionTypeId'   style="width:98%;" >
+										  			  
+												</select>
+											</td>
+
+											<td style="width:110px;text-align: right;padding-top: 13px;">
+												雷达：</td>
+											<td class="controlcontent">
+												<select class="form-control" onchange="changeRadar(this);" name="radarId" id='radarId'   style="width:98%;" >
+										  		</select>
+											</td>
+
+											<td style="width:110px;text-align: right;padding-top: 13px;">
+												子系统：</td>
+											<td class="controlcontent">
+												<select class="form-control" onchange="changeSubsystem(this);" name="phmsubsId" id='phmsubsId'   style="width:98%;" >
+										  		</select>
+											</td>
+											
+										</tr>
+										<tr>
+											<td style="width:110px;text-align: right;padding-top: 13px;">
+												关重件：</td>
+											<td class="controlcontent">
+												<select class="form-control"  name="moduleId" id='moduleId'   style="width:98%;" >
+										  		</select>
+											</td>
+											 
+											<td style="width:110px;text-align: right;padding-top: 13px;">
+												任务截止时间：</td>
+											<td class="controlcontent">
+												<div style="width:98%;" id='taskDeadlineD' class="input-group date form_date col-md-5" data-date="" data-date-format="" data-link-field="dtp_input1" data-link-format="yyyy-mm-dd">
+										            <input style="width:98%;"   id="taskDeadline" placeholder="任务截止时间"  name="taskDeadline" class="form-control" size="16" type="text" value="" readonly>
+										            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+										       </div> 
+											</td>
+ 
+											<td style="width:110px;text-align: right;padding-top: 13px;">
+												任务描述：</td>
+											<td colspan=5 class="controlcontent"><input type="text"
+												id="taskDescription" name="taskDescription"
+												placeholder="输入任务描述" title="taskDescription"
+												style="width:98%;" /></td>
+										</tr>
+										<tr>
+											<td style="width:110px;text-align: right;padding-top: 13px;">
+												其它：</td>
+											<td class="controlcontent" colspan=5><input type="text"
+												id="other" name="other" placeholder="输入其它" title="other"
+												style="width:98%;" /></td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+
+							<div class="widget-box" id="widget-box-2">
+								<div class="widget-header">
+									<h5 class="widget-title bigger lighter">
+										<i class="ace-icon fa fa-table"></i> 关联数据项配置
+									</h5>
+
+									<div class="widget-toolbar">
+										<a href="#" data-action="reload"> <i class="icon-refresh"></i>
+										</a> <a href="#" data-action="collapse"> <i
+											class="icon-chevron-up"></i>
+										</a>
+									</div>
+								</div>
+
+								<div class="widget-body">
+									<table>
+										<tr>
+											<td style="width:90%">
+												<div class="sti-tbl-container" id="realTable">
+													<!-- 表头容器，必须留出17px的滚动条位置 -->
+													<!-- 表头容器，必须留出17px的滚动条位置 -->
+													<div class="sti-tbl-header">
+														<table  class="table table-bordered"
+															style="margin-bottom: 0px;border-bottom-style: none;">
+															<thead class="thin-border-bottom">
+
+																<tr>
+																	<th width="60px" class="center"><i
+																		class="ace-icon fa fa-user"></i> 选择</th>
+																	<th class="center">关联名称</th>
+																	<th class="center">数据名称</th>
+																	<th class="center">数据长度</th>
+																</tr>
+															</thead>
+														</table>
+													</div>
+													<!-- 表格内容容器-->
+													<div class="sti-tbl-body">
+														<table class="table table-bordered"
+															style="margin-bottom: 0px;">
+															<tbody id="realData">
+																<tr>
+																	<td width="60px" class="center active" height="30px"></td>
+																	<td class="center warning" height="30px"></td>
+																	<td class="center warning" height="30px"></td>
+																	<td class="center warning" height="30px"></td>
+																</tr>
+																
+																<tr>
+																	<td class="center active" height="30px"></td>
+																	<td class="center warning" height="30px"></td>
+																	<td class="center warning" height="30px"></td>
+																	<td class="center warning" height="30px"></td>
+																</tr>
+																<tr>
+																	<td class="center active" height="30px"></td>
+																	<td class="center warning" height="30px"></td>
+																	<td class="center warning" height="30px"></td>
+																	<td class="center warning" height="30px"></td>
+																</tr>
+																<tr>
+																	<td class="center active" height="30px"></td>
+																	<td class="center warning" height="30px"></td>
+																	<td class="center warning" height="30px"></td>
+																	<td class="center warning" height="30px"></td>
+																</tr>
+																<tr>
+																	<td class="center active" height="30px"></td>
+																	<td class="center warning" height="30px"></td>
+																	<td class="center warning" height="30px"></td>
+																	<td class="center warning" height="30px"></td>
+																</tr>
+																<tr>
+																	<td class="center active" height="30px"></td>
+																	<td class="center warning" height="30px"></td>
+																	<td class="center warning" height="30px"></td>
+																	<td class="center warning" height="30px"></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</td>
+											<td class="center">
+												<p>
+													<button class="btn btn-xs btn-info" id="search_submit"
+														onclick="addData();">添加</button>
+												</p>
+												<p>
+													<button class="btn btn-xs btn-danger" id="search_submit"
+														onclick="delData();">删除</button>
+												</p>
+											</td>
+										</tr>
+									</table>
+
+								</div>
+							</div>
+
+						</td>
+						<td>&nbsp;</td>
+						<td>
+
+							<div class="widget-box" id="widget-box-2">
+								<div class="widget-header">
+									<h5 class="widget-title bigger lighter">
+										<i class="ace-icon fa fa-table"></i> 算法模型库配置
+									</h5>
+									<div class="widget-toolbar">
+										<a href="#" data-action="reload"> <i class="icon-refresh"></i>
+										</a> <a href="#" data-action="collapse"> <i
+											class="icon-chevron-up"></i>
+										</a>
+									</div>
+								</div>
+
+								<div class="widget-body">
+									<table>
+										<tr>
+											<td style="width:90%">
+												<div class="sti-tbl-container">
+													<!-- 表头容器，必须留出17px的滚动条位置 -->
+													<div class="sti-tbl-header">
+														<table class="table table-bordered"
+															style="margin-bottom: 0px;border-bottom-style: none;">
+															<thead class="thin-border-bottom">
+															 <th  width="60px" class="center"><i class="ace-icon fa fa-user"></i>选择</th>
+															 
+																<th  width="60px" class="center"><i class="ace-icon fa fa-user"></i>库ID</th>
+																<th class="center">模型-算法名称</th> 
+																<th class="center">库URL</th>
+
+															</thead>
+														</table>
+													</div>
+													<!-- 表格内容容器-->
+													<div class="sti-tbl-body" id="algoriTable">
+														<table class="table table-bordered"
+															style="margin-bottom: 0px;">
+															<tbody id="algoriData">
+																<tr> 
+															 		<td class="center warning"  width="60px"  height="30px"></td> 
+																	<td class="center warning" height="30px"></td>
+														 	        <td class="center warning" height="30px"></td> 
+																	<td class="center warning" height="30px"></td>
+																</tr>
+																<tr> 
+															 		<td class="center warning"  width="60px"  height="30px"></td> 
+																	<td class="center warning" height="30px"></td>
+														 	        <td class="center warning" height="30px"></td> 
+																	<td class="center warning" height="30px"></td>
+																</tr>
+																<tr> 
+															 		<td class="center warning"  width="60px"  height="30px"></td> 
+																	<td class="center warning" height="30px"></td>
+														 	        <td class="center warning" height="30px"></td> 
+																	<td class="center warning" height="30px"></td>
+																</tr>
+																<tr> 
+															 		<td class="center warning"  width="60px"  height="30px"></td> 
+																	<td class="center warning" height="30px"></td>
+														 	        <td class="center warning" height="30px"></td> 
+																	<td class="center warning" height="30px"></td>
+																</tr>
+																<tr> 
+															 		<td class="center warning"  width="60px"  height="30px"></td> 
+																	<td class="center warning" height="30px"></td>
+														 	        <td class="center warning" height="30px"></td> 
+																	<td class="center warning" height="30px"></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</td>
+											<td class="center">
+												<p>
+													<button class="btn btn-xs btn-info" id="search_submit"
+														onclick="addAlgori();">添加</button>
+												</p>
+												<p>
+													<button class="btn btn-xs btn-danger" id="search_submit"
+														onclick="delalgoriData();">删除</button>
+												</p>
+											</td>
+										</tr>
+									</table>
+
+								</div>
+							</div>
+
+						</td>
+					</tr>
+
+					<tr>
+						<td colspan=3>
+							<div class="widget-box" id="widget-box-2">
+								<div class="widget-header">
+									<h5 class="widget-title bigger lighter">
+										<i class="ace-icon fa fa-table"></i> 专家知识库配置
+									</h5>
+
+									<div class="widget-toolbar">
+										<a href="#" data-action="reload"> <i class="icon-refresh"></i>
+										</a> <a href="#" data-action="collapse"> <i
+											class="icon-chevron-up"></i>
+										</a>
+									</div>
+								</div>
+
+								<div class="widget-body">
+
+									<div class="widget-body">
+										<table>
+											<tr>
+												<td style="width:90%">
+													<div class="sti-tbl-container">
+														<!-- 表头容器，必须留出17px的滚动条位置 -->
+														<div class="sti-tbl-header" id="KnowledgeInfoTable">
+															<table class="table table-bordered"
+																style="margin-bottom: 0px;border-bottom-style: none;">
+																<thead class="thin-border-bottom">
+																 <th  width="60px" class="center"><i class="ace-icon fa fa-user"></i>选择</th>
+															 
+																	<th class="center"><i class="ace-icon fa fa-user"></i>知识编号</th>
+ 																	
+																	<th class="center">key</th>
+																	<th class="center">value</th>
+																	<th class="center">其他说明</th>
+																</thead>
+																<tbody id="knowledgeData">
+																	<tr>
+																      <td width="60px" class="center warning" height="30px"></td>
+ 																		<td class="center warning" height="30px"></td>
+																		<td class="center warning" height="30px"></td>
+																		<td class="center warning" height="30px"></td>
+																		<td class="center warning" height="30px"></td>
+																	</tr>
+																	<tr>
+																      <td width="60px" class="center warning" height="30px"></td>
+ 																		<td class="center warning" height="30px"></td>
+																		<td class="center warning" height="30px"></td>
+																		<td class="center warning" height="30px"></td>
+																		<td class="center warning" height="30px"></td>
+																	</tr>
+																	<tr>
+																      <td width="60px" class="center warning" height="30px"></td>
+ 																		<td class="center warning" height="30px"></td>
+																		<td class="center warning" height="30px"></td>
+																		<td class="center warning" height="30px"></td>
+																		<td class="center warning" height="30px"></td>
+																	</tr>
+																	<tr>
+																      <td width="60px" class="center warning" height="30px"></td>
+ 																		<td class="center warning" height="30px"></td>
+																		<td class="center warning" height="30px"></td>
+																		<td class="center warning" height="30px"></td>
+																		<td class="center warning" height="30px"></td>
+																	</tr>
+																	<tr>
+																      <td width="60px" class="center warning" height="30px"></td>
+ 																		<td class="center warning" height="30px"></td>
+																		<td class="center warning" height="30px"></td>
+																		<td class="center warning" height="30px"></td>
+																		<td class="center warning" height="30px"></td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</div>
+												</td>
+												<td class="center">
+													<p>
+														<button class="btn btn-xs btn-info" id="search_submit"
+															onclick="addKnowedge();">添加</button>
+													</p>
+													<p>
+														<button class="btn btn-xs btn-danger" id="search_submit"
+															onclick="delKnowedge();">删除</button>
+													</p>
+												</td>
+											</tr>
+										</table>
+
+									</div>
+								</div>
+						</td>
+
+					</tr>
+					<tr>
+						<td class="center" colspan="4">
+							<button type='button' onclick='save();'
+								class='btn btn-sm btn-info'>
+								<span class="glyphicon glyphicon-save"></span> 保存
+							</button> &nbsp;&nbsp;&nbsp;&nbsp;
+							<button type='button' onclick='closeWin();'
+								class='btn btn-sm btn-danger'>
+								<span class="glyphicon glyphicon-remove"></span> 取消
+							</button>
+
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</body>
+
+<script type="text/javascript">
+	$(top.hangge());
+	var taskRelevantDataArr=new Array();
+	var taskRelevantDataMap=new Map();		 
+	var taskKnowledgeInfoArr=new Array();
+	var taskKnowledgeInfoMap=new Map();	
+	var taskAlgorithmsModelInfoArr=new Array();
+	var taskAlgorithmsModelInfoMap=new Map();
+	//保存	
+	function save() { 
+			debugger
+			if(taskRelevantDataMap.arr.length<1){
+		    	 $("#realTable").tips({
+						side:3,
+			            msg:'请配置关联数据',
+			            bg:'#AE81FF',
+			            time:2
+			        });
+					$("#realTable").focus(); 
+	       			return;
+		     }
+		   
+		     if(taskAlgorithmsModelInfoMap.arr.length<1){
+		    	 $("#algoriTable").tips({
+						side:3,
+			            msg:'请配置算法模型库',
+			            bg:'#AE81FF',
+			            time:2
+			        });
+					$("#algoriTable").focus(); 
+	       			return;
+		     }
+		       if(taskKnowledgeInfoMap.arr.length<1){
+		    	 $("#KnowledgeInfoTable").tips({
+						side:3,
+			            msg:'请配置专家知识库',
+			            bg:'#AE81FF',
+			            time:2
+			        });
+					$("#KnowledgeInfoTable").focus(); 
+	       			return;
+		     }
+			 for ( var i = 0; i < taskRelevantDataMap.arr.length; i++) {
+		        var taskRelevantData={};
+		        taskRelevantData=taskRelevantDataMap.get(taskRelevantDataMap.arr[i].key); 		        
+		        taskRelevantDataArr[i]=taskRelevantData; 				 
+			  }
+			  for ( var i = 0; i < taskKnowledgeInfoMap.arr.length; i++) {
+		        var taskKnowledgeInfo={};
+		        taskKnowledgeInfo=taskKnowledgeInfoMap.get(taskKnowledgeInfoMap.arr[i].key); 		        
+		        taskKnowledgeInfoArr[i]=taskKnowledgeInfo; 				 
+			  }
+			   for ( var i = 0; i < taskAlgorithmsModelInfoMap.arr.length; i++) {
+		        var taskAlgorithmsModelInfo={};
+		        taskAlgorithmsModelInfo=taskAlgorithmsModelInfoMap.get(taskAlgorithmsModelInfoMap.arr[i].key); 		        
+		        taskAlgorithmsModelInfoArr[i]=taskAlgorithmsModelInfo; 				 
+			  }
+			    top.jzts();
+			$.ajax({
+				type : "POST",
+				url : '/phmtaskInfo/save',
+				contentType : 'application/json', // 这句不加出现415错误:Unsupported Media Type
+				data : JSON.stringify({
+					'phmfunctionTypeId' : $("#phmfunctionTypeId").val(),
+					'radarId' : $("#radarId").val(),
+					'phmsubsId' : $("#phmsubsId").val(),
+					'moduleId' : $("#moduleId").val(),
+					'taskDeadline' : $("#taskDeadline").val(),
+					'taskDescription' : $("#taskDescription").val(),
+					'other' : $("#other").val(),
+					'taskKnowledgeInfos':taskKnowledgeInfoArr,
+					'taskAlgorithmsModelInfos':taskAlgorithmsModelInfoArr,
+					'taskRelevantDatas':taskRelevantDataArr,
+					'id' : $("#id").val()
+				}),
+				dataType : 'json',
+				cache : false,
+				success : function(data) {
+				   $(top.hangge());  
+					if (data && data != "") {
+						if ("success" == data.result) {
+							parent.queryList();
+							var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+							parent.layer.close(index);
+							parent.swal("保存成功！", "您已经成功新增了这条信息。", "success");
+						} else if ("err" == data.result) {
+							swal("保存失败！", data.msg, "error");
+						}
+					}
+				}
+			}); 
+
+	}
+
+	/***
+	  验证字段phmfunctionTypeId是否为空或别的验证逻辑都写在这里
+	***/
+	function vaild_phmfunctionTypeId() {
+		if ($("#phmfunctionTypeId").val() == "") {
+			$("#phmfunctionTypeId").tips({
+				side : 3,
+				msg : '功能类型编号为必填项',
+				bg : '#AE81FF',
+				time : 2
+			});
+			$("#phmfunctionTypeId").focus();
+			return false;
+		}
+	}
+	/***
+	  验证字段radarId是否为空或别的验证逻辑都写在这里
+	***/
+	function vaild_radarId() {
+		if ($("#radarId").val() == "") {
+			$("#radarId").tips({
+				side : 3,
+				msg : '雷达ID为必填项',
+				bg : '#AE81FF',
+				time : 2
+			});
+			$("#radarId").focus();
+			return false;
+		}
+	}
+	/***
+	  验证字段phmsubsId是否为空或别的验证逻辑都写在这里
+	***/
+	function vaild_phmsubsId() {
+		if ($("#phmsubsId").val() == "") {
+			$("#phmsubsId").tips({
+				side : 3,
+				msg : '子系统ID为必填项',
+				bg : '#AE81FF',
+				time : 2
+			});
+			$("#phmsubsId").focus();
+			return false;
+		}
+	}
+	/***
+	  验证字段moduleId是否为空或别的验证逻辑都写在这里
+	***/
+	function vaild_moduleId() {
+		if ($("#moduleId").val() == "") {
+			$("#moduleId").tips({
+				side : 3,
+				msg : '关重件ID为必填项',
+				bg : '#AE81FF',
+				time : 2
+			});
+			$("#moduleId").focus();
+			return false;
+		}
+	}
+	/***
+	  验证字段taskDeadline是否为空或别的验证逻辑都写在这里
+	***/
+	function vaild_taskDeadline() {
+		if ($("#taskDeadline").val() == "") {
+			$("#taskDeadline").tips({
+				side : 3,
+				msg : '任务截止时间为必填项',
+				bg : '#AE81FF',
+				time : 2
+			});
+			$("#taskDeadline").focus();
+			return false;
+		}
+	}
+	/***
+	  验证字段taskDescription是否为空或别的验证逻辑都写在这里
+	***/
+	function vaild_taskDescription() {
+		if ($("#taskDescription").val() == "") {
+			$("#taskDescription").tips({
+				side : 3,
+				msg : '任务描述为必填项',
+				bg : '#AE81FF',
+				time : 2
+			});
+			$("#taskDescription").focus();
+			return false;
+		}
+	}
+	/***
+	  验证字段other是否为空或别的验证逻辑都写在这里
+	***/
+	function vaild_other() {
+		if ($("#other").val() == "") {
+			$("#other").tips({
+				side : 3,
+				msg : '其它为必填项',
+				bg : '#AE81FF',
+				time : 2
+			});
+			$("#other").focus();
+			return false;
+		}
+	}
+
+	function vaild_all() {
+		if ($("#phmfunctionTypeId").val() == "") {
+			$("#phmfunctionTypeId").tips({
+				side : 3,
+				msg : '功能类型编号为必填项',
+				bg : '#AE81FF',
+				time : 2
+			});
+			$("#phmfunctionTypeId").focus();
+			return false;
+		}
+		if ($("#radarId").val() == "") {
+			$("#radarId").tips({
+				side : 3,
+				msg : '雷达ID为必填项',
+				bg : '#AE81FF',
+				time : 2
+			});
+			$("#radarId").focus();
+			return false;
+		}
+		if ($("#phmsubsId").val() == "") {
+			$("#phmsubsId").tips({
+				side : 3,
+				msg : '子系统ID为必填项',
+				bg : '#AE81FF',
+				time : 2
+			});
+			$("#phmsubsId").focus();
+			return false;
+		}
+		if ($("#moduleId").val() == "") {
+			$("#moduleId").tips({
+				side : 3,
+				msg : '关重件ID为必填项',
+				bg : '#AE81FF',
+				time : 2
+			});
+			$("#moduleId").focus();
+			return false;
+		}
+		if ($("#taskDeadline").val() == "") {
+			$("#taskDeadline").tips({
+				side : 3,
+				msg : '任务截止时间为必填项',
+				bg : '#AE81FF',
+				time : 2
+			});
+			$("#taskDeadline").focus();
+			return false;
+		}
+		if ($("#taskDescription").val() == "") {
+			$("#taskDescription").tips({
+				side : 3,
+				msg : '任务描述为必填项',
+				bg : '#AE81FF',
+				time : 2
+			});
+			$("#taskDescription").focus();
+			return false;
+		}
+		if ($("#other").val() == "") {
+			$("#other").tips({
+				side : 3,
+				msg : '其它为必填项',
+				bg : '#AE81FF',
+				time : 2
+			});
+			$("#other").focus();
+			return false;
+		}
+
+		return true;
+	}
+
+	$(function() {
+		init();
+	});
+	
+	function init() {
+		$.ajax({
+			type : "GET",
+			url : '/phmtaskInfo/getAll',
+			dataType : 'json',
+			cache : false,
+			success : function(data) {
+				//  alert(data);
+				if (data && data != "") {
+					 	$("#phmfunctionTypeId").html("");
+				        $("#phmfunctionTypeId").append('<option value="">请选择</option>');
+						   $.each(data.phmfunctionTypeInfos,function(i,item){  	 
+						     $("#phmfunctionTypeId").append("<option  value='"+item.id+"'>"+item.phmfunctionTypeName+"</option>");	 
+					               　});    
+					     $("#radarId").html("");
+				         $("#radarId").append('<option value="">请选择</option>');
+					      $.each(data.radarDeviceInfos,function(i,item){  	 
+						     $("#radarId").append("<option  value='"+item.id+"'>"+item.radarName+"</option>");	 
+					              　});      
+						initVo();
+				}
+			}
+		});
+	}
+	function changeRadar(obj) {
+		$.ajax({
+			type : "GET",
+			url : '/radarSubsystemInfo/getListByRadarId/' +obj.value,
+			dataType : 'json',
+			cache : false,
+			success : function(data) {
+				//  alert(data);
+				if (data && data != "") {
+						 
+						 $("#phmsubsId").html("");
+				         $("#phmsubsId").append('<option value="">请选择</option>');
+					      $.each(data,function(i,item){  	 
+						     $("#phmsubsId").append("<option  value='"+item.id+"'>"+item.subsystemInfo.subsystemName+"</option>");	 
+					              　});      
+				}
+			}
+		});
+	}
+	function changeSubsystem(obj) {
+		$.ajax({
+			type : "GET",
+			url : '/keyModulesInfo/getListByphmsubsId/' +obj.value,
+			dataType : 'json',
+			cache : false,
+			success : function(data) {
+				 /// alert(data);
+				if (data && data != "") {
+						 $("#moduleId").html("");
+				         $("#moduleId").append('<option value="">请选择</option>');
+					      $.each(data,function(i,item){  	 
+						     $("#moduleId").append("<option  value='"+item.id+"'>"+item.keyModulesName+"</option>");	 
+					              　});    					  
+				}
+			}
+		});
+	}
+	function changeRadarEdit(obj,rData) {
+		$.ajax({
+			type : "GET",
+			url : '/radarSubsystemInfo/getListByRadarId/' +obj.value,
+			dataType : 'json',
+			cache : false,
+			success : function(data) {
+				//  alert(data);
+				if (data && data != "") {
+						 
+						 $("#phmsubsId").html("");
+				         $("#phmsubsId").append('<option value="">请选择</option>');
+					      $.each(data,function(i,item){  	 
+						     $("#phmsubsId").append("<option  value='"+item.id+"'>"+item.subsystemInfo.subsystemName+"</option>");	 
+					              　});   
+					     $("#phmsubsId").val(rData.phmsubsId);   
+				}
+			}
+		});
+	}
+	function changeSubsystemEdit(obj,rData) {
+		$.ajax({
+			type : "GET",
+			url : '/keyModulesInfo/getListByphmsubsId/' +obj.value,
+			dataType : 'json',
+			cache : false,
+			success : function(data) {
+				 /// alert(data);
+				if (data && data != "") {
+						 $("#moduleId").html("");
+				         $("#moduleId").append('<option value="">请选择</option>');
+					      $.each(data,function(i,item){  	 
+						     $("#moduleId").append("<option  value='"+item.id+"'>"+item.keyModulesName+"</option>");	 
+					              　});    					 
+						$("#moduleId").val(rData.moduleId);  
+				}
+			}
+		});
+	}
+	function initVo() {
+		$.ajax({
+			type : "GET",
+			url : '/phmtaskInfo/getEntityById/' + getParamer("id"),
+			dataType : 'json',
+			cache : false,
+			success : function(data) {
+				//  alert(data);
+				if (data && data != "") {
+					$("#phmfunctionTypeId").val(data.phmfunctionTypeId);
+					$("#radarId").val(data.radarId); 
+					if(data.radarId!=''){
+					    var obj={};
+					    obj.value=data.radarId;
+						changeRadarEdit(obj,data);
+					}
+					if(data.phmsubsId!=''){
+						var obj={};
+					    obj.value=data.phmsubsId;
+						changeSubsystemEdit(obj,data);
+					}
+					
+					$("#taskDeadline").val(data.taskDeadlineStr);
+					$("#taskDescription").val(data.taskDescription);
+					$("#other").val(data.other);
+
+					$("#id").val(data.id);
+					
+					$.each(data.taskRelevantDataSet, function(i, item) {				
+						var html = "";
+						html = html + "<tr id='realDataTr_"+item.dataId+"'>";
+						html = html + "<td width=\"60px\" class=\"center active\" >";
+						html = html + "<input type='checkbox' name='realData' id='realData_"+item.dataId+"'>";
+						html = html + "</td>";
+						html = html + "<td class=\"center warning\" title='"+item.taskRelevantName+"'  height=\"30px\">";
+						html = html + item.taskRelevantName;
+						html = html + "</td>";
+						html = html + "<td class=\"center warning\" title='"+item.realtimeDatastructure.dataName+"' >";
+						html = html + item.realtimeDatastructure.id+"-"+item.realtimeDatastructure.dataName;
+						html = html + "</td>";
+						html = html + "<td class=\"center warning\" >";
+						html = html + item.realtimeDatastructure.dataLength;
+						html = html + "</td>";
+						html = html + "</tr>";
+						$("#realData").prepend(html); 
+						var taskRelevantData={};
+					
+						taskRelevantData.dataId=item.dataId;
+						taskRelevantData.taskRelevantName=item.taskRelevantName;
+						taskRelevantData.other=item.other;  
+						taskRelevantDataMap.put(item.id,taskRelevantData);
+					}); 
+					
+					
+					$.each(data.taskAlgorithmsModelInfoSet, function(i, item) {				
+							//$("#algoriDataTr_"+item.id).remove();  
+						    var html = "";
+							html = html + "<tr id='algoriDataTr_"+item.algorithmsModelsId+"'>"; 
+							html = html + "<td width=\"60px\" class=\"center active\" >";
+							html = html + "<input type='checkbox' name='algoriData' id='algoriData_"+item.algorithmsModelsId+"'>";
+							html = html + "</td>";
+							html = html + "<td width=\"60px\" class=\"center warning\"  height=\"30px\">";
+							html = html + item.algorithmsModelsId;
+							html = html + "</td>";
+						    html = html + "<td class=\"center warning\"  title='"+item.algorithmsModelsInfo.functionModelsInfo.functionModelName+"-"+item.algorithmsModelsInfo.algorithmsInfo.aname+"'>";
+							html = html + item.algorithmsModelsInfo.functionModelsInfo.functionModelName+"-"+item.algorithmsModelsInfo.algorithmsInfo.aname;
+							html = html + "</td>"; 
+							html = html + "<td class=\"center warning\" title='"+item.modelUrl+"' >";
+							html = html + item.modelUrl;
+							html = html + "</td>";
+							html = html + "</tr>";
+							$("#algoriData").prepend(html);  
+							///debugger
+							var taskAlgorithmsModelInfo= {};
+							taskAlgorithmsModelInfo.algorithmsModelsId=item.algorithmsModelsId;
+							taskAlgorithmsModelInfo.modelUrl=item.modelUrl; 
+							taskAlgorithmsModelInfoMap.put(item.id,taskAlgorithmsModelInfo);
+					}); 
+					
+					
+					$.each(data.knowledgeBaseInfoSet, function(i, item) {				
+							//$("#algoriDataTr_"+item.id).remove();  
+							var html = "";
+							html = html + "<tr id='knowledgeDataTr_"+item.id+"'>"; 
+							html = html + "<td width=\"60px\" class=\"center active\" >";
+							html = html + "<input type='checkbox' name='knowledgeData' id='knowledgeData_"+item.id+"'>";
+							html = html + "</td>"; 
+						    html = html + "<td class=\"center warning\"  title='"+item.knowledgeName+"'>";
+							html = html + item.id+"-"+item.knowledgeName;
+							html = html + "</td>"; 
+							html = html + "<td class=\"center warning\"  title='"+item.key+"'>";
+							html = html + item.key;
+							html = html + "</td>";
+							html = html + "<td class=\"center warning\" title='"+item.value+"' >";
+							html = html + item.value;
+							html = html + "</td>";
+							html = html + "<td class=\"center warning\" title='"+item.phmfunctionTypeInfo.phmfunctionTypeName+"-"+item.radarTypeInfo.radarTypeName+"-"+item.subsystemInfo.subsystemName+"-"+item.moduleTypeInfo.pname+"' >";
+							html = html + item.phmfunctionTypeInfo.phmfunctionTypeName+"-"+item.radarTypeInfo.radarTypeName+"-"+item.subsystemInfo.subsystemName+"-"+item.moduleTypeInfo.pname;
+							html = html + "</td>";
+							html = html + "</tr>";
+							$("#knowledgeData").prepend(html);  
+							var taskKnowledgeInfo=	{};
+							taskKnowledgeInfo.knowledgeId=item.id; 
+							taskKnowledgeInfo.other=item.phmfunctionTypeInfo.phmfunctionTypeName+"-"+item.radarTypeInfo.radarTypeName+"-"+item.subsystemInfo.subsystemName+"-"+item.moduleTypeInfo.pname; 
+						 	taskKnowledgeInfoMap.put(item.id,taskKnowledgeInfo);
+					}); 
+				} 
+			}
+		});
+	}
+
+	function addData() {
+		layer.open({
+			type : 2,
+			closeBtn : 1,
+			title : '<span class="glyphicon glyphicon-import"></span>信息编辑',
+			offset : 'auto',
+			area : [ '600px', '320px' ],
+			content : '/html/PHMTask/taskRelevantData_add.html',
+			shadeClose : false,
+			maxmin : true,
+			btn : [ ' <span class="glyphicon glyphicon-user"></span>添加', '<span class="glyphicon glyphicon-remove"></span>取消' ],
+			yes : function(index, layero) {
+				var r = $(layero).find("iframe")[0].contentWindow.addRealData();
+				if (r == undefined) {
+					return;
+				}
+				showTable1(r);
+				layer.close(index);
+			},
+			no : function(index) {
+				layer.close(index);
+			}
+		});
+	}
+	
+	
+	function showTable1(r) {
+		$.ajax({
+			type : "GET",
+			url : '/realtimeDatastructure/getEntityById/' + r.dataId,
+			dataType : 'json',
+			cache : false,
+			success : function(data) {
+				//  alert(data);
+				if (data && data != "") {
+					  $("#realDataTr_"+data.id).remove();  
+					var html = "";
+					html = html + "<tr id='realDataTr_"+data.id+"'>";
+					html = html + "<td width=\"60px\" class=\"center active\" >";
+					html = html + "<input type='checkbox' name='realData' id='realData_"+data.id+"'>";
+					html = html + "</td>";
+					html = html + "<td class=\"center warning\" title='"+r.taskRelevantName+"'  height=\"30px\">";
+					html = html + r.taskRelevantName;
+					html = html + "</td>";
+					html = html + "<td class=\"center warning\" title='"+data.dataName+"' >";
+					html = html +data.id+"-"+data.dataName;
+					html = html + "</td>";
+					html = html + "<td class=\"center warning\" >";
+					html = html + data.dataLength;
+					html = html + "</td>";
+					html = html + "</tr>";
+					$("#realData").prepend(html); 
+					var taskRelevantData={};
+				
+					taskRelevantData.dataId=data.id;
+					taskRelevantData.taskRelevantName=r.taskRelevantName;
+					taskRelevantData.other=r.other;  
+					taskRelevantDataMap.put(data.id,taskRelevantData);
+					 
+				}
+			}
+		});
+	}
+	
+	function delData(){
+	     var obj= $('input:checkbox[name=realData]:checked');	
+	     if(obj.length==0){
+	       swal("删除失败！", '请选择要删除的记录', "error");
+	       return;
+	     }
+		 $.each(obj,function(i,item){  	   
+		      	 var id=item.id;
+		     	 var trid=id.substr(9);
+		     	 $("#realDataTr_"+trid).remove();  
+		　　}); 
+	}
+	
+	$('#taskDeadlineD').datetimepicker({  
+		    format: 'yyyy-mm-dd',
+	        minView:'month',
+	        language: 'zh-CN',
+	        autoclose:true,
+	        weekStart:1 
+		 });
+		 
+		 
+		 
+
+function addAlgori() {
+		var phmfunctionTypeId=$("#phmfunctionTypeId").val();
+		if(phmfunctionTypeId==""){
+			  swal("失败！", '请先选择功能类型', "error");
+	         return;
+		}
+		layer.open({
+			type : 2,
+			closeBtn : 1,
+			title : '<span class="glyphicon glyphicon-import"></span>可用算法选择',
+			offset : 'auto',
+			area : [ '900px', '480px' ],
+			content : '/html/modellib/algorithmsModelsInfo_select.html?phmfunctionTypeId='+$("#phmfunctionTypeId").val(),
+			shadeClose : false,
+			maxmin : true,
+			btn : [ ' <span class="glyphicon glyphicon-user"></span>选择', '<span class="glyphicon glyphicon-remove"></span>取消' ],
+			yes : function(index, layero) {
+				var r = $(layero).find("iframe")[0].contentWindow.getRowData();
+				if (r == undefined) {
+					return;
+				} 
+				 showTable2(r);
+				layer.close(index);
+			},
+			no : function(index) {
+				layer.close(index);
+			}
+		});
+	}
+	
+	
+		function showTable2(r) {
+		 		 
+			 $.each(r.rowArray,function(i,item){  	   
+			    $("#algoriDataTr_"+item.id).remove();  
+			    var html = "";
+				html = html + "<tr id='algoriDataTr_"+item.id+"'>"; 
+				html = html + "<td width=\"60px\" class=\"center active\" >";
+				html = html + "<input type='checkbox' name='algoriData' id='algoriData_"+item.id+"'>";
+				html = html + "</td>";
+				html = html + "<td width=\"60px\" class=\"center warning\"  height=\"30px\">";
+				html = html + item.id;
+				html = html + "</td>";
+			    html = html + "<td class=\"center warning\"  title='"+item.functionModelName+"-"+item.aname+"'>";
+				html = html + item.functionModelName+"-"+item.aname;
+				html = html + "</td>"; 
+				html = html + "<td class=\"center warning\" title='"+item.url+"' >";
+				html = html + item.url;
+				html = html + "</td>";
+				html = html + "</tr>";
+				$("#algoriData").prepend(html);  
+				///debugger
+				var taskAlgorithmsModelInfo= {};
+				taskAlgorithmsModelInfo.algorithmsModelsId=item.id;
+				taskAlgorithmsModelInfo.modelUrl=item.url;
+				taskAlgorithmsModelInfo.other=r.other;  
+				taskAlgorithmsModelInfoMap.put(item.id,taskAlgorithmsModelInfo);
+		　　}); 
+						
+	}
+	function delalgoriData(){
+	     var obj= $('input:checkbox[name=algoriData]:checked');	
+	     if(obj.length==0){
+	       swal("删除失败！", '请选择要删除的记录', "error");
+	       return;
+	     }
+		 $.each(obj,function(i,item){  	   
+		      	 var id=item.id;
+		     	 var trid=id.substr(11);
+		     	 $("#algoriDataTr_"+trid).remove();  
+		　　}); 
+	}
+	
+	
+		
+	function addKnowedge() { 
+		layer.open({
+			type : 2,
+			closeBtn : 1,
+			title : '<span class="glyphicon glyphicon-import"></span>可用专家知识库选择',
+			offset : 'auto',
+			area : [ '1000px', '480px' ],
+			content : '/html/modellib/knowledgeBaseInfo_select.html',
+			shadeClose : false,
+			maxmin : true,
+			btn : [ ' <span class="glyphicon glyphicon-user"></span>选择', '<span class="glyphicon glyphicon-remove"></span>取消' ],
+			yes : function(index, layero) {
+				var r = $(layero).find("iframe")[0].contentWindow.getRowData();
+				if (r == undefined) {
+					return;
+				} 
+				 showTable3(r);
+				layer.close(index);
+			},
+			no : function(index) {
+				layer.close(index);
+			}
+		});
+	}
+		
+		function showTable3(r) {
+		 		 
+			 $.each(r.rowArray,function(i,item){  	
+			 	    
+			    $("#knowledgeDataTr_"+item.id).remove();  
+			    var html = "";
+				html = html + "<tr id='knowledgeDataTr_"+item.id+"'>"; 
+				html = html + "<td width=\"60px\" class=\"center active\" >";
+				html = html + "<input type='checkbox' name='knowledgeData' id='knowledgeData_"+item.id+"'>";
+				html = html + "</td>"; 
+			    html = html + "<td class=\"center warning\"  title='"+item.knowledgeName+"'>";
+				html = html + item.id+"-"+item.knowledgeName;
+				html = html + "</td>"; 
+				html = html + "<td class=\"center warning\"  title='"+item.key+"'>";
+				html = html + item.key;
+				html = html + "</td>";
+				html = html + "<td class=\"center warning\" title='"+item.value+"' >";
+				html = html + item.value;
+				html = html + "</td>";
+				html = html + "<td class=\"center warning\" title='"+item["phmfunctionTypeInfo.phmfunctionTypeName"]+"-"+item["radarTypeInfo.radarTypeName"]+"-"+item["subsystemInfo.subsystemName"]+"-"+item["moduleTypeInfo.pname"]+"' >";
+				html = html + item["phmfunctionTypeInfo.phmfunctionTypeName"]+"-"+item["radarTypeInfo.radarTypeName"]+"-"+item["subsystemInfo.subsystemName"]+"-"+item["moduleTypeInfo.pname"];
+				html = html + "</td>";
+				html = html + "</tr>";
+				$("#knowledgeData").prepend(html);  
+				var taskKnowledgeInfo=	{};
+				taskKnowledgeInfo.knowledgeId=item.id; 
+				taskKnowledgeInfo.other=item["phmfunctionTypeInfo.phmfunctionTypeName"]+"-"+item["radarTypeInfo.radarTypeName"]+"-"+item["subsystemInfo.subsystemName"]+"-"+item["moduleTypeInfo.pname"]; 
+			 	taskKnowledgeInfoMap.put(item.id,taskKnowledgeInfo);
+		　　}); 
+						
+	}
+	function delKnowedge(){
+	     var obj= $('input:checkbox[name=knowledgeData]:checked');	
+	     if(obj.length==0){
+	       swal("删除失败！", '请选择要删除的记录', "error");
+	       return;
+	     }
+		 $.each(obj,function(i,item){  	   
+		      	 var id=item.id;
+		     	 var trid=id.substr(14);
+		     	 //alert(trid);
+		     	 $("#knowledgeDataTr_"+trid).remove();  
+		　　}); 
+	}
+	</script> 
+<!-- ace scripts -->
+<!-- inline scripts related to this page -->
+<!-- 下拉框 -->
+<script src="static/ace/js/chosen.jquery.js"></script>
+<!-- 日期框 -->
+<script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
+<!--提示框-->
+<script type="text/javascript" src="/static/js/jquery.tips.js"></script>
+<script type="text/javascript">
+	$(top.hangge());
+</script>
+</html>

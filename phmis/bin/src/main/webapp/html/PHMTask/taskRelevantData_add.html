@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>taskRelevantData</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+        <link rel="stylesheet" href="/static/ace/css/font-awesome1.css" />  
+	    <link href="/static/ace/css/style.min.css?v=4.1.0" rel="stylesheet">
+		<link href="/static/ace/css/bootstrap.min1.css" rel="stylesheet"> 
+		<!-- text fonts -->
+		<link rel="stylesheet" href="/static/ace/css/ace-fonts.css" />
+		<!-- ace styles -->
+		<link rel="stylesheet" href="/static/ace/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" /> 
+		<link href="/static/ace/js/sweetalert/sweetalert.css" rel="stylesheet">        
+		<script type="text/javascript" src="/static/ace/js/jquery.js"></script>  
+		<script src="/static/ace/js/bootstrap.js"></script>
+		<script src="/static/js/util.js"></script>
+		<script src="/static/ace/js/sweetalert/sweetalert.min.js"></script>
+		 <script src="/static/js/util.js"></script>
+		
+
+  </head>
+  
+    <body class="no-skin">
+<div class="main-container" id="main-container">
+		<!-- /section:basics/sidebar -->
+		<div class="main-content">
+			<div class="main-content-inner">
+				<div class="page-content">
+					<div class="row">
+						<div class="col-xs-12">
+						<form action="people/save.do" name="peopleForm" id="peopleForm" method="post">
+							
+							
+							<table id="table_report" class="table table-striped table-bordered table-hover"> 			
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										数据编号：
+									</td>
+									<td class="controlcontent" >
+										<select class="chosen-select form-control"   name="dataId" id=dataId data-placeholder="请选择省份"   title="省份" style="width:98%;" >
+								  			<option  value=''>请选择</option> 
+										</select>
+ 								 	</td>									
+								</tr>			 
+							    	 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										关联名称：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="taskRelevantName" name="taskRelevantName" onblur="vaild_taskRelevantName();";  placeholder="输入关联名称" title="taskRelevantName" style="width:98%;" />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										其它：
+									</td>
+									<td class="controlcontent" >
+										   <textarea rows="3" cols="46" maxlength="255" name="other" id="other" placeholder="这里输入描述" title="描述"  style="width:100%;"></textarea>
+								 	</td>									
+								</tr>			 
+
+								<input type="hidden" name="id" id='id' > 	
+								<div id="zhongxin" style="padding-top: 13px;">
+							 
+							</table>
+							</div>
+						 	</form>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.page-content -->
+			</div>
+		</div>
+		<!-- /.main-content -->
+	</div> 	                  
+</body>	
+ 
+<script type="text/javascript">
+		$(top.hangge());
+	 
+		//保存	
+	 function addRealData(){
+	     var dataId=$("#dataId").val(); 
+	     var taskRelevantName=$("#taskRelevantName").val();
+		 var other=$("#other").val();
+		 var timestamp1 = Date.parse( new Date());
+		 return {dataId:dataId,taskRelevantName:taskRelevantName,other:other,uuid:timestamp1};
+	    
+    }
+		
+	 
+	$(function(){
+  		init();
+	});
+	function init(){ 
+		    　 $.ajax({
+				type: "GET",
+				url: '/realtimeDatastructure/findAll', 
+				dataType:'json',
+				cache: false,
+				success: function(data){
+				  //  alert(data);
+					if(data && data!=""){  
+				 	  $("#dataId").html("");
+				        $("#dataId").append('<option value="">请选择</option>');
+						$.each(data,function(i,item){  	 
+						     //  alert(item.id);  
+						      	$("#dataId").append("<option  value='"+item.id+"'>"+item.id+"-"+item.dataName+"</option>");	 
+					      　});      
+					   
+					         
+				    } 
+				 }
+			   });
+		} 
+		
+		
+		
+		
+</SCRIPT>
+<!-- ace scripts --> 
+	<!-- inline scripts related to this page -->
+	<!-- 下拉框 -->
+	<script src="static/ace/js/chosen.jquery.js"></script>
+	<!-- 日期框 -->
+	<script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
+	<!--提示框-->
+	<script type="text/javascript" src="/static/js/jquery.tips.js"></script>
+  <script type="text/javascript">
+		$(top.hangge());
+</script>	 
+</html>

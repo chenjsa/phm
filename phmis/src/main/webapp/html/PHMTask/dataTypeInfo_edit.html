@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>dataTypeInfo</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+        <link rel="stylesheet" href="/static/ace/css/font-awesome1.css" />  
+	    <link href="/static/ace/css/style.min.css?v=4.1.0" rel="stylesheet">
+		<link href="/static/ace/css/bootstrap.min1.css" rel="stylesheet"> 
+		<!-- text fonts -->
+		<link rel="stylesheet" href="/static/ace/css/ace-fonts.css" />
+		<!-- ace styles -->
+		<link rel="stylesheet" href="/static/ace/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" /> 
+		<link href="/static/ace/js/sweetalert/sweetalert.css" rel="stylesheet">        
+		<script type="text/javascript" src="/static/ace/js/jquery.js"></script>  
+		<script src="/static/ace/js/bootstrap.js"></script>
+		<script src="/static/js/util.js"></script>
+		<script src="/static/ace/js/sweetalert/sweetalert.min.js"></script>
+		
+		
+
+  </head>
+  
+    <body class="no-skin">
+<div class="main-container" id="main-container">
+		<!-- /section:basics/sidebar -->
+		<div class="main-content">
+			<div class="main-content-inner">
+				<div class="page-content">
+					<div class="row">
+						<div class="col-xs-12">
+						<form action="people/save.do" name="peopleForm" id="peopleForm" method="post">
+							
+							
+							<table id="table_report" class="table table-striped table-bordered table-hover"> 			
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										类型名称：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="dataTypeName" name="dataTypeName" onblur="vaild_dataTypeName();";  placeholder="输入类型名称" title="dataTypeName" style="width:98%;" />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										长度：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="dataLength" name="dataLength" onblur="vaild_dataLength();";  placeholder="输入长度" title="dataLength" style="width:98%;" />
+								 	</td>									
+								</tr>			 
+
+								<input type="hidden" name="id" id='id' > 	
+								<div id="zhongxin" style="padding-top: 13px;">
+								<tr>
+									<td class="center" colspan="2">
+										 <button  type='button' onclick='save();' class='btn btn-sm btn-info'><span class="glyphicon glyphicon-save"></span> 保存</button>
+											&nbsp;&nbsp;&nbsp;&nbsp;
+		  								  <button  type='button' onclick='closeWin();' class='btn btn-xs btn-danger'><span class="glyphicon glyphicon-remove"></span> 取消</button>
+	 
+									</td>
+								</tr>
+							</table>
+							</div>
+						 	</form>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.page-content -->
+			</div>
+		</div>
+		<!-- /.main-content -->
+	</div> 	                  
+</body>	
+ 
+<script type="text/javascript">
+		$(top.hangge());
+	 
+		//保存	
+	 function save(){
+		    if(vaild_all()){
+		     $.ajax({
+				type: "POST",
+				url: '/dataTypeInfo/save', 
+				contentType: 'application/json', // 这句不加出现415错误:Unsupported Media Type
+				data:JSON.stringify({   
+					  'dataTypeName':$("#dataTypeName").val(),
+					  'dataLength':$("#dataLength").val(),
+
+					  'id':$("#id").val()
+				  }),
+				dataType:'json',
+				cache: false,
+				success: function(data){ 
+					if(data && data!=""){ 
+						if("success" == data.result){
+						  parent.queryList(); 
+                          var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+      					  parent.layer.close(index);
+      					  parent.swal("保存成功！", "您已经成功新增了这条信息。", "success");
+						}
+						else if("err" == data.result){ 
+						   parent.swal("保存失败！", data.msg, "err");	
+						}						     
+				    } 
+				 }
+			   });
+		    }
+			　
+		}
+		
+	  /***
+	    验证字段dataTypeName是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_dataTypeName(){
+	     if($("#dataTypeName").val()==""){
+			$("#dataTypeName").tips({
+				side:3,
+	            msg:'类型名称为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#dataTypeName").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段dataLength是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_dataLength(){
+	     if($("#dataLength").val()==""){
+			$("#dataLength").tips({
+				side:3,
+	            msg:'长度为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#dataLength").focus();
+			return false;
+		}
+	  }
+
+     function vaild_all(){
+	     if($("#dataTypeName").val()==""){
+			$("#dataTypeName").tips({
+				side:3,
+	            msg:'类型名称为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#dataTypeName").focus();
+			return false;
+		}
+	     if($("#dataLength").val()==""){
+			$("#dataLength").tips({
+				side:3,
+	            msg:'长度为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#dataLength").focus();
+			return false;
+		}
+
+		 return true;
+	  }
+	  
+	$(function(){
+  		init();
+	});
+	function init(){ 
+		  　 $.ajax({
+				type: "GET",
+				url: '/dataTypeInfo/getEntityById/'+getParamer("id"), 
+				dataType:'json',
+				cache: false,
+				success: function(data){
+				  //  alert(data);
+					if(data && data!=""){  
+					  $("#dataTypeName").val(data.dataTypeName);
+					  $("#dataLength").val(data.dataLength);
+
+					  $("#id").val(data.id);				     
+				    } 
+				 }
+			   });
+		} 
+		
+		
+		
+		
+</SCRIPT>
+<!-- ace scripts --> 
+	<!-- inline scripts related to this page -->
+	<!-- 下拉框 -->
+	<script src="static/ace/js/chosen.jquery.js"></script>
+	<!-- 日期框 -->
+	<script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
+	<!--提示框-->
+	<script type="text/javascript" src="/static/js/jquery.tips.js"></script>
+  <script type="text/javascript">
+		$(top.hangge());
+</script>	 
+</html>

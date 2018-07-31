@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>realtimeDatastructure</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+        <link rel="stylesheet" href="/static/ace/css/font-awesome1.css" />  
+	    <link href="/static/ace/css/style.min.css?v=4.1.0" rel="stylesheet">
+		<link href="/static/ace/css/bootstrap.min1.css" rel="stylesheet"> 
+		<!-- text fonts -->
+		<link rel="stylesheet" href="/static/ace/css/ace-fonts.css" />
+		<!-- ace styles -->
+		<link rel="stylesheet" href="/static/ace/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" /> 
+		<link href="/static/ace/js/sweetalert/sweetalert.css" rel="stylesheet">        
+		<script type="text/javascript" src="/static/ace/js/jquery.js"></script>  
+		<script src="/static/ace/js/bootstrap.js"></script>
+		<script src="/static/js/util.js"></script>
+		<script src="/static/ace/js/sweetalert/sweetalert.min.js"></script>
+		
+		
+
+  </head>
+  
+    <body class="no-skin">
+<div class="main-container" id="main-container">
+		<!-- /section:basics/sidebar -->
+		<div class="main-content">
+			<div class="main-content-inner">
+				<div class="page-content">
+					<div class="row">
+						<div class="col-xs-12">
+						<form action="people/save.do" name="peopleForm" id="peopleForm" method="post">
+							
+							
+							<table id="table_report" class="table table-striped table-bordered table-hover"> 			
+							    <tr>								
+									<td style="width:110px;text-align: right;padding-top: 13px;">
+										型号文件类型：
+									</td>
+									<td class="controlcontent" >
+										<select class="chosen-select form-control"   name="datafileTypeId" id=datafileTypeId data-placeholder="请选择省份"   title="省份" style="width:98%;" >
+								  			<option  value=''>请选择</option> 
+										</select>
+ 								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:110px;text-align: right;padding-top: 13px;">
+										序号：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="order" name="order" onblur="vaild_order();";  placeholder="输入序号" title="order" style="width:98%;" />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:110px;text-align: right;padding-top: 13px;">
+										数据名称：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="dataName" name="dataName" onblur="vaild_dataName();";  placeholder="输入数据名称" title="dataName" style="width:98%;" />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:110px;text-align: right;padding-top: 13px;">
+										基本数据类型：
+									</td>
+									<td class="controlcontent" >
+										<select class="chosen-select form-control"  onchange="changeDataLength(this);"  name="dataType" id=dataType data-placeholder="请选择省份"    title="省份" style="width:98%;" >
+								  			<option  value=''>请选择</option> 
+										</select>
+ 								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:110px;text-align: right;padding-top: 13px;">
+										数据长度：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="dataLength" readonly name="dataLength" onblur="vaild_dataLength();";  placeholder="输入数据长度" title="dataLength" style="width:98%;" />
+								 	</td>									
+								</tr>			 
+							    	 
+
+								<input type="hidden" name="id" id='id' > 	
+ 								 
+							</table>
+							</div>
+						 	</form>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.page-content -->
+			</div>
+		</div>
+		<!-- /.main-content -->
+	</div> 	                  
+</body>	
+ 
+<script type="text/javascript">
+		$(top.hangge());
+	 
+		//保存	
+	 function save(){
+		    if(vaild_all()){
+		     $.ajax({
+				type: "POST",
+				url: '/realtimeDatastructure/save', 
+				contentType: 'application/json', // 这句不加出现415错误:Unsupported Media Type
+				data:JSON.stringify({   
+					  'datafileTypeId':$("#datafileTypeId").val(),
+					  'order':$("#order").val(),
+					  'dataName':$("#dataName").val(),
+					  'dataType':$("#dataType").val(),
+					  'dataLength':$("#dataLength").val(),
+					  'radarTypeId':$("#radarTypeId").val(),
+
+					  'id':$("#id").val()
+				  }),
+				dataType:'json',
+				cache: false,
+				success: function(data){ 
+					if(data && data!=""){ 
+						if("success" == data.result){
+						  parent.queryList(); 
+                          var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+      					  parent.layer.close(index);
+      					  parent.swal("保存成功！", "您已经成功新增了这条信息。", "success");
+						}
+						else if("err" == data.result){ 
+						   parent.swal("保存失败！", data.msg, "err");	
+						}						     
+				    } 
+				 }
+			   });
+		    }
+			　
+		}
+		
+	  /***
+	    验证字段datafileTypeId是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_datafileTypeId(){
+	     if($("#datafileTypeId").val()==""){
+			$("#datafileTypeId").tips({
+				side:3,
+	            msg:'雷达文件类型ID为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#datafileTypeId").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段order是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_order(){
+	     if($("#order").val()==""){
+			$("#order").tips({
+				side:3,
+	            msg:'序号为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#order").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段dataName是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_dataName(){
+	     if($("#dataName").val()==""){
+			$("#dataName").tips({
+				side:3,
+	            msg:'数据名称为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#dataName").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段dataType是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_dataType(){
+	     if($("#dataType").val()==""){
+			$("#dataType").tips({
+				side:3,
+	            msg:'基本数据类型ID为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#dataType").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段dataLength是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_dataLength(){
+	     if($("#dataLength").val()==""){
+			$("#dataLength").tips({
+				side:3,
+	            msg:'数据长度为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#dataLength").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段radarTypeId是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_radarTypeId(){
+	     if($("#radarTypeId").val()==""){
+			$("#radarTypeId").tips({
+				side:3,
+	            msg:'雷达类型ID为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#radarTypeId").focus();
+			return false;
+		}
+	  }
+
+     function vaild_all(){
+	     if($("#datafileTypeId").val()==""){
+			$("#datafileTypeId").tips({
+				side:3,
+	            msg:'雷达文件类型ID为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#datafileTypeId").focus();
+			return false;
+		}
+	     if($("#order").val()==""){
+			$("#order").tips({
+				side:3,
+	            msg:'序号为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#order").focus();
+			return false;
+		}
+	     if($("#dataName").val()==""){
+			$("#dataName").tips({
+				side:3,
+	            msg:'数据名称为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#dataName").focus();
+			return false;
+		}
+	     if($("#dataType").val()==""){
+			$("#dataType").tips({
+				side:3,
+	            msg:'基本数据类型ID为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#dataType").focus();
+			return false;
+		}
+	     if($("#dataLength").val()==""){
+			$("#dataLength").tips({
+				side:3,
+	            msg:'数据长度为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#dataLength").focus();
+			return false;
+		}
+	     if($("#radarTypeId").val()==""){
+			$("#radarTypeId").tips({
+				side:3,
+	            msg:'雷达类型ID为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#radarTypeId").focus();
+			return false;
+		}
+
+		 return true;
+	  }
+	  
+	$(function(){
+  		init();
+	});
+	function init(){ 
+		  　 $.ajax({
+				type: "GET",
+				url: '/realtimeDatastructure/getAll', 
+				dataType:'json',
+				cache: false,
+				success: function(data){
+				  //  alert(data);
+					if(data && data!=""){  
+				 	  $("#dataType").html("");
+				        $("#dataType").append('<option value="">请选择</option>');
+						$.each(data.dataTypeInfos,function(i,item){  	 
+						     //  alert(item.id);  
+						      	$("#dataType").append("<option  value='"+item.id+"'>"+item.dataTypeName+"</option>");	 
+					      　});      
+					      
+					   $("#datafileTypeId").html("");
+				        $("#datafileTypeId").append('<option value="">请选择</option>');
+						$.each(data.fileTypeInfos,function(i,item){  	 
+						     //  alert(item.id);  
+						      	$("#datafileTypeId").append("<option  value='"+item.id+"'>"+item.radarTypeInfo.radarTypeName+"-"+item.radarDatafileTypeInfo.datafileTypeName+"</option>");	 
+					      　});      		
+					      
+					 
+					  
+					   initVo();		     
+				    } 
+				 }
+			   });
+	} 
+	function initVo(){ 
+		  　 $.ajax({
+				type: "GET",
+				url: '/realtimeDatastructure/getEntityById/'+getParamer("id"), 
+				dataType:'json',
+				cache: false,
+				success: function(data){
+				  //  alert(data);
+					if(data && data!=""){  
+					  $("#datafileTypeId").val(data.datafileTypeId);
+					  $("#order").val(data.order);
+					  $("#dataName").val(data.dataName);
+					  $("#dataType").val(data.dataType);
+					  $("#dataLength").val(data.dataLength);
+					  $("#radarTypeId").val(data.radarTypeId);
+
+					  $("#id").val(data.id);				     
+				    } 
+				 }
+			   });
+		} 
+		
+		function changeDataLength(obj){
+			 $.ajax({
+				type: "GET",
+				url: '/dataTypeInfo/getEntityById/'+obj.value, 
+				dataType:'json',
+				cache: false,
+				success: function(data){
+				  //  alert(data);
+					if(data && data!=""){   
+					  $("#dataLength").val(data.dataLength);       
+				    } 
+				 }
+			   });
+		}
+		
+		
+		
+		
+</SCRIPT>
+<!-- ace scripts --> 
+	<!-- inline scripts related to this page -->
+	<!-- 下拉框 -->
+	<script src="static/ace/js/chosen.jquery.js"></script>
+	<!-- 日期框 -->
+	<script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
+	<!--提示框-->
+	<script type="text/javascript" src="/static/js/jquery.tips.js"></script>
+  <script type="text/javascript">
+		$(top.hangge());
+</script>	 
+</html>
