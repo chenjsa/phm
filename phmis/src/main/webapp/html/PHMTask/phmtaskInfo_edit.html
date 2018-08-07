@@ -777,8 +777,12 @@ td {text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 				         $("#radarId").append('<option value="">请选择</option>');
 					      $.each(data.radarDeviceInfos,function(i,item){  	 
 						     $("#radarId").append("<option  value='"+item.id+"'>"+item.radarName+"</option>");	 
-					              　});      
-						initVo();
+					              　});     
+					      var id=getParamer("id");
+							if(id!='-9999'){
+								initVo();
+							}
+					
 				}
 			}
 		});
@@ -860,6 +864,7 @@ td {text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 		});
 	}
 	function initVo() {
+		
 		$.ajax({
 			type : "GET",
 			url : '/phmtaskInfo/getEntityById/' + getParamer("id"),
@@ -1090,7 +1095,7 @@ function addAlgori() {
 	
 	
 		function showTable2(r) {
-		 		 
+			 $("#algoriData").html("");  
 			 $.each(r.rowArray,function(i,item){  	   
 			    $("#algoriDataTr_"+item.id).remove();  
 			    var html = "";
