@@ -14,9 +14,11 @@ import com.pms.base.common.BusinessException;
 import com.pms.base.util.Page;
 import com.pms.base.util.PageData;
 import com.pms.base.util.StrUtil;
+import com.pms.rcm.maintain.manager.SystemParametersInfoManager;
+import com.pms.rcm.maintain.vo.SystemParametersInfo;
 import com.pms.rcm.modellib.vo.AlgorithmsInfo;
 import com.pms.rcm.modellib.vo.AlgorithmsModelsInfo;
-import com.pms.rcm.modellib.vo.FunctionModelsInfo; 
+import com.pms.rcm.modellib.vo.FunctionModelsInfo;
 
 /**
  * Service object for domain model class AlgorithmsModelsInfo.
@@ -31,6 +33,7 @@ public class AlgorithmsModelsInfoManager extends BaseManager<AlgorithmsModelsInf
     private AlgorithmsInfoManager algorithmsInfoManager;
  	@Autowired
     private FunctionModelsInfoManager functionModelsInfoManager;
+ 	
    	/**
 	 * 
 	 * <li>方法名：get
@@ -240,9 +243,10 @@ public class AlgorithmsModelsInfoManager extends BaseManager<AlgorithmsModelsInf
 	 public Map getSelect() throws BusinessException {
 		 List<FunctionModelsInfo> functionModelsInfos=this.functionModelsInfoManager.findAll();
 		 List<AlgorithmsInfo> algorithmsInfos=this.algorithmsInfoManager.findAll();
+	
 		 Map map=new HashMap();
 		 map.put("functionModelsInfos", functionModelsInfos);
-		 map.put("algorithmsInfos", algorithmsInfos); 
+		 map.put("algorithmsInfos", algorithmsInfos);  
 		 return map;
  }
 	 
