@@ -1,5 +1,5 @@
 package com.pms.socket.client;
-
+ 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -21,7 +21,8 @@ public class SendMsgManager {
 		  Socket socket = null;  
           try {  
               //创建一个流套接字并将其连接到指定主机上的指定端口号  
-              socket = new Socket(serverIp, serverPort);    
+              socket = new Socket("192.168.3.15", 5678);    
+              HelpUtil util=new HelpUtil();
                   
               //读取服务器端数据    
               DataInputStream input = new DataInputStream(socket.getInputStream());    
@@ -48,5 +49,12 @@ public class SendMsgManager {
               }  
           }  
       }     
+	
+	
+	public static void main(String[] args)
+	{
+		SendMsgManager s=new SendMsgManager();
+		s.sendMsg("0x1234");
+	}
 
 }
