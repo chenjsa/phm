@@ -69,7 +69,7 @@
 									</td>
 									<td class="controlcontent" >
 									
-										 <input type="text" id="url" name="url"  readonly onblur="vaild_url();";  placeholder="输入url" title="url" style="width:98%;" />
+										 <input type="text" id="url" name="url"  readonly    placeholder="输入url" title="url" style="width:98%;" />
 								 		 <button onclick="uplpadFile()">上传附件</button>
 								 	</td>									
 								</tr>			 
@@ -104,22 +104,25 @@
 		//保存	
 	 function save(){
 		    if(vaild_all()){
+		    	 top.jzts();
+		     var data=JSON.stringify({   
+				  'aid':$("#aid").val(),
+				  'mid':$("#mid").val(),
+				  'version':$("#version").val(), 
+				  'url':$("#url").val(),
+
+				  'id':$("#id").val()
+			  }); 
 		     $.ajax({
 				type: "POST",
 				url: '/algorithmsModelsInfo/save', 
 				contentType: 'application/json', // 这句不加出现415错误:Unsupported Media Type
-				data:JSON.stringify({   
-					  'aid':$("#aid").val(),
-					  'mid':$("#mid").val(),
-					  'version':$("#version").val(), 
-					  'url':$("#url").val(),
-
-					  'id':$("#id").val()
-				  }),
+				data:data,
 				dataType:'json',
 				cache: false,
-				success: function(data){ 
+				success: function(data){  
 					if(data && data!=""){ 
+						$(top.hangge());
 						if("success" == data.result){
 						  parent.queryList(); 
                           var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
@@ -269,8 +272,7 @@
 	  
 	$(function(){
   		init();
-	});
-	var algorithmsModelsInfo=new Object();
+	}); 
 	function init(){ 
 	
 	 $.ajax({

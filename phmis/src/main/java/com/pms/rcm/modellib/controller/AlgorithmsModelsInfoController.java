@@ -187,7 +187,7 @@ public class AlgorithmsModelsInfoController  extends BaseController<AlgorithmsMo
 			inputStream = multipartFile.getInputStream();
 			FileUtils.copyInputStreamToFile(inputStream, destFile); 		
 			entity.setUrl(path+File.separator+fileName);
-			this.baseManager.insert(entity);
+			entity.setGenerateTime(new Date());
 
         } catch (Exception e) {
             e.printStackTrace();
