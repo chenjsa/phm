@@ -1,36 +1,44 @@
 package com.pms.rcm.modellib.controller;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.annotation.Resource;
-import net.sf.json.JSONArray; 
-import net.sf.json.JSONObject;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.servlet.ModelAndView;
-import com.pms.base.controller.BaseController;
-import com.pms.base.util.AppUtil;
-import com.pms.base.util.Page;
-import com.pms.base.util.PageData;
-import com.pms.rcm.modellib.vo.AlgorithmsModelsInfo;
-import com.pms.rcm.phmtask.vo.TaskRelevantData;
-import com.pms.rcm.modellib.manager.AlgorithmsModelsInfoManager;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+
+import java.io.File;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import com.pms.base.controller.BaseController;
+import com.pms.base.util.GUIDHexGenerator;
+import com.pms.base.util.Page; 
+import com.pms.rcm.maintain.manager.SystemParametersInfoManager;
+import com.pms.rcm.maintain.vo.SystemParametersInfo;
+import com.pms.rcm.modellib.manager.AlgorithmsModelsInfoManager;
+import com.pms.rcm.modellib.vo.AlgorithmsModelsInfo;
+import com.pms.rcm.sys.vo.Dept;
+import com.pms.rcm.sys.vo.User;
 /**
  * algorithms_models_info表AlgorithmsModelsInfo维护
  * 
@@ -45,7 +53,8 @@ import io.swagger.annotations.ApiParam;
 @Api("AlgorithmsModelsInfo操作controller")
 public class AlgorithmsModelsInfoController  extends BaseController<AlgorithmsModelsInfo, AlgorithmsModelsInfoManager> {
 	private static final long serialVersionUID = 413695704002L;  
-	 
+	@Autowired
+    private SystemParametersInfoManager systemParametersInfoManager;
 	@ApiOperation(value="获取algorithmsModelsInfo列表", notes="分页查询获取algorithmsModelsInfo列表信息",httpMethod = "GET") 
 	@ResponseBody
 	@RequestMapping(value="/list")
@@ -140,5 +149,51 @@ public class AlgorithmsModelsInfoController  extends BaseController<AlgorithmsMo
 	public List<AlgorithmsModelsInfo> getAllByPhmfunctionTypeId(@PathVariable("phmfunctionTypeId") String phmfunctionTypeId)throws Exception{		 
 		return this.baseManager.getAllByPhmfunctionTypeId(phmfunctionTypeId);	 					 
 	} 
+	
+	@ResponseBody
+    @RequestMapping(value = "/uploadFile" ,method = RequestMethod.POST)
+    public AlgorithmsModelsInfo uploadFile(HttpServletRequest request,HttpServletResponse response)
+            throws Exception {
+        request.setCharacterEncoding("UTF-8");
+
+        Map<String, Object> json = new HashMap<String, Object>();
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        
+        /** 页面控件的文件流* */
+        MultipartFile multipartFile = null;
+        Map map =multipartRequest.getFileMap();
+         for (Iterator i = map.keySet().iterator(); i.hasNext();) {
+                Object obj = i.next();
+                multipartFile=(MultipartFile) map.get(obj);
+
+               }
+        /** 获取文件的后缀* */
+        String filename = multipartFile.getOriginalFilename();
+
+        InputStream inputStream;
+        String path = "";
+        AlgorithmsModelsInfo entity=new AlgorithmsModelsInfo();
+        try {
+       	 	List<SystemParametersInfo> ss=(List<SystemParametersInfo>)this.systemParametersInfoManager.find("from SystemParametersInfo where systemParametersCode='uploadFile'");
+       	 	String uploadFile=ss.get(0).getParametersValues();
+            path=uploadFile;
+			File fileFloder = new File(path);
+			if(!fileFloder.exists()){
+				fileFloder.mkdirs();
+			}
+			String fileName = filename.substring(filename.lastIndexOf("\\") + 1);
+		   // String fileType = fileName.substring(fileName.lastIndexOf("."));
+			File destFile  = new File(path,filename);
+			inputStream = multipartFile.getInputStream();
+			FileUtils.copyInputStreamToFile(inputStream, destFile); 		
+			entity.setUrl(path+File.separator+fileName);
+			this.baseManager.insert(entity);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }       
+        return entity;
+    }
+	 
 	 
 }
