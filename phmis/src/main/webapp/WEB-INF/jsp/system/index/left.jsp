@@ -55,7 +55,7 @@
 				<c:forEach items="${menuList}" var="menu1">
 				<c:if test="${menu1.hasMenu && '1' == menu1.isUse}">
 					<li class=""  id="lm${menu1.id }">
-						<a style="cursor:pointer;" class="dropdown-toggle">
+						<a style="cursor:pointer;"  <c:if test="${not empty menu1.actionPath && '#' != menu1.actionPath}">target="mainFrame" onclick="siMenu('z${menu1.id }','lm${menu1.id }','${menu1.menuName }','${menu1.actionPath }')"</c:if>  class="dropdown-toggle">
 							<i class="${menu1.menuIcon == null ? 'menu-icon fa fa-leaf black' : menu1.menuIcon}"></i>
 							<span class="menu-text">
 								${menu1.menuName }
@@ -101,6 +101,28 @@
 														${menu4.menuName }
 													</a>
 													<b class="arrow"></b>
+													
+													<c:if test="${'[]' != menu4.subMenu}">
+														<ul class="submenu">
+															<c:forEach items="${menu4.subMenu}" var="menu5">
+															<c:if test="${menu5.hasMenu && '1' == menu5.isUse}">
+															<li class="" id="o${menu4.id }">
+																<c:if test="${'[]' != menu4.subMenu}">
+																<a style="cursor:pointer;" target="mainFrame" target="mainFrame" onclick="siMenu('o${menu5.id }','n${menu4.id }','${menu5.menuName }','menu/otherlistMenu.do?id=${menu4.id }')">
+																</c:if>
+																<c:if test="${'[]' == menu5.subMenu}">
+																<a style="cursor:pointer;" target="mainFrame" <c:if test="${not empty menu5.actionPath && '#' != menu5.actionPath}">target="mainFrame" onclick="siMenu('n${menu5.id }','m${menu4.id }','${menu5.menuName }','${menu5.actionPath }')"</c:if>>
+																</c:if>
+																	<i class="${menu5.menuIcon == null ? 'menu-icon fa fa-leaf black' : menu5.menuIcon}"></i>
+																	${menu5.menuName }
+																</a>
+																<b class="arrow"></b>
+															</li>
+															</c:if>
+															</c:forEach>
+														</ul>
+														</c:if>
+													
 												</li>
 												</c:if>
 												</c:forEach>

@@ -489,7 +489,7 @@ public class MenuManager extends BaseManager<Menu> {
 				List<Menu> subList=listUserAllMenu(menu.getId(),user);
 				menu.setSubMenu(subList);  
 				if(menu.getActionPath().indexOf("#")!=-1){
-					 
+					System.out.println(menu.getMenuName()+"--》url="+menu.getActionPath());
 				}else{
 					if(menu.getActionPath().indexOf("?")!=-1){ 
 						menu.setActionPath(menu.getActionPath()+"&menuId="+menu.getId());
