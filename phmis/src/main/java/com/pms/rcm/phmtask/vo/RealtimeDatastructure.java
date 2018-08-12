@@ -117,7 +117,34 @@ public class RealtimeDatastructure  implements java.io.Serializable {
 	} 
 	
 	
+	@Column(name="en_name")
+	private String enName; 
+	
+	@Column(name="ch_name")
+	private String chName; 
+	
+	@Column(name="Unit")
+	private String unit;
+	public String getEnName() {
+		return enName;
+	}
+	public void setEnName(String enName) {
+		this.enName = enName;
+	}
+	public String getChName() {
+		return chName;
+	}
+	public void setChName(String chName) {
+		this.chName = chName;
+	}
+	public String getUnit() {
+		return unit;
+	}
+	public void setUnit(String unit) {
+		this.unit = unit;
+	} 
 
+	
 	
 
   

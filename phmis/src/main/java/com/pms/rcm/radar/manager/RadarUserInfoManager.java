@@ -87,9 +87,7 @@ public class RadarUserInfoManager extends BaseManager<RadarUserInfo>{
 		StringBuffer sb = new StringBuffer();		
 		sb.append("from RadarUserInfo w where 1=1 ");   
 		 
-		if(StrUtil.isNotEmpty(entitySearch.getStationId())){
-			sb.append(" and w.stationId='" + entitySearch.getStationId() + "'");
-		}
+	 
 		if(StrUtil.isNotEmpty(entitySearch.getStationName())){
 			sb.append(" and w.stationName='" + entitySearch.getStationName() + "'");
 		}
@@ -122,6 +120,7 @@ public class RadarUserInfoManager extends BaseManager<RadarUserInfo>{
   	@Override
   	@Transactional(rollbackFor = { Exception.class })
 	public RadarUserInfo insert(RadarUserInfo entity) throws BusinessException {		
+  		checkUnique(entity);
 		entity =  super.insert(entity);
 		return entity;
 	}
@@ -200,7 +199,10 @@ public class RadarUserInfoManager extends BaseManager<RadarUserInfo>{
 	 */
 	@Override
 	public void checkUnique(RadarUserInfo entity) throws BusinessException {
-		
+		String hql="from RadarUserInfo where id='"+entity.getId()+"'";
+		if(this.baseDao.isExist(hql)){
+			throw new BusinessException("雷达编号["+entity.getId()+"]已存在！");
+		}
 	}
 	 
 

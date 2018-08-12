@@ -92,7 +92,8 @@ public class RadarUserInfoController  extends BaseController<RadarUserInfo, Rada
 		String errInfo = "success";
 		String msg="";
 	 	try{
-			if(isUpdate(entity) ){				
+	 		if(entity.getIsAdd().equals("update")){
+			///if(isUpdate(entity) ){				
 				entity = this.baseManager.update(entity); 
 				logger.info("站区信息修改:"+entity.toString());		
 			}

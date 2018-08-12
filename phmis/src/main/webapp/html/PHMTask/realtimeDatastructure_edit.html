@@ -35,7 +35,23 @@
 						<form action="people/save.do" name="peopleForm" id="peopleForm" method="post">
 							
 							
-							<table id="table_report" class="table table-striped table-bordered table-hover"> 			
+							<table id="table_report" class="table table-striped table-bordered table-hover"> 	
+							 <tr>								
+									<td style="width:110px;text-align: right;padding-top: 13px;">
+										英文名称：
+									</td>
+									<td class="controlcontent" >
+									 <input type="text" id="enName" name="enName"   style="width:98%;" />
+
+ 								 	</td>									
+								 							
+									<td style="width:110px;text-align: right;padding-top: 13px;">
+										中文名称：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="chName" name="chName" style="width:98%;" />
+								 	</td>									
+								</tr>			
 							    <tr>								
 									<td style="width:110px;text-align: right;padding-top: 13px;">
 										型号文件类型：
@@ -44,13 +60,20 @@
 										<select class="chosen-select form-control"   name="datafileTypeId" id=datafileTypeId data-placeholder="请选择省份"   title="省份" style="width:98%;" >
 								  			<option  value=''>请选择</option> 
 										</select>
+ 								 	</td>			
+ 								 	<td style="width:110px;text-align: right;padding-top: 13px;">
+										单位：
+									</td>
+									<td class="controlcontent" >
+										 <input type="text" id="unit" name="unit"   style="width:98%;" />
+
  								 	</td>									
 								</tr>			 
 							    <tr>								
 									<td style="width:110px;text-align: right;padding-top: 13px;">
 										序号：
 									</td>
-									<td class="controlcontent" >
+									<td  colspan=3 class="controlcontent" >
 										<input type="text" id="order" name="order" onblur="vaild_order();";  placeholder="输入序号" title="order" style="width:98%;" />
 								 	</td>									
 								</tr>			 
@@ -58,7 +81,7 @@
 									<td style="width:110px;text-align: right;padding-top: 13px;">
 										数据名称：
 									</td>
-									<td class="controlcontent" >
+									<td  colspan=3 class="controlcontent" >
 										<input type="text" id="dataName" name="dataName" onblur="vaild_dataName();";  placeholder="输入数据名称" title="dataName" style="width:98%;" />
 								 	</td>									
 								</tr>			 
@@ -66,7 +89,7 @@
 									<td style="width:110px;text-align: right;padding-top: 13px;">
 										基本数据类型：
 									</td>
-									<td class="controlcontent" >
+									<td colspan=3 class="controlcontent" >
 										<select class="chosen-select form-control"  onchange="changeDataLength(this);"  name="dataType" id=dataType data-placeholder="请选择省份"   title="省份" style="width:98%;" >
 								  			<option  value=''>请选择</option> 
 										</select>
@@ -76,7 +99,7 @@
 									<td style="width:110px;text-align: right;padding-top: 13px;">
 										数据长度：
 									</td>
-									<td class="controlcontent" >
+									<td colspan=3 class="controlcontent" >
 										<input type="text" id="dataLength" readonly name="dataLength" onblur="vaild_dataLength();";  placeholder="输入数据长度" title="dataLength" style="width:98%;" />
 								 	</td>									
 								</tr>			 
@@ -85,7 +108,7 @@
 								<input type="hidden" name="id" id='id' > 	
 								<div id="zhongxin" style="padding-top: 13px;">
 								<tr>
-									<td class="center" colspan="2">
+									<td class="center" colspan="4">
 										 <button  type='button' onclick='save();' class='btn btn-sm btn-info'><span class="glyphicon glyphicon-save"></span> 保存</button>
 											&nbsp;&nbsp;&nbsp;&nbsp;
 		  								  <button  type='button' onclick='closeWin();' class='btn btn-xs btn-danger'><span class="glyphicon glyphicon-remove"></span> 取消</button>
@@ -122,6 +145,9 @@
 					  'order':$("#order").val(),
 					  'dataName':$("#dataName").val(),
 					  'dataType':$("#dataType").val(),
+					  'enName':$("#enName").val(),
+					  'chName':$("#chName").val(),
+					  'unit':$("#unit").val(),
 					  'dataLength':$("#dataLength").val(),
 					  'radarTypeId':$("#radarTypeId").val(),
 
@@ -351,6 +377,9 @@
 					  $("#dataType").val(data.dataType);
 					  $("#dataLength").val(data.dataLength);
 					  $("#radarTypeId").val(data.radarTypeId);
+					  $("#chName").val(data.chName);
+					  $("#enName").val(data.enName);
+					  $("#unit").val(data.unit);
 
 					  $("#id").val(data.id);				     
 				    } 

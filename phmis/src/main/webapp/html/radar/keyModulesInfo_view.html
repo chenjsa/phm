@@ -13,10 +13,17 @@
 		<!-- text fonts -->
 		<link rel="stylesheet" href="/static/ace/css/ace-fonts.css" />
 		<!-- ace styles -->
-		<link rel="stylesheet" href="/static/ace/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />   
+		<link rel="stylesheet" href="/static/ace/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" /> 
+		<link href="/static/ace/js/sweetalert/sweetalert.css" rel="stylesheet">        
 		<script type="text/javascript" src="/static/ace/js/jquery.js"></script>  
 		<script src="/static/ace/js/bootstrap.js"></script>
 		<script src="/static/js/util.js"></script>
+		<script src="/static/ace/js/sweetalert/sweetalert.min.js"></script>
+		<script src="/static/ace/js/bootstrap-datetimepicker.js"></script>
+		<script src="/static/ace/js/bootstrap-datetimepicker.zh-CN.js"></script>
+		<link rel="stylesheet" href="/static/ace/css/bootstrap-datetimepicker.min.css" class="ace-main-stylesheet" id="main-ace-style" /> 
+		
+		
 
   </head>
   
@@ -29,75 +36,85 @@
 					<div class="row">
 						<div class="col-xs-12">
 						<form action="people/save.do" name="peopleForm" id="peopleForm" method="post">
-						
-							<div id="zhongxin" style="padding-top: 13px;">
-							<table id="table_report" class="table table-striped table-bordered table-hover"> 			
+							
+							
+							<table id="table_report" class="table table-striped table-bordered table-hover"> 	
+							 <tr>								
+									<td style="width:130px;text-align: right;padding-top: 13px;">
+										PHM子系统编号：
+									</td>
+									<td class="controlcontent" colspan=3>
+										<input type="text" id="phmsubsId" name="phmsubsId" readonly onblur="vaild_phmsubsId();";  placeholder="输入PHM子系统" title="phmsubsId" style="width:98%;" />
+								 	</td>									
+								</tr>			
 							    <tr>								
-									<td style="width:89px;text-align: right;padding-top: 13px;">
-										所属子系统：
+									<td style="width:110px;text-align: right;padding-top: 13px;">
+										分机信息：
 									</td>
 									<td class="controlcontent" >
-										<input type="text" id="extensionId" name="extensionId"  placeholder="输入所属子系统" title="extensionId" style="width:98%;"  />
-								 	</td>									
-								</tr>			 
-							    <tr>								
-									<td style="width:89px;text-align: right;padding-top: 13px;">
+										<select class="chosen-select form-control"   name="extensionId" id=extensionId data-placeholder="请选择省份" style="vertical-align:top;"  title="省份" style="width:98%;" >
+								  			<option  value=''>请选择</option> 
+										</select>
+ 								 	</td>									
+								 							
+									<td style="width:110px;text-align: right;padding-top: 13px;">
 										关重件型号：
 									</td>
 									<td class="controlcontent" >
-										<input type="text" id="moduleNumberCode" name="moduleNumberCode"  placeholder="输入关重件型号" title="moduleNumberCode" style="width:98%;"  />
-								 	</td>									
+										<select class="chosen-select form-control"  onblur="vaild_moduleNumberCode();" name="moduleNumberCode" id=moduleNumberCode data-placeholder="请选择省份" style="vertical-align:top;"  title="省份" style="width:98%;" >
+								  			<option  value=''>请选择</option> 
+										</select>
+ 								 	</td>									
 								</tr>			 
 							    <tr>								
-									<td style="width:89px;text-align: right;padding-top: 13px;">
+									<td style="width:110px;text-align: right;padding-top: 13px;">
 										关重件名称：
 									</td>
 									<td class="controlcontent" >
-										<input type="text" id="keyModulesName" name="keyModulesName"  placeholder="输入关重件名称" title="keyModulesName" style="width:98%;"  />
+										<input type="text" id="keyModulesName" name="keyModulesName" onblur="vaild_keyModulesName();";  placeholder="输入关重件名称" title="keyModulesName" style="width:98%;" />
 								 	</td>									
-								</tr>			 
-							    <tr>								
-									<td style="width:89px;text-align: right;padding-top: 13px;">
+								 							
+									<td style="width:110px;text-align: right;padding-top: 13px;">
 										设备用途：
 									</td>
 									<td class="controlcontent" >
-										<input type="text" id="moduleFunction" name="moduleFunction"  placeholder="输入设备用途" title="moduleFunction" style="width:98%;"  />
+										<input type="text" id="moduleFunction" name="moduleFunction" onblur="vaild_moduleFunction();";  placeholder="输入设备用途" title="moduleFunction" style="width:98%;" />
 								 	</td>									
 								</tr>			 
 							    <tr>								
-									<td style="width:89px;text-align: right;padding-top: 13px;">
+									<td style="width:110px;text-align: right;padding-top: 13px;">
 										使用时间：
 									</td>
 									<td class="controlcontent" >
-										<input type="text" id="beginTime" name="beginTime"  placeholder="输入使用时间" title="beginTime" style="width:98%;"  />
-								 	</td>									
-								</tr>			 
-							    <tr>								
-									<td style="width:89px;text-align: right;padding-top: 13px;">
-										其它：
-									</td>
-									<td class="controlcontent" >
-										<input type="text" id="other" name="other"  placeholder="输入其它" title="other" style="width:98%;"  />
-								 	</td>									
-								</tr>			 
-							    <tr>								
-									<td style="width:89px;text-align: right;padding-top: 13px;">
+									<div style="width:98%;" id='beginTimeD' class="input-group date form_date col-md-5" data-date="" data-date-format="" data-link-field="dtp_input1" data-link-format="yyyy-mm-dd">
+								            <input style="width:98%;"   id="beginTime" placeholder="使用时间"  name="beginTime" class="form-control" size="16" type="text" value="" readonly>
+								            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+								     </div> 
+ 								 	</td>									
+								 							
+									<td style="width:110px;text-align: right;padding-top: 13px;">
 										器件属性：
 									</td>
 									<td class="controlcontent" >
-										<input type="text" id="componentId" name="componentId"  placeholder="输入器件属性" title="componentId" style="width:98%;"  />
-								 	</td>									
+										<select class="chosen-select form-control"  onblur="vaild_componentId();" name="componentId" id=componentId data-placeholder="请选择省份" style="vertical-align:top;"  title="省份" style="width:98%;" >
+								  			<option  value=''>请选择</option> 
+										</select>
+ 								 	</td>									
 								</tr>			 
-							    <tr>								
-									<td style="width:89px;text-align: right;padding-top: 13px;">
-										PHM子系统：
+							   
+								<tr>								
+									<td style="width:110px;text-align: right;padding-top: 13px;">
+										其它：
 									</td>
-									<td class="controlcontent" >
-										<input type="text" id="phmsubsId" name="phmsubsId"  placeholder="输入PHM子系统" title="phmsubsId" style="width:98%;"  />
-								 	</td>									
-								</tr>			 
+									<td class="controlcontent" colspan=3>
+								   <textarea rows="5" cols="46" maxlength="255" name="other" id="other" placeholder="这里输入描述" title="描述"  style="width:100%;"></textarea>
+									
+ 								 	</td>									
+								</tr>				 
 
-								 	<input type="hidden" name="id" id='id' > 
+								<input type="hidden" name="id" id='id' > 	
+								<div id="zhongxin" style="padding-top: 13px;">
+								 
 							</table>
 							</div>
 						 	</form>
@@ -114,11 +131,298 @@
 </body>	
  
 <script type="text/javascript">
-		$(top.hangge());	  
-		$(function(){
+		$(top.hangge());
+	 
+		//保存	
+	 function save(){
+		    if(vaild_all()){
+		     $.ajax({
+				type: "POST",
+				url: '/keyModulesInfo/save', 
+				contentType: 'application/json', // 这句不加出现415错误:Unsupported Media Type
+				data:JSON.stringify({   
+					  'extensionId':$("#extensionId").val(),
+					  'moduleNumberCode':$("#moduleNumberCode").val(),
+					  'keyModulesName':$("#keyModulesName").val(),
+					  'moduleFunction':$("#moduleFunction").val(),
+					  'beginTime':$("#beginTime").val(),
+					  'other':$("#other").val(),
+					  'componentId':$("#componentId").val(),
+					  'phmsubsId':$("#phmsubsId").val(),
+
+					  'id':$("#id").val()
+				  }),
+				dataType:'json',
+				cache: false,
+				success: function(data){ 
+					if(data && data!=""){ 
+						if("success" == data.result){
+						  parent.queryList(); 
+                          var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+      					  parent.layer.close(index);
+      					  parent.swal("保存成功！", "您已经成功新增了这条信息。", "success");
+						}
+						else if("err" == data.result){ 
+						   swal("保存失败！", data.msg, "error");	
+						}						     
+				    } 
+				 }
+			   });
+		    }
+			　
+		}
+		
+	  /***
+	    验证字段extensionId是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_extensionId(){
+	     if($("#extensionId").val()==""){
+			$("#extensionId").tips({
+				side:3,
+	            msg:'所属子系统为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#extensionId").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段moduleNumberCode是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_moduleNumberCode(){
+	     if($("#moduleNumberCode").val()==""){
+			$("#moduleNumberCode").tips({
+				side:3,
+	            msg:'关重件型号为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#moduleNumberCode").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段keyModulesName是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_keyModulesName(){
+	     if($("#keyModulesName").val()==""){
+			$("#keyModulesName").tips({
+				side:3,
+	            msg:'关重件名称为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#keyModulesName").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段moduleFunction是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_moduleFunction(){
+	     if($("#moduleFunction").val()==""){
+			$("#moduleFunction").tips({
+				side:3,
+	            msg:'设备用途为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#moduleFunction").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段beginTime是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_beginTime(){
+	     if($("#beginTime").val()==""){
+			$("#beginTime").tips({
+				side:3,
+	            msg:'使用时间为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#beginTime").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段other是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_other(){
+	     if($("#other").val()==""){
+			$("#other").tips({
+				side:3,
+	            msg:'其它为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#other").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段componentId是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_componentId(){
+	     if($("#componentId").val()==""){
+			$("#componentId").tips({
+				side:3,
+	            msg:'器件属性为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#componentId").focus();
+			return false;
+		}
+	  }
+	  /***
+	    验证字段phmsubsId是否为空或别的验证逻辑都写在这里
+	  ***/	
+	  function vaild_phmsubsId(){
+	     if($("#phmsubsId").val()==""){
+			$("#phmsubsId").tips({
+				side:3,
+	            msg:'PHM子系统为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#phmsubsId").focus();
+			return false;
+		}
+	  }
+
+     function vaild_all(){
+	    /*  if($("#extensionId").val()==""){
+			$("#extensionId").tips({
+				side:3,
+	            msg:'所属子系统为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#extensionId").focus();
+			return false;
+		} */
+	     if($("#moduleNumberCode").val()==""){
+			$("#moduleNumberCode").tips({
+				side:3,
+	            msg:'关重件型号为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#moduleNumberCode").focus();
+			return false;
+		}
+	     if($("#keyModulesName").val()==""){
+			$("#keyModulesName").tips({
+				side:3,
+	            msg:'关重件名称为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#keyModulesName").focus();
+			return false;
+		}
+	     if($("#moduleFunction").val()==""){
+			$("#moduleFunction").tips({
+				side:3,
+	            msg:'设备用途为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#moduleFunction").focus();
+			return false;
+		}
+	     if($("#beginTime").val()==""){
+			$("#beginTime").tips({
+				side:3,
+	            msg:'使用时间为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#beginTime").focus();
+			return false;
+		}
+	     if($("#other").val()==""){
+			$("#other").tips({
+				side:3,
+	            msg:'其它为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#other").focus();
+			return false;
+		}
+	     if($("#componentId").val()==""){
+			$("#componentId").tips({
+				side:3,
+	            msg:'器件属性为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#componentId").focus();
+			return false;
+		}
+	     if($("#phmsubsId").val()==""){
+			$("#phmsubsId").tips({
+				side:3,
+	            msg:'PHM子系统为必填项',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#phmsubsId").focus();
+			return false;
+		}
+
+		 return true;
+	  }
+	  
+	$(function(){
   		init();
 	});
+	var phmsubsId=getParamer("phmsubsId");
+    $("#phmsubsId").val(phmsubsId);
 	function init(){ 
+		  	
+		  　 $.ajax({
+				type: "GET",
+				url: '/keyModulesInfo/getAll/'+phmsubsId, 
+				dataType:'json',
+				cache: false,
+				success: function(data){
+				  //  alert(data);
+					if(data && data!=""){  
+					    $("#extensionId").html("");
+				        $("#extensionId").append('<option value="">请选择</option>');
+						$.each(data.extensionInfos,function(i,item){  	 
+						     //  alert(item.id);  
+						      	$("#extensionId").append("<option  value='"+item.id+"'>"+item.extensionName+"</option>");	 
+					      　});      
+					      
+					    $("#moduleNumberCode").html("");
+				        $("#moduleNumberCode").append('<option value="">请选择</option>');
+						$.each(data.moduleNumberInfos,function(i,item){  	 
+						     //  alert(item.id);  
+						      	$("#moduleNumberCode").append("<option  value='"+item.id+"'>"+item.modelName+"</option>");	 
+					      　});      
+					      
+					   $("#componentId").html("");
+				        $("#componentId").append('<option value="">请选择</option>');
+						$.each(data.componentAttributeses,function(i,item){  	 
+						     //  alert(item.id);  
+						      	$("#componentId").append("<option  value='"+item.id+"'>"+item.componentName+"</option>");	 
+					      　});      
+					   
+					  
+					  initVo();			     
+				    } 
+				 }
+			   });
+		} 
+		
+	function initVo(){
+		
 		  　 $.ajax({
 				type: "GET",
 				url: '/keyModulesInfo/getEntityById/'+getParamer("id"), 
@@ -126,21 +430,39 @@
 				cache: false,
 				success: function(data){
 				  //  alert(data);
-					if(data && data!=""){ 
-						 $("#extensionId").val(data.extensionId);
-						 $("#moduleNumberCode").val(data.moduleNumberCode);
-						 $("#keyModulesName").val(data.keyModulesName);
-						 $("#moduleFunction").val(data.moduleFunction);
-						 $("#beginTime").val(data.beginTime);
-						 $("#other").val(data.other);
-						 $("#componentId").val(data.componentId);
-						 $("#phmsubsId").val(data.phmsubsId);
+					if(data && data!=""){  
+					  $("#extensionId").val(data.extensionId);
+					  $("#moduleNumberCode").val(data.moduleNumberCode);
+					  $("#keyModulesName").val(data.keyModulesName);
+					  $("#moduleFunction").val(data.moduleFunction);
+					  $("#beginTime").val(data.beginTimeStr);
+					  $("#other").val(data.other);
+					  $("#componentId").val(data.componentId);
+					  $("#phmsubsId").val(data.phmsubsId);
 
-						 $("#id").val(data.id);						     
+					  $("#id").val(data.id);				     
 				    } 
 				 }
 			   });
-		} 
-	 
+	}	
+		 $('#beginTimeD').datetimepicker({  
+		    format: 'yyyy-mm-dd',
+	        minView:'month',
+	        language: 'zh-CN',
+	        autoclose:true,
+	        weekStart:1 
+		 });
+		
 </SCRIPT>
+<!-- ace scripts --> 
+	<!-- inline scripts related to this page -->
+	<!-- 下拉框 -->
+	<script src="static/ace/js/chosen.jquery.js"></script>
+	<!-- 日期框 -->
+	<script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
+	<!--提示框-->
+	<script type="text/javascript" src="/static/js/jquery.tips.js"></script>
+  <script type="text/javascript">
+		$(top.hangge());
+</script>	 
 </html>

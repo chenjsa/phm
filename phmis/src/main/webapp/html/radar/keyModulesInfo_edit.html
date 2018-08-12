@@ -52,7 +52,7 @@
 										分机信息：
 									</td>
 									<td class="controlcontent" >
-										<select class="chosen-select form-control"  onblur="vaild_extensionId();" name="extensionId" id=extensionId data-placeholder="请选择省份" style="vertical-align:top;"  title="省份" style="width:98%;" >
+										<select class="chosen-select form-control"   name="extensionId" id=extensionId data-placeholder="请选择省份" style="vertical-align:top;"  title="省份" style="width:98%;" >
 								  			<option  value=''>请选择</option> 
 										</select>
  								 	</td>									
@@ -170,7 +170,7 @@
       					  parent.swal("保存成功！", "您已经成功新增了这条信息。", "success");
 						}
 						else if("err" == data.result){ 
-						   parent.swal("保存失败！", data.msg, "err");	
+						   swal("保存失败！", data.msg, "error");	
 						}						     
 				    } 
 				 }
@@ -301,7 +301,7 @@
 	  }
 
      function vaild_all(){
-	     if($("#extensionId").val()==""){
+	    /*  if($("#extensionId").val()==""){
 			$("#extensionId").tips({
 				side:3,
 	            msg:'所属子系统为必填项',
@@ -310,7 +310,7 @@
 	        });
 			$("#extensionId").focus();
 			return false;
-		}
+		} */
 	     if($("#moduleNumberCode").val()==""){
 			$("#moduleNumberCode").tips({
 				side:3,

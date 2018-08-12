@@ -28,10 +28,8 @@ public class RadarUserInfo  implements java.io.Serializable {
     public RadarUserInfo() { 
     } 
    
-    @Id
-	@GeneratedValue(generator="system-uuid")
-	@GenericGenerator(name = "system-uuid",strategy="uuid") 
-	@Column(name="id")
+    @Id 
+    @Column(name = "id")
 	private String id; 
 	public String getId() {
 		return this.id;
@@ -39,14 +37,7 @@ public class RadarUserInfo  implements java.io.Serializable {
 	public void setId(String id) {
 		this.id = id;
 	}
-	@Column(name="Station_code")
-	private String stationId; 
-	public String getStationId() {
-		return this.stationId;
-	} 
-	public void setStationId(String stationId) {
-		this.stationId = stationId;
-	}
+	 
 	@Column(name="Station_name")
 	private String stationName; 
 	public String getStationName() {
@@ -109,6 +100,25 @@ public class RadarUserInfo  implements java.io.Serializable {
 	public void setOther(String other) {
 		this.other = other;
 	}
+	@Column(name="longitude")
+	private String longitude;
+	@Column(name="latitude")
+	private String latitude;
+	
+	
+
+	public String getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+	public String getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
 
 	// 多对一：optional=false表示外键type_id不能为空 
     @ManyToOne(optional = true)
@@ -121,13 +131,21 @@ public class RadarUserInfo  implements java.io.Serializable {
 		this.provinceInfo = provinceInfo;
 	} 
 	
-    
+    @Transient
+	private String isAdd;
+	public String getIsAdd() {
+		return isAdd;
+	}
+	public void setIsAdd(String isAdd) {
+		this.isAdd = isAdd;
+	}
 	
 
   
 
 
 
+	
 
 
 }

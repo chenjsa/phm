@@ -1,14 +1,16 @@
 package com.pms.socket.client;
  
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-
-import java_cup.runtime.Scanner;
+import java.util.Base64;
 
 //程序清单：codes\17\17.4\UdpClient.java
 
@@ -28,15 +30,52 @@ public class UdpClient
   private DatagramPacket outPacket = null;   
   private byte[] buf = new byte[6]; 
   PacketMsg pkt = new PacketMsg(buf);
+  private byte[] ObjectToByte(Object obj) {  
+      byte[] bytes = null;  
+      try {  
+          // object to bytearray  
+          ByteArrayOutputStream bo = new ByteArrayOutputStream();  
+          ObjectOutputStream oo = new ObjectOutputStream(bo);  
+          oo.writeObject(obj);  
+    
+          bytes = bo.toByteArray();  
+          System.out.println("bytes" + bytes);  
+          bo.close();  
+          oo.close();  
+      } catch (Exception e) {  
+          System.out.println("translation" + e.getMessage());  
+          e.printStackTrace();  
+      }  
+      return bytes;  
+  } 
+  
+  private Object ByteToObject(byte[] bytes) {
+      Object obj = null;
+      try {
+          // bytearray to object
+          ByteArrayInputStream bi = new ByteArrayInputStream(bytes);
+          ObjectInputStream oi = new ObjectInputStream(bi);
+
+          obj = oi.readObject();
+          bi.close();
+          oi.close();
+      } catch (Exception e) {
+          System.out.println("translation" + e.getMessage());
+          e.printStackTrace();
+      }
+      return obj;
+  }
+  
   public void init()throws IOException  
   {  
       try  
       {  
     	  pkt.seq = (short) (pkt.seq+1);
-    	  pkt.cmd = (byte)(1);
-    	  pkt.code= (byte)(3);    	  
-    	  pkt.len =6;
-    	  pkt.data="zhoubao".getBytes();
+    	  pkt.cmd = (byte)(3);
+    	  pkt.code= (byte)(4);    	      	
+    	  pkt.data=ObjectToByte((byte)2);
+    	
+    	  pkt.len =(short) (pkt.data.length);
     		//according to the snPkt, create the sending byte stream
   		ByteArrayOutputStream baos = new ByteArrayOutputStream();
   		DataOutputStream dos = new DataOutputStream(baos);
@@ -46,6 +85,7 @@ public class UdpClient
   			dos.writeByte(pkt.code);
   			dos.writeShort(pkt.seq); 
   			dos.writeShort(pkt.len);  
+  			dos.write(pkt.data);
   		}catch (IOException e){
   			e.printStackTrace();
   		}
@@ -55,8 +95,7 @@ public class UdpClient
 			e.printStackTrace();
 		}
 */
-  		pkt.message = baos.toByteArray();
-  		System.out.println(pkt.message);
+  		pkt.message = baos.toByteArray();  
 		//System.arraycopy(pkt.data, 0, pkt.message, 6, pkt.len-6);
     	  // 创建一个客户端DatagramSocket，使用随机端口  
           DatagramSocket socket = new DatagramSocket();
