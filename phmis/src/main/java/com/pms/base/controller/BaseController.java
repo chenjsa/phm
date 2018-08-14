@@ -7,7 +7,9 @@ import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -25,6 +27,7 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -44,6 +47,7 @@ import com.pms.rcm.sys.vo.Dept;
 import com.pms.rcm.sys.vo.SysButton;
 import com.pms.rcm.sys.vo.User;
 
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import net.sf.json.JSONArray; 
  
@@ -264,6 +268,18 @@ public abstract class BaseController <T,M extends BaseManager<T>>{
 				return getExceptionAll(next);
 			} 
 		}
-
+	@ResponseBody 
+    @RequestMapping(value="/checkIdValidMethod",method=RequestMethod.POST)
+	public Map<String, Boolean> checkIdValidMethod(@RequestParam String id)throws Exception{		
+		 boolean result = true;
+		 this.entity=this.baseManager.get(id); 	
+		 Map<String, Boolean> map = new HashMap<String, Boolean>();	      
+		 if(this.entity==null){
+			  map.put("valid", result);
+		 }else{
+			 map.put("valid", false);
+		 }
+		 return map;
+	}
 	 
 }

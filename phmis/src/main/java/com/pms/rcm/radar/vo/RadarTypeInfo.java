@@ -28,9 +28,7 @@ public class RadarTypeInfo  implements java.io.Serializable {
     public RadarTypeInfo() { 
     } 
    
-    @Id
- 	@GeneratedValue(generator="system-uuid")
- 	@GenericGenerator(name = "system-uuid",strategy="uuid") 
+    @Id 
  	@Column(name="id")
 	private String id; 
 	public String getId() {

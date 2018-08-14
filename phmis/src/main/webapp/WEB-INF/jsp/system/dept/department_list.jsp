@@ -74,10 +74,10 @@
 											<td class='center'>${var.deptNo}</td>
 											<td class='center'>${var.text}</td>
 											<td class="center">
-												<c:if test="${var.parentId=='0'}">
+												<c:if test="${var.parentId=='01s'}">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
 												</c:if>
-												<c:if test="${var.parentId!='0'}">
+												<c:if test="${var.parentId!='01s'}">
 												<div class="hidden-sm hidden-xs btn-group"> 
 													<a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.id}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
@@ -87,7 +87,7 @@
 													</a> 
 												</div>
 												</c:if>
-												<c:if test="${var.parentId!='0'}">
+												<c:if test="${var.parentId!='01s'}">
 												<div class="hidden-md hidden-lg">
 													<div class="inline pos-rel">
 													  

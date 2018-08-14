@@ -75,7 +75,7 @@ public class UdpClient
     	  pkt.code= (byte)(4);    	      	
     	  pkt.data=ObjectToByte((byte)2);
     	
-    	  pkt.len =(short) (pkt.data.length);
+    	  pkt.len =1;///(short) (pkt.data.length);///1 ///长度都是1，
     		//according to the snPkt, create the sending byte stream
   		ByteArrayOutputStream baos = new ByteArrayOutputStream();
   		DataOutputStream dos = new DataOutputStream(baos);
@@ -85,7 +85,7 @@ public class UdpClient
   			dos.writeByte(pkt.code);
   			dos.writeShort(pkt.seq); 
   			dos.writeShort(pkt.len);  
-  			dos.write(pkt.data);
+  			dos.writeByte(2);///功能任务信息	02-》2	智能库的功能任务改变
   		}catch (IOException e){
   			e.printStackTrace();
   		}
@@ -100,7 +100,7 @@ public class UdpClient
     	  // 创建一个客户端DatagramSocket，使用随机端口  
           DatagramSocket socket = new DatagramSocket();
           // 初始化发送用的DatagramSocket，它包含一个长度为0的字节数组  
-          outPacket = new DatagramPacket(pkt.message, pkt.len 
+          outPacket = new DatagramPacket(pkt.message, pkt.len+6 
               , InetAddress.getByName(DEST_IP) , DEST_PORT);  
 		 
               // 发送数据报  

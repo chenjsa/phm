@@ -46,8 +46,7 @@
 							  	<input type="hidden" name="id" value="${entity.id}"> 
 								<input type="hidden" name="isUse" value="1">								
 								<input type="hidden" name="menuIds"   id="menuIds" value="${entity.menuIds}">								
-								<input type="hidden" name="moduleFunIds" value="${entity.moduleFunIds}">
-							    <input type="hidden" name="roleCode" value="${entity.roleCode}">
+								<input type="hidden" name="moduleFunIds" value="${entity.moduleFunIds}"> 
 							<div id="zhongxin" style="padding-top: 13px;">
 							<table id="table_report" class="table table-striped table-bordered table-hover"> 
 							 

@@ -53,6 +53,8 @@ public class DeptController extends BaseController<Dept,DeptManager> {
 	@RequestMapping(value="/save")
 	public ModelAndView save(Dept dept) throws Exception{		 
 		if(isUpdate(dept) ){
+			if(dept.getParentId()==null)
+				dept.setParentId("0");
 		    this.deptManager.update(dept); 
 		}else{
 			this.deptManager.insert(dept);   

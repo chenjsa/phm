@@ -25,8 +25,7 @@ public class ModuleNumberInfo  implements java.io.Serializable {
     public ModuleNumberInfo() { 
     } 
    
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Id 
   	@Column(name="Module_number_code")
 
 	private String id; 

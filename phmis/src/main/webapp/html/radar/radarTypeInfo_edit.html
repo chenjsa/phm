@@ -19,6 +19,8 @@
 		<script src="/static/ace/js/bootstrap.js"></script>
 		<script src="/static/js/util.js"></script>
 		<script src="/static/ace/js/sweetalert/sweetalert.min.js"></script>
+		<link rel="stylesheet" href="/static/ace/bootstrapvalidator-master/dist/css/bootstrapValidator.css" />
+	<script type="text/javascript" src="/static/ace/bootstrapvalidator-master/dist/js/bootstrapValidator.js"></script>
 		
 		
 
@@ -32,16 +34,24 @@
 				<div class="page-content">
 					<div class="row">
 						<div class="col-xs-12">
-						<form action="people/save.do" name="peopleForm" id="peopleForm" method="post">
+							<form id="defaultForm" method="post" class="form-horizontal">
 							
 							
-							<table id="table_report" class="table table-striped table-bordered table-hover"> 			
+							<table id="table_report" class="table table-striped table-bordered table-hover"> 
+							 <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										编号：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="id" name="id"  title="radarType Name" style="width:98%;" />
+								 	</td>									
+								</tr>					
 							    <tr>								
 									<td style="width:89px;text-align: right;padding-top: 13px;">
 										名称：
 									</td>
 									<td class="controlcontent" >
-										<input type="text" id="radarTypeName" name="radarTypeName" onblur="vaild_radarTypeName();";  placeholder="输入radarType Name" title="radarType Name" style="width:98%;" />
+										<input type="text" id="radarTypeName" name="radarTypeName"  title="radarType Name" style="width:98%;" />
 								 	</td>									
 								</tr>			 
 							    <tr>								
@@ -49,7 +59,7 @@
 										说明：
 									</td>
 									<td class="controlcontent" >
-										<input type="text" id="radarTypeDescription" name="radarTypeDescription" onblur="vaild_radarTypeDescription();";  placeholder="输入radarTypeDescription" title="radarTypeDescription" style="width:98%;" />
+										<input type="text" id="radarTypeDescription" name="radarTypeDescription"    title="radarTypeDescription" style="width:98%;" />
 								 	</td>									
 								</tr>			 
 							    <tr>								
@@ -57,17 +67,16 @@
 										服务类型：
 									</td>
 									<td class="controlcontent" >
-									<select class="chosen-select form-control"  onblur="vaild_radarServiceTypeId();"; name="radarServiceTypeId" id=radarServiceTypeId data-placeholder="请选择省份" style="vertical-align:top;"  title="省份" style="width:98%;" >
+									<select class="chosen-select form-control"   name="radarServiceTypeId" id=radarServiceTypeId data-placeholder="请选择省份" style="vertical-align:top;"  title="省份" style="width:98%;" >
 								  			<option  value=''>请选择</option> 
 										</select>
 								 	 	</td>									
 								</tr>			 
-
-								<input type="hidden" name="id" id='id' > 	
+ 
 								<div id="zhongxin" style="padding-top: 13px;">
 								<tr>
 									<td class="center" colspan="2">
-										 <button  type='button' onclick='save();' class='btn btn-sm btn-info'><span class="glyphicon glyphicon-save"></span> 保存</button>
+										 <button  type='button' id='validateBtn' class='btn btn-sm btn-info'><span class="glyphicon glyphicon-save"></span> 保存</button>
 											&nbsp;&nbsp;&nbsp;&nbsp;
 		  								  <button  type='button' onclick='closeWin();' class='btn btn-xs btn-danger'><span class="glyphicon glyphicon-remove"></span> 取消</button>
 	 
@@ -90,10 +99,12 @@
  
 <script type="text/javascript">
 		$(top.hangge());
-	 
+		var ids=getParamer("id");
+		if(ids!='-9999'){
+			$("#code").attr("readonly","readonly");
+		}
 		//保存	
-	 function save(){
-		    if(vaild_all()){
+	 function save(){ 
 		     $.ajax({
 				type: "POST",
 				url: '/radarTypeInfo/save', 
@@ -108,6 +119,7 @@
 				dataType:'json',
 				cache: false,
 				success: function(data){ 
+					$(top.hangge());
 					if(data && data!=""){ 
 						if("success" == data.result){
 						  parent.queryList(); 
@@ -121,90 +133,8 @@
 				    } 
 				 }
 			   });
-		    }
-			　
-		}
-		
-	  /***
-	    验证字段radarType Name是否为空或别的验证逻辑都写在这里
-	  ***/	
-	  function vaild_radarTypeName(){
-	     if($("#radarType Name").val()==""){
-			$("#radarType Name").tips({
-				side:3,
-	            msg:'radar_type _name为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#radarType Name").focus();
-			return false;
-		}
-	  }
-	  /***
-	    验证字段radarTypeDescription是否为空或别的验证逻辑都写在这里
-	  ***/	
-	  function vaild_radarTypeDescription(){
-	     if($("#radarTypeDescription").val()==""){
-			$("#radarTypeDescription").tips({
-				side:3,
-	            msg:'radar_type_description为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#radarTypeDescription").focus();
-			return false;
-		}
-	  }
-	  /***
-	    验证字段radarServiceTypeId是否为空或别的验证逻辑都写在这里
-	  ***/	
-	  function vaild_radarServiceTypeId(){
-	     if($("#radarServiceTypeId").val()==""){
-			$("#radarServiceTypeId").tips({
-				side:3,
-	            msg:'radar_service_type_id为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#radarServiceTypeId").focus();
-			return false;
-		}
-	  }
-
-     function vaild_all(){
-	     if($("#radarType Name").val()==""){
-			$("#radarType Name").tips({
-				side:3,
-	            msg:'radar_type _name为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#radarType Name").focus();
-			return false;
-		}
-	     if($("#radarTypeDescription").val()==""){
-			$("#radarTypeDescription").tips({
-				side:3,
-	            msg:'radar_type_description为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#radarTypeDescription").focus();
-			return false;
-		}
-	     if($("#radarServiceTypeId").val()==""){
-			$("#radarServiceTypeId").tips({
-				side:3,
-	            msg:'radar_service_type_id为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#radarServiceTypeId").focus();
-			return false;
-		}
-
-		 return true;
-	  }
+		    } 
+	 
 	  
 	$(function(){
   		init();
@@ -218,7 +148,7 @@
 				success: function(data){
 				  //  alert(data);
 					if(data && data!=""){  
-					  $("#radarType Name").val(data.radarTypeName);
+					  $("#radarTypeName").val(data.radarTypeName);
 					  $("#radarTypeDescription").val(data.radarTypeDescription);
 					  $("#radarServiceTypeId").val(data.radarServiceTypeId);
 
@@ -248,15 +178,129 @@
 		} 
 		
 		
-		
+	/***
+	开始验证
+	***/
+	 
+	$(document).ready(function() { 	    
+  	  $('#defaultForm').bootstrapValidator({
+        live: 'disabled',
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+       	 /*常用验证可以参考
+            stringLength: {
+                min: 2,
+                max: 50,
+                message: '%field_desc_name%必须为2-50个字符之间'
+            },
+            regexp: {
+                regexp: /^[a-zA-Z0-9_\.]+$/,
+                message: '%field_desc_name%必须为数字或字母'
+            },
+            emailAddress: {
+                        message: '%field_desc_name%不是邮件地址'
+            },
+            date: {
+                format: 'YYYY/MM/DD',
+                message: '%field_desc_name%日期格式不对'
+            },
+            remote: {
+                type: 'POST',
+                url: 'remote.php',
+                message: '%field_desc_name%已被占用'
+            }*/
+		  /***
+		    验证字段radarTypeName是否为空或别的验证逻辑都写在这里
+		  ***/	 
+		  id: {
+              group: '.controlcontent',
+              validators: {
+                  notEmpty: {
+                      message: '编号为必填项'
+                  },
+                  stringLength: {
+		                min: 1,
+		                max: 32,
+		                message: '编号必须为1-32个字符,1个汉字为2个字符'
+		            },
+		            remote: {
+		                type: 'POST',
+		                delay :  500,
+		                url: '/radarTypeInfo/checkIdValidMethod',
+		                message: '编号已被占用'
+		            }  
+              }
+          },
+		   radarTypeName: {
+                group: '.controlcontent',
+                validators: {
+                    notEmpty: {
+                        message: '名称为必填项'
+                    },
+                    stringLength: {
+		                min: 1,
+		                max: 50,
+		                message: '名称必须为1-50个字符,1个汉字为2个字符'
+		            }
+                }
+            },
+		  /***
+		    验证字段radarTypeDescription是否为空或别的验证逻辑都写在这里
+		  ***/	 
+		   radarTypeDescription: {
+                group: '.controlcontent',
+                validators: {
+                    notEmpty: {
+                        message: '说明为必填项'
+                    },
+                    stringLength: {
+		                min: 1,
+		                max: 50,
+		                message: '说明必须为1-50个字符,1个汉字为2个字符'
+		            }
+                }
+            },
+            radarServiceTypeId: {
+                group: '.controlcontent',
+                validators: {
+                    notEmpty: {
+                        message: '服务类型为必填项'
+                    } 
+                }
+            },
+
+        } 
+    });
+
+    // Validate the form manually
+    $('#validateBtn').click(function() {
+    	var ids=getParamer("id"); 
+      	if(ids!='-9999'){
+      		$("#defaultForm").bootstrapValidator('removeField','id');
+      	}
+        $('#defaultForm').bootstrapValidator('validate');
+    }); 
+}).on('success.form.bv', function (e){
+	// 阻止默认事件提交
+	$('#validateBtn').attr("disabled");
+	top.jzts();
+	e.preventDefault();
+	save();
+}); 
+	
 		
 </SCRIPT>
 <!-- ace scripts --> 
 	<!-- inline scripts related to this page -->
 	<!-- 下拉框 -->
-	<script src="static/ace/js/chosen.jquery.js"></script>
+	<script src="/static/ace/js/chosen.jquery.js"></script>
 	<!-- 日期框 -->
-	<script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
+	<script src="/static/ace/js/date-time/bootstrap-datepicker.js"></script>
 	<!--提示框-->
 	<script type="text/javascript" src="/static/js/jquery.tips.js"></script>
   <script type="text/javascript">

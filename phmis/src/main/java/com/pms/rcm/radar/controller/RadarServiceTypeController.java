@@ -5,9 +5,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
+
 import net.sf.json.JSONArray; 
 import net.sf.json.JSONObject;
+
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,13 +23,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.pms.base.controller.BaseController;
 import com.pms.base.util.AppUtil;
 import com.pms.base.util.Page;
 import com.pms.base.util.PageData;
 import com.pms.rcm.radar.vo.RadarServiceType;
-
 import com.pms.rcm.radar.manager.RadarServiceTypeManager;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -133,6 +137,20 @@ public class RadarServiceTypeController  extends BaseController<RadarServiceType
     @RequestMapping(value="/getAll",method=RequestMethod.GET)
 	public List<RadarServiceType> getAll() throws Exception{		 
 		 return  this.baseManager.getAll();			 
+	}
+	
+	@ResponseBody 
+    @RequestMapping(value="/checkIdValidMethod",method=RequestMethod.POST)
+	public Map<String, Boolean> checkIdValidMethod(@RequestParam String code)throws Exception{		
+		 boolean result = true;
+		 List list=this.baseManager.find("from RadarServiceType where code='"+code+"'");
+		 Map<String, Boolean> map = new HashMap<String, Boolean>();	      
+		 if(list.isEmpty()){
+			  map.put("valid", result);
+		 }else{
+			 map.put("valid", false);
+		 }
+		 return map;
 	}
 	 
 }

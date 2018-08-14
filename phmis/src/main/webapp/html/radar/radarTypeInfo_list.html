@@ -152,6 +152,7 @@
         styleUI: 'Bootstrap',//设置jqgrid的全局样式为bootstrap样式  
         shrinkToFit: true,
         colNames :[
+'<span class="glyphicon glyphicon-list-alt"></span>编号',
 	    			'<span class="glyphicon glyphicon-list-alt"></span>名称',
 	    			'<span class="glyphicon glyphicon-list-alt"></span>说明',
 	    			'<span class="glyphicon glyphicon-list-alt"></span>服务类型',
@@ -159,6 +160,8 @@
 	    			'<span class="glyphicon glyphicon-check"></span>操作'
 	    		   ],
         colModel :  [  
+                 	{name : 'id',index : 'id',sortable:true},
+
 					{name : 'radarTypeName',index : 'radarTypeName',sortable:true},
 					{name : 'radarTypeDescription',index : 'radarTypeDescription',sortable:true},
 					{name : 'radarServiceType.name',index : 'radarServiceType.name',sortable:true},
@@ -244,7 +247,7 @@
 		 	closeBtn: 1,
 		 	title:'<span class="glyphicon glyphicon-import"></span>信息编辑',
 		 	offset: 'auto',
-		 	area: ['800px', '280px'],
+		 	area: ['800px', '360px'],
 			content: '/html/radar/radarTypeInfo_edit.html', 
 			shadeClose: false,
 		    maxmin: true,
@@ -262,7 +265,7 @@
 			 	closeBtn: 1,
 			 	title:'<span class="glyphicon glyphicon-import"></span>信息编辑',
 			 	offset: 'auto',
-			 	area: ['800px', '280px'],
+			 	area: ['800px', '360px'],
 				content: '/html/radar/radarTypeInfo_edit.html?id='+Id, 
 				shadeClose: false,
 			    maxmin: true,
@@ -312,7 +315,7 @@
 			 	closeBtn: 1,
 			 	title:'<span class="glyphicon glyphicon-import"></span>信息编辑',
 			 	offset: 'auto',
-			 	area: ['800px', '280px'],
+			 	area: ['800px', '360px'],
 				content: '/html/radar/radarTypeInfo_view.html?id='+Id, 
 				shadeClose: false,
 			    maxmin: true,

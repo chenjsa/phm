@@ -9,7 +9,7 @@
     
         <link rel="stylesheet" href="/static/ace/css/font-awesome1.css" />  
 	    <link href="/static/ace/css/style.min.css?v=4.1.0" rel="stylesheet">
-		<link href="/static/ace/css/bootstrap.min1.css" rel="stylesheet"> 
+		<link href="/static/ace/css/bootstrap.min1.css" rel="stylesheet">  
 		<!-- text fonts -->
 		<link rel="stylesheet" href="/static/ace/css/ace-fonts.css" />
 		<!-- ace styles -->
@@ -18,7 +18,9 @@
 		<script type="text/javascript" src="/static/ace/js/jquery.js"></script>  
 		<script src="/static/ace/js/bootstrap.js"></script>
 		<script src="/static/js/util.js"></script>
-		<script src="/static/ace/js/sweetalert/sweetalert.min.js"></script
+		<script src="/static/ace/js/sweetalert/sweetalert.min.js"></script>		 
+  	    <link rel="stylesheet" href="/static/ace/bootstrapvalidator-master/dist/css/bootstrapValidator.css"/>
+        <script type="text/javascript" src="/static/ace/bootstrapvalidator-master/dist/js/bootstrapValidator.js"></script>
 		
 		
 
@@ -31,18 +33,17 @@
 			<div class="main-content-inner">
 				<div class="page-content">
 					<div class="row">
-						<div class="col-xs-12">
-						<form action="people/save.do" name="peopleForm" id="peopleForm" method="post">
-							
+						<div class="col-xs-12"> 
+							 <form id="defaultForm" method="post" class="form-horizontal" >
 							
 							<table id="table_report" class="table table-striped table-bordered table-hover"> 			
 							     		 
 							    <tr>								
 									<td style="width:89px;text-align: right;padding-top: 13px;">
-										省名称：
+										区域名称：
 									</td>
 									<td class="controlcontent" >
-										<input type="text" id="provinceName" name="provinceName" onblur="vaild_provinceName();";  placeholder="输入provinceName" title="provinceName" style="width:98%;" />
+										<input type="text" id="provinceName" name="provinceName"    placeholder="输入provinceName" title="provinceName" style="width:98%;" />
 								 	</td>									
 								</tr>			 
 							    <tr>								
@@ -50,7 +51,7 @@
 										其它：
 									</td>
 									<td class="controlcontent" >
-										<input type="text" id="other" name="other" onblur="vaild_other();";  placeholder="输入other" title="other" style="width:98%;" />
+										<input type="text" id="other" name="other"    placeholder="输入other" title="other" style="width:98%;" />
 								 	</td>									
 								</tr>			 
 
@@ -58,7 +59,7 @@
 								<div id="zhongxin" style="padding-top: 13px;">
 								<tr>
 									<td class="center" colspan="2">
-										 <button  type='button' onclick='save();' class='btn btn-sm btn-info'><span class="glyphicon glyphicon-save"></span> 保存</button>
+										 <button  id="validateBtn" type='button'  class='btn btn-sm btn-info'><span class="glyphicon glyphicon-save"></span> 保存</button>
 											&nbsp;&nbsp;&nbsp;&nbsp;
 		  								  <button  type='button' onclick='closeWin();' class='btn btn-xs btn-danger'><span class="glyphicon glyphicon-remove"></span> 取消</button>
 	 
@@ -83,8 +84,7 @@
 		$(top.hangge());
 	 
 		//保存	
-	 function save(){
-		    if(vaild_all()){
+	 function save(){ 			
 		     $.ajax({
 				type: "POST",
 				url: '/provinceInfo/save', 
@@ -99,6 +99,7 @@
 				dataType:'json',
 				cache: false,
 				success: function(data){ 
+					$(top.hangge());
 					if(data && data!=""){ 
 						if("success" == data.result){
 						  parent.queryList(); 
@@ -112,90 +113,8 @@
 				    } 
 				 }
 			   });
-		    }
-			　
-		}
-		
-	  /***
-	    验证字段provinceId是否为空或别的验证逻辑都写在这里
-	  ***/	
-	  function vaild_provinceId(){
-	     if($("#provinceId").val()==""){
-			$("#provinceId").tips({
-				side:3,
-	            msg:'Province_id为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#provinceId").focus();
-			return false;
-		}
-	  }
-	  /***
-	    验证字段provinceName是否为空或别的验证逻辑都写在这里
-	  ***/	
-	  function vaild_provinceName(){
-	     if($("#provinceName").val()==""){
-			$("#provinceName").tips({
-				side:3,
-	            msg:'Province_name为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#provinceName").focus();
-			return false;
-		}
-	  }
-	  /***
-	    验证字段other是否为空或别的验证逻辑都写在这里
-	  ***/	
-	  function vaild_other(){
-	     if($("#other").val()==""){
-			$("#other").tips({
-				side:3,
-	            msg:'other为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#other").focus();
-			return false;
-		}
-	  }
-
-     function vaild_all(){
-	     if($("#provinceId").val()==""){
-			$("#provinceId").tips({
-				side:3,
-	            msg:'Province_id为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#provinceId").focus();
-			return false;
-		}
-	     if($("#provinceName").val()==""){
-			$("#provinceName").tips({
-				side:3,
-	            msg:'Province_name为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#provinceName").focus();
-			return false;
-		}
-	     if($("#other").val()==""){
-			$("#other").tips({
-				side:3,
-	            msg:'other为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#other").focus();
-			return false;
-		}
-
-		 return true;
-	  }
+		    } 
+ 
 	  
 	$(function(){
   		init();
@@ -219,7 +138,56 @@
 			   });
 		} 
 		
-		
+	$(document).ready(function() { 
+	    
+	    $('#defaultForm').bootstrapValidator({
+            live: 'disabled',
+	        message: 'This value is not valid',
+	        feedbackIcons: {
+	            valid: 'glyphicon glyphicon-ok',
+	            invalid: 'glyphicon glyphicon-remove',
+	            validating: 'glyphicon glyphicon-refresh'
+	        },
+	        fields: {
+	        	provinceName: {
+	                group: '.controlcontent',
+	                validators: {
+	                    notEmpty: {
+	                        message: '区域名称不能为空'
+	                    },
+	                    stringLength: {
+	                        min: 2,
+	                        max: 50,
+	                        message: '区域名称必须为2-50个字符之间'
+	                    }
+	                }
+	            },
+	            other: {
+	                group: '.controlcontent',
+	                validators: {
+	                	notEmpty: {
+	                        message: '其他不能为空'
+	                    },
+	                    stringLength: {
+	                        min: 2,
+	                        max: 50,
+	                        message: '其他必须为2-50个字符之间'
+	                    }
+	                }
+	            } 
+	        } 
+	    });
+
+	    // Validate the form manually
+	    $('#validateBtn').click(function() {
+	        $('#defaultForm').bootstrapValidator('validate');
+	    }); 
+	}).on('success.form.bv', function (e){
+		$('#validateBtn').attr("disabled");
+		e.preventDefault();
+	    top.jzts();
+		save();
+	}); 
 		
 		
 </SCRIPT>

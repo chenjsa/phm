@@ -202,9 +202,8 @@
 	function queryList() {
 	  var postData={  
 		  'extensionName':$('#extensionName').val(),
-		  'description':$('#description').val(),
-		  'phmsubsId':$('#phmsubsId').val(),
-
+		  'description':$('#description').val(), 
+		  'phmsubsId':phmsubsId=='-9999'?$('#phmsubsId').val():phmsubsId,
 		  'fromMenu':"2" 
 	   };
 	  $("#list2").jqGrid('setGridParam',{  

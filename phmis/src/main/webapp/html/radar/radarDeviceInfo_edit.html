@@ -23,6 +23,9 @@
 		   <script src="/static/ace/js/bootstrap-datetimepicker.js"></script>
 		<script src="/static/ace/js/bootstrap-datetimepicker.zh-CN.js"></script>
 		<link rel="stylesheet" href="/static/ace/css/bootstrap-datetimepicker.min.css" class="ace-main-stylesheet" id="main-ace-style" /> 
+			<link rel="stylesheet" href="/static/ace/bootstrapvalidator-master/dist/css/bootstrapValidator.css" />
+
+	<script type="text/javascript" src="/static/ace/bootstrapvalidator-master/dist/js/bootstrapValidator.js"></script>
 		
 
   </head>
@@ -35,16 +38,28 @@
 				<div class="page-content">
 					<div class="row">
 						<div class="col-xs-12">
-						<form action="people/save.do" name="peopleForm" id="peopleForm" method="post">
+							<form id="defaultForm" method="post" class="form-horizontal">
+
 							
 							
-							<table id="table_report" class="table table-striped table-bordered table-hover"> 			
+							<table id="table_report" class="table table-striped table-bordered table-hover"> 
+							<tr>
+										<td style="width: 89px; text-align: right; padding-top: 13px;">
+											雷达编号：
+										</td>
+										<td class="controlcontent" colspan=3>
+										<input type="text"
+											id="id" name="id"
+											placeholder="雷达编号" title="id"
+											style="width: 98%;" />
+										</td>
+									</tr>			
 							    <tr>				
 							    	<td style="width:120px;text-align: right;padding-top: 13px;">
 										站区/用户编号：
 									</td>
 									<td class="controlcontent" >
-										<select class="chosen-select form-control"  onblur="vaild_stationId();"; name="stationId" id=stationId data-placeholder="请选择省份" style="vertical-align:top;"  title="省份" style="width:98%;" >
+										<select class="chosen-select form-control"  name="stationId" id=stationId data-placeholder="请选择省份" style="vertical-align:top;"  title="省份" style="width:98%;" >
 								  			<option  value=''>请选择</option> 
 										</select>
 								    </td>						
@@ -52,7 +67,7 @@
 										雷达名称：
 									</td>
 									<td class="controlcontent" >
-										<input type="text" id="radarName" name="radarName" onblur="vaild_radarName();";  placeholder="输入radarName" title="radarName" style="width:98%;" />
+										<input type="text" id="radarName" name="radarName"   placeholder="输入radarName" title="radarName" style="width:98%;" />
 								 	</td>									
 								</tr>			 
 							    <tr>								
@@ -60,7 +75,7 @@
 										型号编号：
 									</td>
 									<td class="controlcontent" >
-										<select class="chosen-select form-control"  onblur="vaild_typeId();"; name="typeId" id=typeId data-placeholder="请选择省份" style="vertical-align:top;"  title="省份" style="width:98%;" >
+										<select class="chosen-select form-control"   name="typeId" id=typeId data-placeholder="请选择省份" style="vertical-align:top;"  title="省份" style="width:98%;" >
 								  			<option  value=''>请选择</option> 
 										</select>
 								 	</td>									
@@ -69,7 +84,7 @@
 										生产厂家：
 									</td>
 									<td class="controlcontent" >
-										<input type="text" id="manufacturer" name="manufacturer" onblur="vaild_manufacturer();";  placeholder="输入manufacturer" title="manufacturer" style="width:98%;" />
+										<input type="text" id="manufacturer" name="manufacturer"  placeholder="输入manufacturer" title="manufacturer" style="width:98%;" />
 								 	</td>									
 								</tr>			 
 							    	 
@@ -88,7 +103,7 @@
 										安装位置：
 									</td>
 									<td class="controlcontent" >
-										<input type="text" id="address" name="address" onblur="vaild_address();";  placeholder="输入address" title="address" style="width:98%;" />
+										<input type="text" id="address" name="address"   placeholder="输入address" title="address" style="width:98%;" />
 								 	</td>									
 								</tr>			 
 							    <tr>								
@@ -96,7 +111,7 @@
 										工作令：
 									</td>
 									<td class="controlcontent" >
-										<input type="text" id="workOrder" name="workOrder" onblur="vaild_workOrder();";  placeholder="输入workOrder" title="workOrder" style="width:98%;" />
+										<input type="text" id="workOrder" name="workOrder"   placeholder="输入workOrder" title="workOrder" style="width:98%;" />
 								 	</td>									
 								 							
 									<td style="width:120px;text-align: right;padding-top: 13px;">
@@ -114,7 +129,7 @@
 										在役状态：
 									</td>
 									<td class="controlcontent" >
-									<select class="chosen-select form-control"  onblur="vaild_inServiceState();"; name="inServiceState" id=inServiceState data-placeholder="请选择省份" style="vertical-align:top;"  title="省份" style="width:98%;" >
+									<select class="chosen-select form-control"    name="inServiceState" id=inServiceState data-placeholder="请选择省份" style="vertical-align:top;"  title="省份" style="width:98%;" >
 								  			<option  value=''>请选择</option> 
 								  			<option  value='1'>是</option> 
 								  			<option  value='0'>否</option> 
@@ -125,7 +140,7 @@
 										任务属性：
 									</td>
 									<td class="controlcontent" >
-										<select class="chosen-select form-control"  onblur="vaild_taskAttributeId();"; name="taskAttributeId" id=taskAttributeId data-placeholder="请选择省份" style="vertical-align:top;"  title="省份" style="width:98%;" >
+										<select class="chosen-select form-control"    name="taskAttributeId" id=taskAttributeId data-placeholder="请选择省份" style="vertical-align:top;"  title="省份" style="width:98%;" >
 								  			<option  value=''>请选择</option> 
 										</select>
 							 		 	</td>									
@@ -138,11 +153,10 @@
 									 <textarea rows="3" cols="46" maxlength="255" name="description" id="description" placeholder="这里输入描述" title="描述"  style="width:100%;"></textarea>
 									
  								 	</td>									
-								</tr>		 
-								<input type="hidden" name="id" id='id' > 	 
+								</tr>		   
 								<tr>
 									<td class="center" colspan="4">
-										 <button  type='button' onclick='save();' class='btn btn-sm btn-info'><span class="glyphicon glyphicon-save"></span> 保存</button>
+										 <button  type='button' id='validateBtn'  class='btn btn-sm btn-info'><span class="glyphicon glyphicon-save"></span> 保存</button>
 											&nbsp;&nbsp;&nbsp;&nbsp;
 		  								  <button  type='button' onclick='closeWin();' class='btn btn-xs btn-danger'><span class="glyphicon glyphicon-remove"></span> 取消</button>
 	 
@@ -166,6 +180,11 @@
 <script type="text/javascript">
 		$(top.hangge());
 	  var radarStateMap=new Map();
+	  var ids=getParamer("id");
+		if(ids!='-9999'){
+			$("#id").attr("readonly","readonly");
+		}
+		//保存	
 		//保存	
 	 function save(){
 	 		  var radarBasicStateInfoArr=new Array();
@@ -176,8 +195,7 @@
 		        radarBasicStateInfoArr[i]=radarBasicStateInfo;
 		        ///alert(i+"----------"+sealApplyFormExtensionMap.arr[i].key+"---"+sealApplyFormExtension.sealUseExtensionContent);
 				 
-			}
-		    if(vaild_all()){
+			} 
 		     $.ajax({
 				type: "POST",
 				url: '/radarDeviceInfo/save', 
@@ -200,7 +218,9 @@
 				dataType:'json',
 				cache: false,
 				success: function(data){ 
+					$(top.hangge());
 					if(data && data!=""){ 
+						
 						if("success" == data.result){
 						  parent.queryList(); 
                           var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
@@ -214,289 +234,9 @@
 				 }
 			   });
 		    }
-			　
-		}
+			　 
 		
-	  /***
-	    验证字段radarName是否为空或别的验证逻辑都写在这里
-	  ***/	
-	  function vaild_radarName(){
-	     if($("#radarName").val()==""){
-			$("#radarName").tips({
-				side:3,
-	            msg:'雷达名称为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#radarName").focus();
-			return false;
-		}
-	  }
-	  /***
-	    验证字段typeId是否为空或别的验证逻辑都写在这里
-	  ***/	
-	  function vaild_typeId(){
-	     if($("#typeId").val()==""){
-			$("#typeId").tips({
-				side:3,
-	            msg:'型号编号为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#typeId").focus();
-			return false;
-		}
-	  }
-	  /***
-	    验证字段description是否为空或别的验证逻辑都写在这里
-	  ***/	
-	  function vaild_description(){
-	     if($("#description").val()==""){
-			$("#description").tips({
-				side:3,
-	            msg:'功能说明为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#description").focus();
-			return false;
-		}
-	  }
-	  /***
-	    验证字段manufacturer是否为空或别的验证逻辑都写在这里
-	  ***/	
-	  function vaild_manufacturer(){
-	     if($("#manufacturer").val()==""){
-			$("#manufacturer").tips({
-				side:3,
-	            msg:'生产厂家为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#manufacturer").focus();
-			return false;
-		}
-	  }
-	  /***
-	    验证字段stationId是否为空或别的验证逻辑都写在这里
-	  ***/	
-	  function vaild_stationId(){
-	     if($("#stationId").val()==""){
-			$("#stationId").tips({
-				side:3,
-	            msg:'站区/用户编号为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#stationId").focus();
-			return false;
-		}
-	  }
-	  /***
-	    验证字段manufacturerDate是否为空或别的验证逻辑都写在这里
-	  ***/	
-	  function vaild_manufacturerDate(){
-	     if($("#manufacturerDate").val()==""){
-			$("#manufacturerDate").tips({
-				side:3,
-	            msg:'生产日期为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#manufacturerDate").focus();
-			return false;
-		}
-	  }
-	  /***
-	    验证字段address是否为空或别的验证逻辑都写在这里
-	  ***/	
-	  function vaild_address(){
-	     if($("#address").val()==""){
-			$("#address").tips({
-				side:3,
-	            msg:'安装位置为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#address").focus();
-			return false;
-		}
-	  }
-	  /***
-	    验证字段workOrder是否为空或别的验证逻辑都写在这里
-	  ***/	
-	  function vaild_workOrder(){
-	     if($("#workOrder").val()==""){
-			$("#workOrder").tips({
-				side:3,
-	            msg:'工作令为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#workOrder").focus();
-			return false;
-		}
-	  }
-	  /***
-	    验证字段erectionTime是否为空或别的验证逻辑都写在这里
-	  ***/	
-	  function vaild_erectionTime(){
-	     if($("#erectionTime").val()==""){
-			$("#erectionTime").tips({
-				side:3,
-	            msg:'架设时间为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#erectionTime").focus();
-			return false;
-		}
-	  }
-	  /***
-	    验证字段inServiceState是否为空或别的验证逻辑都写在这里
-	  ***/	
-	  function vaild_inServiceState(){
-	     if($("#inServiceState").val()==""){
-			$("#inServiceState").tips({
-				side:3,
-	            msg:'在役状态为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#inServiceState").focus();
-			return false;
-		}
-	  }
-	  /***
-	    验证字段taskAttributeId是否为空或别的验证逻辑都写在这里
-	  ***/	
-	  function vaild_taskAttributeId(){
-	     if($("#taskAttributeId").val()==""){
-			$("#taskAttributeId").tips({
-				side:3,
-	            msg:'任务属性为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#taskAttributeId").focus();
-			return false;
-		}
-	  }
-
-     function vaild_all(){
-	     if($("#radarName").val()==""){
-			$("#radarName").tips({
-				side:3,
-	            msg:'雷达名称为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#radarName").focus();
-			return false;
-		}
-	     if($("#typeId").val()==""){
-			$("#typeId").tips({
-				side:3,
-	            msg:'型号编号为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#typeId").focus();
-			return false;
-		}
-	     if($("#description").val()==""){
-			$("#description").tips({
-				side:3,
-	            msg:'功能说明为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#description").focus();
-			return false;
-		}
-	     if($("#manufacturer").val()==""){
-			$("#manufacturer").tips({
-				side:3,
-	            msg:'生产厂家为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#manufacturer").focus();
-			return false;
-		}
-	     if($("#stationId").val()==""){
-			$("#stationId").tips({
-				side:3,
-	            msg:'站区/用户编号为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#stationId").focus();
-			return false;
-		}
-	     if($("#manufacturerDate").val()==""){
-			$("#manufacturerDate").tips({
-				side:3,
-	            msg:'生产日期为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#manufacturerDate").focus();
-			return false;
-		}
-	     if($("#address").val()==""){
-			$("#address").tips({
-				side:3,
-	            msg:'安装位置为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#address").focus();
-			return false;
-		}
-	     if($("#workOrder").val()==""){
-			$("#workOrder").tips({
-				side:3,
-	            msg:'工作令为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#workOrder").focus();
-			return false;
-		}
-	     if($("#erectionTime").val()==""){
-			$("#erectionTime").tips({
-				side:3,
-	            msg:'架设时间为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#erectionTime").focus();
-			return false;
-		}
-	     if($("#inServiceState").val()==""){
-			$("#inServiceState").tips({
-				side:3,
-	            msg:'在役状态为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#inServiceState").focus();
-			return false;
-		}
-	     if($("#taskAttributeId").val()==""){
-			$("#taskAttributeId").tips({
-				side:3,
-	            msg:'任务属性为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#taskAttributeId").focus();
-			return false;
-		}
-
-		 return true;
-	  }
+	 
 	  
 	$(function(){
   		init();
@@ -610,13 +350,299 @@
 	        weekStart:1 
 		 });
 		
+		  
+			/***
+
+			开始验证
+
+			***/
+
+			 
+
+			$(document).ready(function() { 	    
+
+		  	  $('#defaultForm').bootstrapValidator({
+
+		        live: 'disabled',
+
+		        message: 'This value is not valid',
+
+		        feedbackIcons: {
+
+		            valid: 'glyphicon glyphicon-ok',
+
+		            invalid: 'glyphicon glyphicon-remove',
+
+		            validating: 'glyphicon glyphicon-refresh'
+
+		        },
+
+		        fields: {
+
+		       	 /*常用验证可以参考
+
+		            stringLength: {
+
+		                min: 2,
+
+		                max: 50,
+
+		                message: '%field_desc_name%必须为2-50个字符之间'
+
+		            },
+
+		            regexp: {
+
+		                regexp: /^[a-zA-Z0-9_\.]+$/,
+
+		                message: '%field_desc_name%必须为数字或字母'
+
+		            },
+
+		            emailAddress: {
+
+		                        message: '%field_desc_name%不是邮件地址'
+
+		            },
+
+		            date: {
+
+		                format: 'YYYY/MM/DD',
+
+		                message: '%field_desc_name%日期格式不对'
+
+		            },
+
+		            remote: {
+
+		                type: 'POST',
+
+		                url: 'remote.php',
+
+		                message: '%field_desc_name%已被占用'
+
+		            }*/
+
+				  /***
+				    验证字段radarName是否为空或别的验证逻辑都写在这里
+				  ***/	 
+				  id: {
+		              group: '.controlcontent',
+		              validators: {
+		                  notEmpty: {
+		                      message: '编号为必填项'
+		                  },
+		                  stringLength: {
+				                min: 1,
+				                max: 32,
+				                message: '编号必须为1-32个字符,1个汉字为2个字符'
+				            },
+				            remote: {
+				                type: 'POST',
+				                delay :  500,
+				                url: '/radarDeviceInfo/checkIdValidMethod',
+				                message: '编号已被占用'
+				            }  
+		              }
+		          },
+		          stationId: {
+		                group: '.controlcontent',
+		                validators: {
+		                    notEmpty: {
+		                        message: '站区/用户编号为必填项'
+		                    } 
+		                }
+		            },
+		            stationId: {
+		                group: '.controlcontent',
+		                validators: {
+		                    notEmpty: {
+		                        message: '站区/用户编号为必填项'
+		                    } 
+		                }
+		            },
+		          typeId: {
+		                group: '.controlcontent',
+		                validators: {
+		                    notEmpty: {
+		                        message: '型号编号为必填项'
+		                    } 
+		                }
+		            },
+		            taskAttributeId: {
+		                group: '.controlcontent',
+		                validators: {
+		                    notEmpty: {
+		                        message: '任务属性为必填项'
+		                    } 
+		                }
+		            },
+		            
+				   radarName: {
+		                group: '.controlcontent',
+		                validators: {
+		                    notEmpty: {
+		                        message: '雷达名称为必填项'
+		                    },
+		                    stringLength: {
+				                min: 1,
+				                max: 20,
+				                message: '雷达名称必须为1-20个字符,1个汉字为2个字符'
+				            }
+		                }
+		            },
+				  /***
+				    验证字段description是否为空或别的验证逻辑都写在这里
+				  ***/	 
+				   description: {
+		                group: '.controlcontent',
+		                validators: {
+		                    notEmpty: {
+		                        message: '功能说明为必填项'
+		                    },
+		                    stringLength: {
+				                min: 1,
+				                max: 50,
+				                message: '功能说明必须为1-50个字符,1个汉字为2个字符'
+				            }
+		                }
+		            },
+				  /***
+				    验证字段manufacturer是否为空或别的验证逻辑都写在这里
+				  ***/	 
+				   manufacturer: {
+		                group: '.controlcontent',
+		                validators: {
+		                    notEmpty: {
+		                        message: '生产厂家为必填项'
+		                    },
+		                    stringLength: {
+				                min: 1,
+				                max: 50,
+				                message: '生产厂家必须为1-50个字符,1个汉字为2个字符'
+				            }
+		                }
+		            },
+				  /***
+				    验证字段manufacturerDate是否为空或别的验证逻辑都写在这里
+				  ***/	 
+				   manufacturerDate: {
+		                group: '.controlcontent',
+		                validators: {
+		                    notEmpty: {
+		                        message: '生产日期为必填项'
+		                    } 
+		                }
+		            },
+				  /***
+				    验证字段address是否为空或别的验证逻辑都写在这里
+				  ***/	 
+				   address: {
+		                group: '.controlcontent',
+		                validators: {
+		                    notEmpty: {
+		                        message: '安装位置为必填项'
+		                    },
+		                    stringLength: {
+				                min: 1,
+				                max: 50,
+				                message: '安装位置必须为1-50个字符,1个汉字为2个字符'
+				            }
+		                }
+		            },
+				  /***
+				    验证字段workOrder是否为空或别的验证逻辑都写在这里
+				  ***/	 
+				   workOrder: {
+		                group: '.controlcontent',
+		                validators: {
+		                    notEmpty: {
+		                        message: '工作令为必填项'
+		                    },
+		                    stringLength: {
+				                min: 1,
+				                max: 50,
+				                message: '工作令必须为1-50个字符,1个汉字为2个字符'
+				            }
+		                }
+		            },
+				  /***
+				    验证字段erectionTime是否为空或别的验证逻辑都写在这里
+				  ***/	 
+				   erectionTime: {
+		                group: '.controlcontent',
+		                validators: {
+		                    notEmpty: {
+		                        message: '架设时间为必填项'
+		                    } 
+		                }
+		            },
+				  /***
+				    验证字段inServiceState是否为空或别的验证逻辑都写在这里
+				  ***/	 
+				   inServiceState: {
+		                group: '.controlcontent',
+		                validators: {
+		                    notEmpty: {
+		                        message: '在役状态为必填项'
+		                    },
+		                    stringLength: {
+				                min: 1,
+				                max: 50,
+				                message: '在役状态必须为1-50个字符,1个汉字为2个字符'
+				            }
+		                }
+		            },
+
+
+		        } 
+
+		    });
+
+
+
+		    // Validate the form manually
+			
+		    $('#validateBtn').click(function() {
+		    	var ids=getParamer("id"); 
+		     	if(ids!='-9999'){
+		     		$("#defaultForm").bootstrapValidator('removeField','id');
+		     	}
+		        $('#defaultForm').bootstrapValidator('validate');
+
+		    }); 
+
+		}).on('success.form.bv', function (e){
+
+			// 阻止默认事件提交
+
+			$('#validateBtn').attr("disabled");
+
+			top.jzts();
+
+			e.preventDefault();
+
+			save();
+
+		}).on('hide',function(e) {
+            $('#defaultForm').data('bootstrapValidator')
+            .updateStatus('erectionTime', 'NOT_VALIDATED',null)
+            .validateField('erectionTime');
+            
+            $('#defaultForm').data('bootstrapValidator')
+            .updateStatus('manufacturerDate', 'NOT_VALIDATED',null)
+            .validateField('manufacturerDate');
+    }); 
+
+			
+
 </SCRIPT>
 <!-- ace scripts --> 
 	<!-- inline scripts related to this page -->
 	<!-- 下拉框 -->
-	<script src="static/ace/js/chosen.jquery.js"></script>
+	<script src="/static/ace/js/chosen.jquery.js"></script>
 	<!-- 日期框 -->
-	<script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
+	<script src="/static/ace/js/date-time/bootstrap-datepicker.js"></script>
 	<!--提示框-->
 	<script type="text/javascript" src="/static/js/jquery.tips.js"></script>
   <script type="text/javascript">

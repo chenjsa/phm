@@ -1,36 +1,28 @@
 package com.pms.rcm.radar.controller;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.annotation.Resource;
-import net.sf.json.JSONArray; 
-import net.sf.json.JSONObject;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.servlet.ModelAndView;
-import com.pms.base.controller.BaseController;
-import com.pms.base.util.AppUtil;
-import com.pms.base.util.Page;
-import com.pms.base.util.PageData;
-import com.pms.rcm.radar.vo.ModuleTypeInfo;
-import com.pms.rcm.modellib.vo.PhmfunctionTypeInfo;
-import com.pms.rcm.radar.manager.ModuleTypeInfoManager;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.pms.base.controller.BaseController;
+import com.pms.base.util.Page;
+import com.pms.rcm.radar.manager.ModuleTypeInfoManager;
+import com.pms.rcm.radar.vo.ModuleTypeInfo;
 /**
  * module_type_info表ModuleTypeInfo维护
  * 
@@ -75,6 +67,21 @@ public class ModuleTypeInfoController  extends BaseController<ModuleTypeInfo, Mo
     @RequestMapping(value="/getEntityById/{id}",method=RequestMethod.GET)
 	public ModuleTypeInfo getEntityById(@PathVariable("id") String id)throws Exception{		 
 		 return this.entity=this.baseManager.get(id); 						 
+	}
+	@ResponseBody
+	@ApiOperation(value="moduleTypeInfo信息", notes="根据url的id来获取moduleTypeInfo信息",httpMethod = "GET")
+	@ApiImplicitParam(name = "id", value = "moduleTypeInfo的ID", required = true, dataType = "String", paramType = "path")
+    @RequestMapping(value="/checkIdValidMethod",method=RequestMethod.POST)
+	public Map<String, Boolean> checkIdValidMethod(@RequestParam String id)throws Exception{		
+		 boolean result = true;
+		 this.entity=this.baseManager.get(id); 	
+		 Map<String, Boolean> map = new HashMap<String, Boolean>();	      
+		 if(this.entity==null){
+			  map.put("valid", result);
+		 }else{
+			 map.put("valid", false);
+		 }
+		 return map;
 	}
 	@ResponseBody
 	@RequestMapping(value="/save")
