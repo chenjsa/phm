@@ -1,10 +1,18 @@
 package com.pms.rcm.radar.controller;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,23 +25,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pms.base.controller.BaseController;
 import com.pms.base.util.Page;
+import com.pms.rcm.radar.manager.ProvinceInfoManager;
 import com.pms.rcm.radar.manager.RadarDeviceInfoManager;
 import com.pms.rcm.radar.manager.RadarStateInfoManager;
 import com.pms.rcm.radar.manager.RadarStateInfoValueManager;
 import com.pms.rcm.radar.manager.RadarTypeInfoManager;
 import com.pms.rcm.radar.manager.RadarUserInfoManager;
 import com.pms.rcm.radar.manager.TaskAttributeManager;
+import com.pms.rcm.radar.vo.ProvinceInfo;
 import com.pms.rcm.radar.vo.RadarDeviceInfo;
 import com.pms.rcm.radar.vo.RadarStateInfo;
 import com.pms.rcm.radar.vo.RadarStateInfoValue;
+import com.pms.rcm.sys.manager.DeptManager;
+import com.pms.rcm.sys.vo.Dept;
 import com.pms.rcm.sys.vo.User;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 /**
  * radar_device_info表RadarDeviceInfo维护
  * 
@@ -59,6 +64,46 @@ public class RadarDeviceInfoController  extends BaseController<RadarDeviceInfo, 
 	private RadarStateInfoManager radarStateInfoManager;
 	@Resource(name="radarStateInfoValueManager")
 	private RadarStateInfoValueManager radarStateInfoValueManager;
+	@Resource(name="provinceInfoManager")
+	private ProvinceInfoManager  provinceInfoManager; 
+	@Resource(name="deptManager")
+	private DeptManager deptManager;
+	
+	@ResponseBody 
+	@RequestMapping(value="/tree",method=RequestMethod.GET)
+	public Object tree(String menuId) throws Exception{   
+		String hql="from ProvinceInfo "; 
+		List<ProvinceInfo> list = this.provinceInfoManager.find(hql);
+		List<Dept> dlist=new ArrayList<Dept>();
+		for(ProvinceInfo depar : list){
+			Dept dept1=new Dept();
+			dept1.setDeptName(depar.getProvinceName());
+			dept1.setParentId("999999"); 
+			List<Dept> list1=deptManager.listAllForAreas(depar.getId());
+			List<Dept> dlist1=new ArrayList<Dept>();
+			/*for(Dept dept:list1){
+				Dept radar=new Dept();
+				radar.setDeptName(dept.getDeptName());
+				radar.setParentId(dept.getId()); 
+				List<Dept> list11=deptManager.listAllForRadar(dept.getId());
+				dept.setSubDepartment(list11);
+				radar.setTreeurl("");  
+				radar.setTarget("treeFrame"); 
+				///dlist1.add(radar);
+			}*/
+			dept1.setSubDepartment(list1);
+			dept1.setTreeurl("");  
+			dept1.setTarget("treeFrame"); 
+			dlist.add(dept1);
+		} 
+		
+		JSONArray arr = JSONArray.fromObject(dlist);
+		String json = arr.toString();
+		json = json.replaceAll("DEPARTMENT_ID", "id").replaceAll("parentId", "pId").replaceAll("deptName", "name").replaceAll("subDepartment", "nodes").replaceAll("hasDepartment", "checked").replaceAll("treeurl", "url");
+		Map<String,String> map = new HashMap<String,String>();  
+		map.put("result", json);
+		return map;
+	}
 	@ApiOperation(value="获取radarDeviceInfo列表", notes="分页查询获取radarDeviceInfo列表信息",httpMethod = "GET") 
 	@ResponseBody
 	@RequestMapping(value="/list")

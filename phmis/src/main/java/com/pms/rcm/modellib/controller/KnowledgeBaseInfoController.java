@@ -1,7 +1,15 @@
 package com.pms.rcm.modellib.controller;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,15 +22,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.pms.base.controller.BaseController;
 import com.pms.base.util.Page;
 import com.pms.rcm.modellib.manager.KnowledgeBaseInfoManager;
-import com.pms.rcm.modellib.manager.PhmfunctionTypeInfoManager;
 import com.pms.rcm.modellib.vo.KnowledgeBaseInfo;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import com.pms.rcm.radar.manager.KeyModulesInfoManager;
+import com.pms.rcm.radar.manager.RadarDeviceInfoManager;
+import com.pms.rcm.radar.manager.RadarSubsystemInfoManager;
+import com.pms.rcm.radar.vo.KeyModulesInfo;
+import com.pms.rcm.radar.vo.RadarDeviceInfo;
+import com.pms.rcm.radar.vo.RadarSubsystemInfo;
 /**
  * knowledge_base_info表KnowledgeBaseInfo维护
  * 
@@ -44,6 +50,43 @@ public class KnowledgeBaseInfoController  extends BaseController<KnowledgeBaseIn
 	public String list(Page page,KnowledgeBaseInfo entity){ 		 		 
 		page.setCurrentPage(Integer.valueOf(page.getPage()));
 		page.setShowCount(Integer.valueOf(page.getRows())); 
+		List<KnowledgeBaseInfo> knowledgeBaseInfoList =this.baseManager.findPage(entity, page, true);
+		try
+		{  
+		 	JSONArray jsonarray = JSONArray.fromObject(knowledgeBaseInfoList);
+			JSONObject jsonobject = new JSONObject();
+			jsonobject.put("total", String.valueOf(page.getTotalPage()));
+			jsonobject.put("records", String.valueOf(page.getTotalResult()));
+	 		jsonobject.put("rows", jsonarray);
+	 		String basicbridgelistString = jsonobject.toString();  
+			return basicbridgelistString;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+	 @Autowired
+     private RadarDeviceInfoManager radarDeviceInfoManager;
+	 @Autowired
+	 private RadarSubsystemInfoManager  radarSubsystemInfoManager;
+	 @Autowired
+	 private KeyModulesInfoManager keyModulesInfoManager;
+	@ApiOperation(value="获取knowledgeBaseInfo列表", notes="分页查询获取knowledgeBaseInfo列表信息",httpMethod = "GET") 
+	@ResponseBody
+	@RequestMapping(value="/listSelect")
+	public String listSelect(Page page,KnowledgeBaseInfo entity){ 		 		 
+		page.setCurrentPage(Integer.valueOf(page.getPage()));
+		page.setShowCount(Integer.valueOf(page.getRows())); 
+		     
+		  
+		KeyModulesInfo keyModulesInfo=  keyModulesInfoManager.get(entity.getRadarModuleId());
+		entity.setModuleId(Integer.valueOf(keyModulesInfo.getModuleNumberCode()));
+		RadarSubsystemInfo sys=this.radarSubsystemInfoManager.get(entity.getPhmsubsId());
+		entity.setSubsystemTypeId(sys.getSubsystemInfo().getId());
+		RadarDeviceInfo radar=this.radarDeviceInfoManager.get(entity.getRadarId());
+		entity.setRadarTypeId(radar.getRadarTypeInfo().getId());
 		List<KnowledgeBaseInfo> knowledgeBaseInfoList =this.baseManager.findPage(entity, page, true);
 		try
 		{  

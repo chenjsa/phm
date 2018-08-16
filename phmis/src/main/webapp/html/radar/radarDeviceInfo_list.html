@@ -192,15 +192,16 @@
 	$(function(){
        pageInit();
     }); 
-    
+    var stationId=getParamer("stationId"); 
     function pageInit(){ 
        var pageHeaderHeight =$(window).height()-178; 
        var postData={  
+    		   'id':$('#id').val(),
 		  'radarName':$('#radarName').val(),
 		  'typeId':$('#typeId').val(),
 		  'description':$('#description').val(),
 		  'manufacturer':$('#manufacturer').val(),
-		  'stationId':$('#stationId').val(),
+		  'stationId':stationId=='-9999'?$('#stationId').val():stationId,
 		  'manufacturerDate':$('#manufacturerDate').val(),
 		  'address':$('#address').val(),
 		  'workOrder':$('#workOrder').val(),
@@ -224,6 +225,7 @@
         styleUI: 'Bootstrap',//设置jqgrid的全局样式为bootstrap样式  
         shrinkToFit: true,
         colNames :[
+'<span class="glyphicon glyphicon-list-alt"></span>雷达编号',
 	    			'<span class="glyphicon glyphicon-list-alt"></span>雷达名称',
 	    			'<span class="glyphicon glyphicon-list-alt"></span>型号编号',
 	    			'<span class="glyphicon glyphicon-list-alt"></span>功能说明',
@@ -239,6 +241,7 @@
 	    			'<span class="glyphicon glyphicon-check"></span>操作'
 	    		   ],
         colModel :  [  
+{name : 'id',index : 'id',sortable:true},
 					{name : 'radarName',index : 'radarName',sortable:true},
 					{name : 'radarTypeInfo.radarTypeName',index : 'radarTypeInfo.radarTypeName',sortable:true},
 					{name : 'description',index : 'description',sortable:true},
@@ -252,16 +255,16 @@
 					{name : 'taskAttribute.tname',index : 'taskAttribute.tname',sortable:true},
 
 	                {
-						name : "id",
-						index : "id",
+						name : "ids",
+						index : "ids",
 						align : "center",
 						sortable : false,
-						width:"250px",
+						width:"280px",
 						formatter :function(value, options, rData) {     
-			         		  var html="<a id='goView-"+value+"'  style='display:none' class='btn btn-xs btn-success' title='查看' onclick=view('"+value+"');><i class='glyphicon glyphicon-search' title='查看'></i></a>";
-			          	 	  html=html+"&nbsp;&nbsp;<a id='goEdit-"+value+"'  style='display:none' class='btn btn-xs btn-success' title='修改' onclick=edit('"+value+"');><i class='glyphicon glyphicon-log-out' title='修改'></i></a>";
-			          	 	  html=html+"&nbsp;&nbsp;<a id='delete-"+value+"'  style='display:none' class='btn btn-xs btn-danger' title='删除' onclick=del('"+value+"');><i class='glyphicon glyphicon-remove' title='删除'></i></a>";
-			          	 	  html=html+"&nbsp;&nbsp;<a id='configSubsystem-"+value+"'  style='display:none' class='btn btn-xs btn-danger' title='配置分系统' onclick=configSubsystem('"+value+"');><i class='glyphicon glyphicon-check	' title='配置分系统'></i></a>";
+			         		  var html="<a id='goView-"+rData.id+"'  style='display:none' class='btn btn-xs btn-success' title='查看' onclick=view('"+rData.id+"');><i class='glyphicon glyphicon-search' title='查看'></i></a>";
+			          	 	  html=html+"&nbsp;&nbsp;<a id='goEdit-"+rData.id+"'  style='display:none' class='btn btn-xs btn-success' title='修改' onclick=edit('"+rData.id+"');><i class='glyphicon glyphicon-log-out' title='修改'></i></a>";
+			          	 	  html=html+"&nbsp;&nbsp;<a id='delete-"+rData.id+"'  style='display:none' class='btn btn-xs btn-danger' title='删除' onclick=del('"+rData.id+"');><i class='glyphicon glyphicon-remove' title='删除'></i></a>";
+			          	 	  html=html+"&nbsp;&nbsp;<a id='configSubsystem-"+rData.id+"'  style='display:none' class='btn btn-xs btn-danger' title='配置分系统' onclick=configSubsystem('"+rData.id+"');><i class='glyphicon glyphicon-check	' title='配置分系统'></i></a>";
 			          	 	  
 			          	 	  return html; 
 			           }     	   
@@ -296,7 +299,7 @@
 		  'typeId':$('#typeId').val(),
 		  'description':$('#description').val(),
 		  'manufacturer':$('#manufacturer').val(),
-		  'stationId':$('#stationId').val(),
+		  'stationId':stationId=='-9999'?$('#stationId').val():stationId,
 		  'manufacturerDate':$('#manufacturerDate').val(),
 		  'address':$('#address').val(),
 		  'workOrder':$('#workOrder').val(),
@@ -464,6 +467,17 @@
 				 }
 			   });
 		}  
+		
+		function getRowData(){			
+			var ids=$('#list2').jqGrid('getGridParam','selarrrow');
+			var data=new Object();
+			$.each(ids, function(i, item) {
+				
+				var rowData = $("#list2").jqGrid('getRowData',item);  
+				data.id=rowData.id;  
+			})
+			return {data:data};
+		}
 	</script> 
 
 </body>

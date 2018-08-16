@@ -146,7 +146,44 @@ public class RealtimeDatastructure  implements java.io.Serializable {
 
 	
 	
+	@Column(name="parameter_custom_class_id")
+	private String parameterCustomClassId; 
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "parameter_custom_class_id",insertable = false, updatable = false) 
+	private ParameterCustomClass parameterCustomClass;
+	
+	
+	@Column(name="data_class_info_id")
+	private String dataClassInfoId; 
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "data_class_info_id",insertable = false, updatable = false) 
+	private DataClassInfo dataClassInfo;
+	public String getParameterCustomClassId() {
+		return parameterCustomClassId;
+	}
+	public void setParameterCustomClassId(String parameterCustomClassId) {
+		this.parameterCustomClassId = parameterCustomClassId;
+	}
+	public ParameterCustomClass getParameterCustomClass() {
+		return parameterCustomClass;
+	}
+	public void setParameterCustomClass(ParameterCustomClass parameterCustomClass) {
+		this.parameterCustomClass = parameterCustomClass;
+	}
+	public String getDataClassInfoId() {
+		return dataClassInfoId;
+	}
+	public void setDataClassInfoId(String dataClassInfoId) {
+		this.dataClassInfoId = dataClassInfoId;
+	}
+	public DataClassInfo getDataClassInfo() {
+		return dataClassInfo;
+	}
+	public void setDataClassInfo(DataClassInfo dataClassInfo) {
+		this.dataClassInfo = dataClassInfo;
+	}
 
+	
   
 
 

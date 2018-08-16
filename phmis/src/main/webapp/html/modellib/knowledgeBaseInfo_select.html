@@ -144,23 +144,29 @@
 	$(function(){
        pageInit();
     }); 
+	///='++"&radarId="+radarId+"&phmsubsId="+phmsubsId+"&moduleId=
+		
     
+	
     function pageInit(){ 
        var pageHeaderHeight =$(window).height()-88; 
        var postData={  
 		  'knowledgeName':$('#knowledgeName').val(),
-		  'phmfunctionTypeId':$('#phmfunctionTypeId').val(),
+		  'phmfunctionTypeId':getParamer("phmfunctionTypeId"),
 		  'radarTypeId':$('#radarTypeId').val(),
 		  'subsystemTypeId':$('#subsystemTypeId').val(),
 		  'moduleId':$('#moduleId').val(),
 		  'key':$('#key').val(),
 		  'value':$('#value').val(),
+		  'radarId':getParamer("radarId"),
+		  'phmsubsId':getParamer("phmsubsId"),
+		  'radarModuleId':getParamer("moduleId"),
 
 		  'fromMenu':"2" 
 	   };
       jQuery("#list2").jqGrid(
       {
-        url : '/knowledgeBaseInfo/list',
+        url : '/knowledgeBaseInfo/listSelect',
         width : $(window).width()-20, 
 		multiselect : true, 
 		altRows:true,  

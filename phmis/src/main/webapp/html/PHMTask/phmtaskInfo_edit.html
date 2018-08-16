@@ -27,6 +27,8 @@
 		<script src="/static/ace/js/bootstrap-datetimepicker.zh-CN.js"></script>
 		<link rel="stylesheet" href="/static/ace/css/bootstrap-datetimepicker.min.css" class="ace-main-stylesheet" id="main-ace-style" /> 
  <script src="/static/js/util.js"></script>
+ 	<link rel="stylesheet" href="/static/ace/bootstrapvalidator-master/dist/css/bootstrapValidator.css" />
+	<script type="text/javascript" src="/static/ace/bootstrapvalidator-master/dist/js/bootstrapValidator.js"></script>
 
 <style>
 body {
@@ -81,6 +83,7 @@ td {text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 <body class="no-skin">
 
 
+							<form id="defaultForm" method="post" class="form-horizontal">
 
 	<table style="margin-top: 0px;" class="table  table-bordered">
 		<tr>
@@ -121,8 +124,8 @@ td {text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 											<td style="width:110px;text-align: right;padding-top: 13px;">
 												雷达：</td>
 											<td class="controlcontent">
-												<select class="form-control" onchange="changeRadar(this);" name="radarId" id='radarId'   style="width:98%;" >
-										  		</select>
+												  <input style="width:98%;"  onclick='goTree();' id="radarId"  class="form-control" type="text" value="" readonly>
+											 
 											</td>
 
 											<td style="width:110px;text-align: right;padding-top: 13px;">
@@ -463,7 +466,7 @@ td {text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 					</tr>
 					<tr>
 						<td class="center" colspan="4">
-							<button type='button' onclick='save();'
+							<button type='button'  id='validateBtn'
 								class='btn btn-sm btn-info'>
 								<span class="glyphicon glyphicon-save"></span> 保存
 							</button> &nbsp;&nbsp;&nbsp;&nbsp;
@@ -478,6 +481,7 @@ td {text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 			</td>
 		</tr>
 	</table>
+	</form>
 </body>
 
 <script type="text/javascript">
@@ -490,7 +494,8 @@ td {text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 	var taskAlgorithmsModelInfoMap=new Map();
 	//保存	
 	function save() { 
-			debugger
+		
+			///debugger
 			if(taskRelevantDataMap.arr.length<1){
 		    	 $("#realTable").tips({
 						side:3,
@@ -499,6 +504,7 @@ td {text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 			            time:2
 			        });
 					$("#realTable").focus(); 
+					 $(top.hangge());  
 	       			return;
 		     }
 		   
@@ -510,6 +516,7 @@ td {text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 			            time:2
 			        });
 					$("#algoriTable").focus(); 
+					 $(top.hangge());  
 	       			return;
 		     }
 		       if(taskKnowledgeInfoMap.arr.length<1){
@@ -520,6 +527,7 @@ td {text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 			            time:2
 			        });
 					$("#KnowledgeInfoTable").focus(); 
+					 $(top.hangge());  
 	       			return;
 		     }
 			 for ( var i = 0; i < taskRelevantDataMap.arr.length; i++) {
@@ -574,186 +582,7 @@ td {text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 
 	}
 
-	/***
-	  验证字段phmfunctionTypeId是否为空或别的验证逻辑都写在这里
-	***/
-	function vaild_phmfunctionTypeId() {
-		if ($("#phmfunctionTypeId").val() == "") {
-			$("#phmfunctionTypeId").tips({
-				side : 3,
-				msg : '功能类型编号为必填项',
-				bg : '#AE81FF',
-				time : 2
-			});
-			$("#phmfunctionTypeId").focus();
-			return false;
-		}
-	}
-	/***
-	  验证字段radarId是否为空或别的验证逻辑都写在这里
-	***/
-	function vaild_radarId() {
-		if ($("#radarId").val() == "") {
-			$("#radarId").tips({
-				side : 3,
-				msg : '雷达ID为必填项',
-				bg : '#AE81FF',
-				time : 2
-			});
-			$("#radarId").focus();
-			return false;
-		}
-	}
-	/***
-	  验证字段phmsubsId是否为空或别的验证逻辑都写在这里
-	***/
-	function vaild_phmsubsId() {
-		if ($("#phmsubsId").val() == "") {
-			$("#phmsubsId").tips({
-				side : 3,
-				msg : '子系统ID为必填项',
-				bg : '#AE81FF',
-				time : 2
-			});
-			$("#phmsubsId").focus();
-			return false;
-		}
-	}
-	/***
-	  验证字段moduleId是否为空或别的验证逻辑都写在这里
-	***/
-	function vaild_moduleId() {
-		if ($("#moduleId").val() == "") {
-			$("#moduleId").tips({
-				side : 3,
-				msg : '关重件ID为必填项',
-				bg : '#AE81FF',
-				time : 2
-			});
-			$("#moduleId").focus();
-			return false;
-		}
-	}
-	/***
-	  验证字段taskDeadline是否为空或别的验证逻辑都写在这里
-	***/
-	function vaild_taskDeadline() {
-		if ($("#taskDeadline").val() == "") {
-			$("#taskDeadline").tips({
-				side : 3,
-				msg : '任务截止时间为必填项',
-				bg : '#AE81FF',
-				time : 2
-			});
-			$("#taskDeadline").focus();
-			return false;
-		}
-	}
-	/***
-	  验证字段taskDescription是否为空或别的验证逻辑都写在这里
-	***/
-	function vaild_taskDescription() {
-		if ($("#taskDescription").val() == "") {
-			$("#taskDescription").tips({
-				side : 3,
-				msg : '任务描述为必填项',
-				bg : '#AE81FF',
-				time : 2
-			});
-			$("#taskDescription").focus();
-			return false;
-		}
-	}
-	/***
-	  验证字段other是否为空或别的验证逻辑都写在这里
-	***/
-	function vaild_other() {
-		if ($("#other").val() == "") {
-			$("#other").tips({
-				side : 3,
-				msg : '其它为必填项',
-				bg : '#AE81FF',
-				time : 2
-			});
-			$("#other").focus();
-			return false;
-		}
-	}
-
-	function vaild_all() {
-		if ($("#phmfunctionTypeId").val() == "") {
-			$("#phmfunctionTypeId").tips({
-				side : 3,
-				msg : '功能类型编号为必填项',
-				bg : '#AE81FF',
-				time : 2
-			});
-			$("#phmfunctionTypeId").focus();
-			return false;
-		}
-		if ($("#radarId").val() == "") {
-			$("#radarId").tips({
-				side : 3,
-				msg : '雷达ID为必填项',
-				bg : '#AE81FF',
-				time : 2
-			});
-			$("#radarId").focus();
-			return false;
-		}
-		if ($("#phmsubsId").val() == "") {
-			$("#phmsubsId").tips({
-				side : 3,
-				msg : '子系统ID为必填项',
-				bg : '#AE81FF',
-				time : 2
-			});
-			$("#phmsubsId").focus();
-			return false;
-		}
-		if ($("#moduleId").val() == "") {
-			$("#moduleId").tips({
-				side : 3,
-				msg : '关重件ID为必填项',
-				bg : '#AE81FF',
-				time : 2
-			});
-			$("#moduleId").focus();
-			return false;
-		}
-		if ($("#taskDeadline").val() == "") {
-			$("#taskDeadline").tips({
-				side : 3,
-				msg : '任务截止时间为必填项',
-				bg : '#AE81FF',
-				time : 2
-			});
-			$("#taskDeadline").focus();
-			return false;
-		}
-		if ($("#taskDescription").val() == "") {
-			$("#taskDescription").tips({
-				side : 3,
-				msg : '任务描述为必填项',
-				bg : '#AE81FF',
-				time : 2
-			});
-			$("#taskDescription").focus();
-			return false;
-		}
-		if ($("#other").val() == "") {
-			$("#other").tips({
-				side : 3,
-				msg : '其它为必填项',
-				bg : '#AE81FF',
-				time : 2
-			});
-			$("#other").focus();
-			return false;
-		}
-
-		return true;
-	}
+	 
 
 	$(function() {
 		init();
@@ -773,11 +602,11 @@ td {text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 						   $.each(data.phmfunctionTypeInfos,function(i,item){  	 
 						     $("#phmfunctionTypeId").append("<option  value='"+item.id+"'>"+item.phmfunctionTypeName+"</option>");	 
 					               　});    
-					     $("#radarId").html("");
+					   /*   $("#radarId").html("");
 				         $("#radarId").append('<option value="">请选择</option>');
 					      $.each(data.radarDeviceInfos,function(i,item){  	 
 						     $("#radarId").append("<option  value='"+item.id+"'>"+item.radarName+"</option>");	 
-					              　});     
+					              　});      */
 					      var id=getParamer("id");
 							if(id!='-9999'){
 								initVo();
@@ -790,7 +619,7 @@ td {text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 	function changeRadar(obj) {
 		$.ajax({
 			type : "GET",
-			url : '/radarSubsystemInfo/getListByRadarId/' +obj.value,
+			url : '/radarSubsystemInfo/getListByRadarId/' +obj,
 			dataType : 'json',
 			cache : false,
 			success : function(data) {
@@ -1139,13 +968,17 @@ function addAlgori() {
 	
 		
 	function addKnowedge() { 
+		var phmfunctionTypeId=$("#phmfunctionTypeId").val();
+		var radarId=$("#radarId").val();
+		var phmsubsId=$("#phmsubsId").val();
+		var moduleId=$("#moduleId").val();
 		layer.open({
 			type : 2,
 			closeBtn : 1,
 			title : '<span class="glyphicon glyphicon-import"></span>可用专家知识库选择',
 			offset : 'auto',
 			area : [ '1000px', '480px' ],
-			content : '/html/modellib/knowledgeBaseInfo_select.html',
+			content : '/html/modellib/knowledgeBaseInfo_select.html?phmfunctionTypeId='+phmfunctionTypeId+"&radarId="+radarId+"&phmsubsId="+phmsubsId+"&moduleId="+moduleId,
 			shadeClose : false,
 			maxmin : true,
 			btn : [ ' <span class="glyphicon glyphicon-user"></span>选择', '<span class="glyphicon glyphicon-remove"></span>取消' ],
@@ -1207,6 +1040,152 @@ function addAlgori() {
 		     	 $("#knowledgeDataTr_"+trid).remove();  
 		　　}); 
 	}
+	
+	
+	
+	/***
+	开始验证
+	***/
+	 
+	$(document).ready(function() { 	    
+  	  $('#defaultForm').bootstrapValidator({
+        live: 'disabled',
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+        
+		  
+		  phmfunctionTypeId: {
+              group: '.controlcontent',
+              validators: {
+                  notEmpty: {
+                      message: '功能类型为必填项'
+                  } 
+              }
+          },
+          radarId: {
+              group: '.controlcontent',
+              validators: {
+                  notEmpty: {
+                      message: '雷达为必填项'
+                  } 
+              }
+          },
+          phmsubsId: {
+              group: '.controlcontent',
+              validators: {
+                  notEmpty: {
+                      message: '子系统为必填项'
+                  } 
+              }
+          },
+          moduleId: {
+              group: '.controlcontent',
+              validators: {
+                  notEmpty: {
+                      message: '关重件为必填项'
+                  } 
+              }
+          },
+		   taskDeadline: {
+                group: '.controlcontent',
+                validators: {
+                    notEmpty: {
+                        message: '任务截止时间为必填项'
+                    },
+                    stringLength: {
+		                min: 1,
+		                max: 10,
+		                message: '任务截止时间必须为1-10个字符,1个汉字为2个字符'
+		            }
+                }
+            },
+		  /***
+		    验证字段taskDescription是否为空或别的验证逻辑都写在这里
+		  ***/	 
+		   taskDescription: {
+                group: '.controlcontent',
+                validators: {
+                    notEmpty: {
+                        message: '任务描述为必填项'
+                    },
+                    stringLength: {
+		                min: 1,
+		                max: 100,
+		                message: '任务描述必须为1-100个字符,1个汉字为2个字符'
+		            }
+                }
+            },
+		  /***
+		    验证字段other是否为空或别的验证逻辑都写在这里
+		  ***/	 
+		   other: {
+                group: '.controlcontent',
+                validators: {
+                    notEmpty: {
+                        message: '其它为必填项'
+                    },
+                    stringLength: {
+		                min: 1,
+		                max: 255,
+		                message: '其它必须为1-255个字符,1个汉字为2个字符'
+		            }
+                }
+            },
+
+        } 
+    });
+
+    // Validate the form manually
+    $('#validateBtn').click(function() {
+        $('#defaultForm').bootstrapValidator('validate');
+    }); 
+}).on('success.form.bv', function (e){
+	// 阻止默认事件提交
+	$('#validateBtn').attr("disabled");
+	top.jzts();
+	e.preventDefault();
+	save();
+}).on('hide',function(e) {
+    $('#defaultForm').data('bootstrapValidator')
+    .updateStatus('taskDeadline', 'NOT_VALIDATED',null)
+    .validateField('taskDeadline');
+     
+}); 
+
+
+	//新增
+	function goTree(){
+	 layer.open({
+	 	type: 2, 
+	 	closeBtn: 1,
+	 	title:'<span class="glyphicon glyphicon-import"></span>选择雷达',
+	 	offset: 'auto',
+	 	area: [$(window).width()*0.9+'px', '580px'],
+		content: '/html/radar/radarDeviceInfo_tree.html', 
+		shadeClose: false,
+	    maxmin: true,
+	    btn: ['<span class="glyphicon glyphicon-remove"></span>选择','<span class="glyphicon glyphicon-remove"></span>取消'],
+		yes: function(index, layero){  
+			var r = $(layero).find("iframe")[0].contentWindow.getRowData();
+		 
+			if (r == undefined) {
+				return;
+			}   
+			var obj=$("#radarId").val(r.data.id);
+			changeRadar(r.data.id);
+			layer.close(index);
+		}, 
+		no: function(index){ 
+			layer.close(index);
+		}
+	  }); 
+	} 
+		
 	</script> 
 <!-- ace scripts -->
 <!-- inline scripts related to this page -->

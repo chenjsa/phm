@@ -77,7 +77,7 @@
 									</select>
 									</td>
 								 	<td style="width:89px;text-align: right;padding-top: 13px;"><span style="color:#FF0000;">*</span>身份证:</td>
-									<td><input class="span10 date-picker" name="idNumber"   id="idNumber" value="${entity.idNumber}" type="text"   class="{required:true,minlength:5}"   style="width:98%;" />
+									<td><input class="span10 date-picker" name="idNumber"   id="idNumber" value="${entity.idNumber}" type="text" maxlength=18  class="{required:true,minlength:5}"   style="width:98%;" />
 										<span id="idNumberTip"></span>
 									</td> 
 								</tr> 

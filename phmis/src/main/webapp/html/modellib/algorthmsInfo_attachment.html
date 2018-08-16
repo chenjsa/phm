@@ -22,6 +22,9 @@
     <script src="/static/bootstrap-fileinput-master/popper.min.js" type="text/javascript"></script>
 		<script src="/assets/js/bootstrap.min.js"></script>
 		 <script src="/static/js/util.js"></script>
+		 	<link rel="stylesheet" href="/static/ace/bootstrapvalidator-master/dist/css/bootstrapValidator.css" />
+	<script type="text/javascript" src="/static/ace/bootstrapvalidator-master/dist/js/bootstrapValidator.js"></script>
+		 
 </head>
 <body>
 <div class="container kv-main" style="width:100%;">
@@ -65,9 +68,10 @@
         //异步上传返回结果处理
 	$("#kv-explorer").on("fileuploaded", function (event, data, previewId, index) {
 	        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-	        debugger 
+	      ///  debugger 
 	      ///  $("#attach").append(html);
-	        $("#url",window.parent.document).val(data.response.url); 
+	        $("#url",window.parent.document).val(data.response.url);  
+	        $("#defaultForm",window.parent.document).bootstrapValidator('removeField','url');
 	        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
       		 parent.layer.close(index);
 	       ///alert(data.response.name); 

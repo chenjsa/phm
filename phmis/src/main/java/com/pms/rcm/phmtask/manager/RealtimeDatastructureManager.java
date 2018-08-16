@@ -14,11 +14,13 @@ import com.pms.base.util.GUIDHexGenerator;
 import com.pms.base.util.Page;
 import com.pms.base.util.PageData;
 import com.pms.base.util.StrUtil;
+import com.pms.rcm.phmtask.vo.DataClassInfo;
 import com.pms.rcm.phmtask.vo.DataTypeInfo;
 import com.pms.rcm.phmtask.vo.FileTypeInfo;
+import com.pms.rcm.phmtask.vo.ParameterCustomClass;
 import com.pms.rcm.phmtask.vo.RealtimeDatastructure;
 import com.pms.rcm.radar.manager.RadarTypeInfoManager;
-import com.pms.rcm.radar.vo.RadarTypeInfo; 
+import com.pms.rcm.radar.vo.RadarTypeInfo;
 
 /**
  * Service object for domain model class RealtimeDatastructure.
@@ -35,6 +37,10 @@ public class RealtimeDatastructureManager extends BaseManager<RealtimeDatastruct
      private FileTypeInfoManager fileTypeInfoManager;
 	 @Autowired
      private DataTypeInfoManager dataTypeInfoManager;
+	 @Autowired
+     private DataClassInfoManager dataClassInfoManager;
+	 @Autowired
+     private ParameterCustomClassManager parameterCustomClassManager;
    	/**
 	 * 
 	 * <li>方法名：get
@@ -246,9 +252,13 @@ public class RealtimeDatastructureManager extends BaseManager<RealtimeDatastruct
 		List<FileTypeInfo> fileTypeInfos=fileTypeInfoManager.findAll();
 		List<RadarTypeInfo> radarTypeInfos=this.radarTypeInfoManager.findAll();
 		List<DataTypeInfo> dataTypeInfos=dataTypeInfoManager.findAll();
+		List<ParameterCustomClass> parameterCustomClasses=this.parameterCustomClassManager.findAll();
+		List<DataClassInfo> dataClassInfos=this.dataClassInfoManager.findAll();
 		map.put("fileTypeInfos", fileTypeInfos);
 		map.put("radarTypeInfos", radarTypeInfos);
 		map.put("dataTypeInfos", dataTypeInfos);
+		map.put("parameterCustomClasses", parameterCustomClasses);
+		map.put("dataClassInfos", dataClassInfos);
 		return map;
 	}
 

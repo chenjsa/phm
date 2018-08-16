@@ -20,6 +20,9 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.SQLQuery;
@@ -32,12 +35,11 @@ import com.pms.base.BaseManager;
 import com.pms.base.common.BusinessException;
 import com.pms.base.util.Page;
 import com.pms.base.util.StrUtil;
+import com.pms.rcm.radar.manager.RadarDeviceInfoManager;
 import com.pms.rcm.radar.manager.RadarUserInfoManager;
+import com.pms.rcm.radar.vo.RadarDeviceInfo;
 import com.pms.rcm.radar.vo.RadarUserInfo;
 import com.pms.rcm.sys.vo.Dept;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
  
  
 
@@ -54,6 +56,8 @@ public class DeptManager extends BaseManager<Dept> {
 	protected static final Log logger = LogFactory.getLog(DeptManager.class);
 	@Resource(name="radarUserInfoManager")
 	private RadarUserInfoManager radarUserInfoManager;
+	@Resource(name="radarDeviceInfoManager")
+	private RadarDeviceInfoManager radarDeviceInfoManager;
 	/**
 	 * 
 	 * <li>方法名：getByCasCode
@@ -145,8 +149,24 @@ public class DeptManager extends BaseManager<Dept> {
 			List<Dept> dlist=new ArrayList<Dept>();
 			for(RadarUserInfo radar : radarList){
 				Dept dept1=new Dept();
+				dept1.setId(radar.getId());
 				dept1.setDeptName(radar.getStationName());
 				dept1.setParentId(areaID);  
+				dept1.setTreeurl("/html/radar/radarDeviceInfo_list.html?stationId="+radar.getId());  
+				dept1.setTarget("treeFrame"); 
+				dlist.add(dept1);
+			} 
+			return dlist;
+	}
+	
+	public List<Dept> listAllForRadar(String stationId)throws Exception{
+		 String hql="from RadarDeviceInfo where stationId='"+stationId+"' "; 
+		 List<RadarDeviceInfo> radarList = this.radarDeviceInfoManager.find(hql);
+			List<Dept> dlist=new ArrayList<Dept>();
+			for(RadarDeviceInfo radar : radarList){
+				Dept dept1=new Dept();
+				dept1.setDeptName(radar.getId()+"-"+radar.getRadarName());
+				dept1.setParentId(stationId);  
 				///dept1.setTreeurl("/html/radarUserInfo/radarUserInfo_list.html?provinceId="+radar);  
 				dept1.setTarget("treeFrame"); 
 				dlist.add(dept1);

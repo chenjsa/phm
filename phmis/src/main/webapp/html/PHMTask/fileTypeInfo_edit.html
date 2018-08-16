@@ -19,7 +19,8 @@
 		<script src="/static/ace/js/bootstrap.js"></script>
 		<script src="/static/js/util.js"></script>
 		<script src="/static/ace/js/sweetalert/sweetalert.min.js"></script>
-		
+			<link rel="stylesheet" href="/static/ace/bootstrapvalidator-master/dist/css/bootstrapValidator.css" />
+	<script type="text/javascript" src="/static/ace/bootstrapvalidator-master/dist/js/bootstrapValidator.js"></script>
 		
 
   </head>
@@ -32,7 +33,7 @@
 				<div class="page-content">
 					<div class="row">
 						<div class="col-xs-12">
-						<form action="people/save.do" name="peopleForm" id="peopleForm" method="post">
+							<form id="defaultForm" method="post" class="form-horizontal">
 							
 							
 							<table id="table_report" class="table table-striped table-bordered table-hover"> 			
@@ -61,7 +62,7 @@
 										其它：
 									</td>
 									<td class="controlcontent" >
-										   <textarea rows="5" cols="46" maxlength="255" name="other" id="other" placeholder="这里输入描述" title="描述"  style="width:100%;"></textarea>
+										   <textarea rows="5" cols="46" maxlength="50" name="other" id="other" placeholder="这里输入描述" title="描述"  style="width:100%;"></textarea>
 									
  								 	</td>									
 								</tr>			 
@@ -70,7 +71,7 @@
 								<div id="zhongxin" style="padding-top: 13px;">
 								<tr>
 									<td class="center" colspan="2">
-										 <button  type='button' onclick='save();' class='btn btn-sm btn-info'><span class="glyphicon glyphicon-save"></span> 保存</button>
+										 <button  type='button'  id='validateBtn' class='btn btn-sm btn-info'><span class="glyphicon glyphicon-save"></span> 保存</button>
 											&nbsp;&nbsp;&nbsp;&nbsp;
 		  								  <button  type='button' onclick='closeWin();' class='btn btn-xs btn-danger'><span class="glyphicon glyphicon-remove"></span> 取消</button>
 	 
@@ -92,11 +93,10 @@
 </body>	
  
 <script type="text/javascript">
-		$(top.hangge());
+		
 	 
 		//保存	
-	 function save(){
-		    if(vaild_all()){
+	 function save(){ 
 		     $.ajax({
 				type: "POST",
 				url: '/fileTypeInfo/save', 
@@ -111,6 +111,7 @@
 				dataType:'json',
 				cache: false,
 				success: function(data){ 
+					$(top.hangge());
 					if(data && data!=""){ 
 						if("success" == data.result){
 						  parent.queryList(); 
@@ -119,95 +120,98 @@
       					  parent.swal("保存成功！", "您已经成功新增了这条信息。", "success");
 						}
 						else if("err" == data.result){ 
-						   parent.swal("保存失败！", data.msg, "err");	
+						   swal("保存失败！", data.msg, "error");	
 						}						     
 				    } 
 				 }
 			   });
 		    }
-			　
-		}
+			　 
 		
-	  /***
-	    验证字段datafileTypeId是否为空或别的验证逻辑都写在这里
-	  ***/	
-	  function vaild_datafileTypeId(){
-	     if($("#datafileTypeId").val()==""){
-			$("#datafileTypeId").tips({
-				side:3,
-	            msg:'雷达文件类型ID为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#datafileTypeId").focus();
-			return false;
-		}
-	  }
-	  /***
-	    验证字段radarTypeId是否为空或别的验证逻辑都写在这里
-	  ***/	
-	  function vaild_radarTypeId(){
-	     if($("#radarTypeId").val()==""){
-			$("#radarTypeId").tips({
-				side:3,
-	            msg:'雷达型号ID为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#radarTypeId").focus();
-			return false;
-		}
-	  }
-	  /***
-	    验证字段other是否为空或别的验证逻辑都写在这里
-	  ***/	
-	  function vaild_other(){
-	     if($("#other").val()==""){
-			$("#other").tips({
-				side:3,
-	            msg:'其它为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#other").focus();
-			return false;
-		}
-	  }
+	 /***
+		开始验证
+		***/
+		 
+		$(document).ready(function() { 	    
+	  	  $('#defaultForm').bootstrapValidator({
+	        live: 'disabled',
+	        message: 'This value is not valid',
+	        feedbackIcons: {
+	            valid: 'glyphicon glyphicon-ok',
+	            invalid: 'glyphicon glyphicon-remove',
+	            validating: 'glyphicon glyphicon-refresh'
+	        },
+	        fields: {
+	       	 /*常用验证可以参考
+	            stringLength: {
+	                min: 2,
+	                max: 50,
+	                message: '%field_desc_name%必须为2-50个字符之间'
+	            },
+	            regexp: {
+	                regexp: /^[a-zA-Z0-9_\.]+$/,
+	                message: '%field_desc_name%必须为数字或字母'
+	            },
+	            emailAddress: {
+	                        message: '%field_desc_name%不是邮件地址'
+	            },
+	            date: {
+	                format: 'YYYY/MM/DD',
+	                message: '%field_desc_name%日期格式不对'
+	            },
+	            remote: {
+	                type: 'POST',
+	                url: 'remote.php',
+	                message: '%field_desc_name%已被占用'
+	            }*/
+			  /***
+			    验证字段other是否为空或别的验证逻辑都写在这里
+			  ***/	 
+			  datafileTypeId: {
+	                group: '.controlcontent',
+	                validators: {
+	                    notEmpty: {
+	                        message: '雷达文件类型为必填项'
+	                    } 
+	                }
+	            },
+	            radarTypeId: {
+	                group: '.controlcontent',
+	                validators: {
+	                    notEmpty: {
+	                        message: '雷达型号为必填项'
+	                    } 
+	                }
+	            },
+	            other: {
+	                group: '.controlcontent',
+	                validators: {
+	                    notEmpty: {
+	                        message: '其它为必填项'
+	                    },
+	                    stringLength: {
+			                min: 1,
+			                max: 50,
+			                message: '其它必须为1-50个字符,1个汉字为2个字符'
+			            }
+	                }
+	            },
 
-     function vaild_all(){
-	     if($("#datafileTypeId").val()==""){
-			$("#datafileTypeId").tips({
-				side:3,
-	            msg:'雷达文件类型ID为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#datafileTypeId").focus();
-			return false;
-		}
-	     if($("#radarTypeId").val()==""){
-			$("#radarTypeId").tips({
-				side:3,
-	            msg:'雷达型号ID为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#radarTypeId").focus();
-			return false;
-		}
-	     if($("#other").val()==""){
-			$("#other").tips({
-				side:3,
-	            msg:'其它为必填项',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#other").focus();
-			return false;
-		}
+	        } 
+	    });
 
-		 return true;
-	  }
+	    // Validate the form manually
+	    $('#validateBtn').click(function() {
+	        $('#defaultForm').bootstrapValidator('validate');
+	    }); 
+	}).on('success.form.bv', function (e){
+		// 阻止默认事件提交
+		$('#validateBtn').attr("disabled");
+		top.jzts();
+		e.preventDefault();
+		save();
+	}); 
+		
 	  
 	$(function(){
   		init();

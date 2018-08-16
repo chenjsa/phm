@@ -9,8 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.util.Base64;
+import java.net.InetAddress; 
 
 //程序清单：codes\17\17.4\UdpClient.java
 

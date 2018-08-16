@@ -1,5 +1,5 @@
 package com.pms.rcm.modellib.vo;
-
+ 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.pms.rcm.radar.vo.ModuleTypeInfo;
 import com.pms.rcm.radar.vo.RadarTypeInfo;
@@ -18,6 +19,41 @@ import com.pms.rcm.radar.vo.SubsystemInfo;
 public class KnowledgeBaseInfo implements java.io.Serializable {
 
 	private static final long serialVersionUID = 398683536262L;
+	
+	///='++"&radarId="+radarId+"&phmsubsId="+phmsubsId+"&moduleId=
+	@Transient
+	private String radarId;
+	@Transient
+	private String phmsubsId;
+	@Transient
+	private String radarModuleId;
+	
+	
+	
+
+	public String getRadarId() {
+		return radarId;
+	}
+
+	public void setRadarId(String radarId) {
+		this.radarId = radarId;
+	}
+
+	public String getPhmsubsId() {
+		return phmsubsId;
+	}
+
+	public void setPhmsubsId(String phmsubsId) {
+		this.phmsubsId = phmsubsId;
+	}
+
+	public String getRadarModuleId() {
+		return radarModuleId;
+	}
+
+	public void setRadarModuleId(String radarModuleId) {
+		this.radarModuleId = radarModuleId;
+	}
 
 	public KnowledgeBaseInfo() {
 	}

@@ -172,6 +172,7 @@ public class AlgorithmsInfoManager extends BaseManager<AlgorithmsInfo>{
    @Override
    @Transactional(rollbackFor = { Exception.class })
 	public AlgorithmsInfo  update(AlgorithmsInfo entity) throws BusinessException {
+	   entity.setCreationDate(new Date());
 		entity = super.update(entity);
 		return entity;
 	}
