@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>dbBackupLog</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+        <link rel="stylesheet" href="/static/ace/css/font-awesome1.css" />  
+	    <link href="/static/ace/css/style.min.css?v=4.1.0" rel="stylesheet">
+		<link href="/static/ace/css/bootstrap.min1.css" rel="stylesheet"> 
+		<!-- text fonts -->
+		<link rel="stylesheet" href="/static/ace/css/ace-fonts.css" />
+		<!-- ace styles -->
+		<link rel="stylesheet" href="/static/ace/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />   
+		<script type="text/javascript" src="/static/ace/js/jquery.js"></script>  
+		<script src="/static/ace/js/bootstrap.js"></script>
+		<script src="/static/js/util.js"></script>
+		<script src="/static/js/br-service.js"></script>
+		<script src="/static/js/br-contoller.js"></script>
+
+  </head>
+  
+    <body class="no-skin">
+<div class="main-container" id="main-container">
+		<!-- /section:basics/sidebar -->
+		<div class="main-content">
+			<div class="main-content-inner">
+				<div class="page-content">
+					<div class="row">
+						<div class="col-xs-12">
+						<form action="people/save.do" name="peopleForm" id="peopleForm" method="post">
+						
+							<div id="zhongxin" style="padding-top: 13px;">
+							<table id="table_report" class="table table-striped table-bordered table-hover"> 			
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										备份时间：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="backupTime" name="backupTime"  placeholder="输入备份时间" title="backupTime" style="width:98%;"  />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										backup_name：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="backupName" name="backupName"  placeholder="输入backup_name" title="backupName" style="width:98%;"  />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										备份类型：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="backupType" name="backupType"  placeholder="输入备份类型" title="backupType" style="width:98%;"  />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										备份方式：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="backupModel" name="backupModel"  placeholder="输入备份方式" title="backupModel" style="width:98%;"  />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										文件大小：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="fileSize" name="fileSize"  placeholder="输入文件大小" title="fileSize" style="width:98%;"  />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										存放路径：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="storePath" name="storePath"  placeholder="输入存放路径" title="storePath" style="width:98%;"  />
+								 	</td>									
+								</tr>			 
+							    <tr>								
+									<td style="width:89px;text-align: right;padding-top: 13px;">
+										执行状态：
+									</td>
+									<td class="controlcontent" >
+										<input type="text" id="backupStatus" name="backupStatus"  placeholder="输入执行状态" title="backupStatus" style="width:98%;"  />
+								 	</td>									
+								</tr>			 
+
+								 	<input type="hidden" name="id" id='id' > 
+							</table>
+							</div>
+						 	</form>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.page-content -->
+			</div>
+		</div>
+		<!-- /.main-content -->
+	</div> 	                  
+</body>	
+ 
+<script type="text/javascript">
+		$(top.hangge());	  
+		$(function(){
+  		init();
+	});
+	function init(){ 
+		  　 $.ajax({
+				type: "GET",
+				url: s_url+'/dbBackupLog/getEntityById/'+getParamer("id"), 
+				dataType:'json',
+				cache: false,
+				success: function(data){
+				  //  alert(data);
+					if(data && data!=""){ 
+						 $("#backupTime").val(data.data.backupTime);
+						 $("#backupName").val(data.data.backupName);
+						 $("#backupType").val(data.data.backupType);
+						 $("#backupModel").val(data.data.backupModel);
+						 $("#fileSize").val(data.data.fileSize);
+						 $("#storePath").val(data.data.storePath);
+						 $("#backupStatus").val(data.data.backupStatus);
+
+						 $("#id").val(data.data.id);						     
+				    } 
+				 }
+			   });
+		} 
+	 
+</SCRIPT>
+</html>

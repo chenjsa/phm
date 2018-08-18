@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>dbBackupLog</title>
+	<meta name="keywords" content="keyword1,keyword2,keyword3">
+	<meta name="description" content="this is my page">
+	<meta name="content-type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="/static/ace/css/font-awesome1.css" />
+	<link href="/static/ace/css/style.min.css?v=4.1.0" rel="stylesheet">
+	<link href="/static/ace/css/bootstrap.min1.css" rel="stylesheet">
+	<!-- text fonts -->
+	<link rel="stylesheet" href="/static/ace/css/ace-fonts.css" />
+	<!-- ace styles -->
+	<link rel="stylesheet" href="/static/ace/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
+	<link href="/static/ace/js/sweetalert/sweetalert.css" rel="stylesheet">
+	<script type="text/javascript" src="/static/ace/js/jquery.js"></script>
+	<script src="/static/ace/js/bootstrap.js"></script>
+	<script src="/static/ace/js/sweetalert/sweetalert.min.js"></script>
+	<script src="/static/js/util.js"></script>
+	<script src="/static/js/br-service.js"></script>
+	<script src="/static/js/br-contoller.js"></script>
+	<link rel="stylesheet" href="/static/ace/bootstrapvalidator-master/dist/css/bootstrapValidator.css" />
+	<script type="text/javascript" src="/static/ace/bootstrapvalidator-master/dist/js/bootstrapValidator.js"></script>
+</head>
+<body class="no-skin">
+	<div class="main-container" id="main-container">
+		<!-- /section:basics/sidebar -->
+		<div class="main-content">
+			<div class="main-content-inner">
+				<div class="page-content">
+					<div class="row">
+						<div class="col-xs-12">
+							<form id="defaultForm" method="post" class="form-horizontal">
+								<table id="table_report"
+									class="table table-striped table-bordered table-hover">
+									<tr>
+										<td style="width: 89px; text-align: right; padding-top: 13px;">
+											备份时间：
+										</td>
+										<td class="controlcontent">
+										<input type="text"
+											id="backupTime" name="backupTime"
+											placeholder="输入备份时间" title="backupTime"
+											style="width: 98%;" />
+										</td>
+									</tr>
+									<tr>
+										<td style="width: 89px; text-align: right; padding-top: 13px;">
+											backup_name：
+										</td>
+										<td class="controlcontent">
+										<input type="text"
+											id="backupName" name="backupName"
+											placeholder="输入backup_name" title="backupName"
+											style="width: 98%;" />
+										</td>
+									</tr>
+									<tr>
+										<td style="width: 89px; text-align: right; padding-top: 13px;">
+											备份类型：
+										</td>
+										<td class="controlcontent">
+										<input type="text"
+											id="backupType" name="backupType"
+											placeholder="输入备份类型" title="backupType"
+											style="width: 98%;" />
+										</td>
+									</tr>
+									<tr>
+										<td style="width: 89px; text-align: right; padding-top: 13px;">
+											备份方式：
+										</td>
+										<td class="controlcontent">
+										<input type="text"
+											id="backupModel" name="backupModel"
+											placeholder="输入备份方式" title="backupModel"
+											style="width: 98%;" />
+										</td>
+									</tr>
+									<tr>
+										<td style="width: 89px; text-align: right; padding-top: 13px;">
+											文件大小：
+										</td>
+										<td class="controlcontent">
+										<input type="text"
+											id="fileSize" name="fileSize"
+											placeholder="输入文件大小" title="fileSize"
+											style="width: 98%;" />
+										</td>
+									</tr>
+									<tr>
+										<td style="width: 89px; text-align: right; padding-top: 13px;">
+											存放路径：
+										</td>
+										<td class="controlcontent">
+										<input type="text"
+											id="storePath" name="storePath"
+											placeholder="输入存放路径" title="storePath"
+											style="width: 98%;" />
+										</td>
+									</tr>
+									<tr>
+										<td style="width: 89px; text-align: right; padding-top: 13px;">
+											执行状态：
+										</td>
+										<td class="controlcontent">
+										<input type="text"
+											id="backupStatus" name="backupStatus"
+											placeholder="输入执行状态" title="backupStatus"
+											style="width: 98%;" />
+										</td>
+									</tr>
+
+									<input type="hidden" name="id" id='id'>
+									<div id="zhongxin" style="padding-top: 13px;">
+										<tr>
+											<td class="center" colspan="2">
+												<button type='button' id='validateBtn' class='btn btn-sm btn-info'>
+													<span class="glyphicon glyphicon-save"></span> 保存
+												</button> &nbsp;&nbsp;&nbsp;&nbsp;
+												<button type='button' onclick='closeWin();'
+													class='btn btn-xs btn-danger'>
+													<span class="glyphicon glyphicon-remove"></span> 取消
+												</button>
+											</td>
+										</tr>
+								</table>
+						</div>
+						</form>
+					</div>
+					<!-- /.col -->
+				</div>
+				<!-- /.row -->
+			</div>
+			<!-- /.page-content -->
+		</div>
+	</div>
+	<!-- /.main-content -->
+	</div>
+</body>
+
+<script type="text/javascript"> 
+		//保存	
+	 function save(){ 		    
+		     $.ajax({
+				type: "POST",
+				url: s_url+'/dbBackupLog/save', 
+				contentType: 'application/json', // 这句不加出现415错误:Unsupported Media Type
+				data:JSON.stringify({   
+					  'backupTime':$("#backupTime").val(),
+					  'backupName':$("#backupName").val(),
+					  'backupType':$("#backupType").val(),
+					  'backupModel':$("#backupModel").val(),
+					  'fileSize':$("#fileSize").val(),
+					  'storePath':$("#storePath").val(),
+					  'backupStatus':$("#backupStatus").val(),
+
+					  'id':$("#id").val()
+				  }),
+				dataType:'json',
+				cache: false,
+				success: function(data){ 
+					$(top.hangge());
+					if(data && data!=""){ 
+						if("success" == data.msg){
+						  parent.queryList(); 
+                          var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+      					  parent.layer.close(index);
+      					  parent.swal("保存成功！", "您已经成功新增了这条信息。", "success");
+						}
+						else if("error" == data.msg){ 
+						   swal("保存失败！", data.data, "error");	
+						}						     
+				    } 
+				 }
+			   });  
+		} 
+	 
+	$(function(){ 
+  		init();
+	});
+	function init(){ 
+		  　 $.ajax({
+				type: "GET",
+				url: s_url+'/dbBackupLog/getEntityById/'+getParamer("id"), 
+				dataType:'json',
+				cache: false,
+				success: function(data){
+				  //  alert(data);
+					if(data.data!=null && data!=""){   
+					  $("#backupTime").val(data.data.backupTime);
+					  $("#backupName").val(data.data.backupName);
+					  $("#backupType").val(data.data.backupType);
+					  $("#backupModel").val(data.data.backupModel);
+					  $("#fileSize").val(data.data.fileSize);
+					  $("#storePath").val(data.data.storePath);
+					  $("#backupStatus").val(data.data.backupStatus);
+
+					  $("#id").val(data.data.id);				     
+				    } 
+				 }
+			   });
+		} 
+		
+	/***
+	开始验证
+	***/
+	 
+	$(document).ready(function() { 	    
+  	  $('#defaultForm').bootstrapValidator({
+        live: 'disabled',
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+       	 /*常用验证可以参考
+            stringLength: {
+                min: 2,
+                max: 50,
+                message: '%field_desc_name%必须为2-50个字符之间'
+            },
+            regexp: {
+                regexp: /^[a-zA-Z0-9_\.]+$/,
+                message: '%field_desc_name%必须为数字或字母'
+            },
+            emailAddress: {
+                        message: '%field_desc_name%不是邮件地址'
+            },
+            date: {
+                format: 'YYYY/MM/DD',
+                message: '%field_desc_name%日期格式不对'
+            },
+            remote: {
+                type: 'POST',
+                url: 'remote.php',
+                message: '%field_desc_name%已被占用'
+            }*/
+		  /***
+		    验证字段backupTime是否为空或别的验证逻辑都写在这里
+		  ***/	 
+		   backupTime: {
+                group: '.controlcontent',
+                validators: {
+                    notEmpty: {
+                        message: '备份时间为必填项'
+                    },
+                    stringLength: {
+		                min: 1,
+		                max: 19,
+		                message: '备份时间必须为1-19个字符,1个汉字为2个字符'
+		            }
+                }
+            },
+		  /***
+		    验证字段backupName是否为空或别的验证逻辑都写在这里
+		  ***/	 
+		   backupName: {
+                group: '.controlcontent',
+                validators: {
+                    notEmpty: {
+                        message: 'backup_name为必填项'
+                    },
+                    stringLength: {
+		                min: 1,
+		                max: 50,
+		                message: 'backup_name必须为1-50个字符,1个汉字为2个字符'
+		            }
+                }
+            },
+		  /***
+		    验证字段backupType是否为空或别的验证逻辑都写在这里
+		  ***/	 
+		   backupType: {
+                group: '.controlcontent',
+                validators: {
+                    notEmpty: {
+                        message: '备份类型为必填项'
+                    },
+                    stringLength: {
+		                min: 1,
+		                max: 20,
+		                message: '备份类型必须为1-20个字符,1个汉字为2个字符'
+		            }
+                }
+            },
+		  /***
+		    验证字段backupModel是否为空或别的验证逻辑都写在这里
+		  ***/	 
+		   backupModel: {
+                group: '.controlcontent',
+                validators: {
+                    notEmpty: {
+                        message: '备份方式为必填项'
+                    },
+                    stringLength: {
+		                min: 1,
+		                max: 30,
+		                message: '备份方式必须为1-30个字符,1个汉字为2个字符'
+		            }
+                }
+            },
+		  /***
+		    验证字段fileSize是否为空或别的验证逻辑都写在这里
+		  ***/	 
+		   fileSize: {
+                group: '.controlcontent',
+                validators: {
+                    notEmpty: {
+                        message: '文件大小为必填项'
+                    },
+                    stringLength: {
+		                min: 1,
+		                max: 30,
+		                message: '文件大小必须为1-30个字符,1个汉字为2个字符'
+		            }
+                }
+            },
+		  /***
+		    验证字段storePath是否为空或别的验证逻辑都写在这里
+		  ***/	 
+		   storePath: {
+                group: '.controlcontent',
+                validators: {
+                    notEmpty: {
+                        message: '存放路径为必填项'
+                    },
+                    stringLength: {
+		                min: 1,
+		                max: 100,
+		                message: '存放路径必须为1-100个字符,1个汉字为2个字符'
+		            }
+                }
+            },
+		  /***
+		    验证字段backupStatus是否为空或别的验证逻辑都写在这里
+		  ***/	 
+		   backupStatus: {
+                group: '.controlcontent',
+                validators: {
+                    notEmpty: {
+                        message: '执行状态为必填项'
+                    },
+                    stringLength: {
+		                min: 1,
+		                max: 20,
+		                message: '执行状态必须为1-20个字符,1个汉字为2个字符'
+		            }
+                }
+            },
+
+        } 
+    });
+
+    // Validate the form manually
+    $('#validateBtn').click(function() {
+        $('#defaultForm').bootstrapValidator('validate');
+    }); 
+}).on('success.form.bv', function (e){
+	// 阻止默认事件提交
+	$('#validateBtn').attr("disabled");
+	top.jzts();
+	e.preventDefault();
+	save();
+}); 
+	
+		
+</SCRIPT>
+<!-- ace scripts -->
+<!-- inline scripts related to this page -->
+<!-- 下拉框 -->
+<script src="/static/ace/js/chosen.jquery.js"></script>
+<!-- 日期框 -->
+<script src="/static/ace/js/date-time/bootstrap-datepicker.js"></script>
+<!--提示框-->
+<script type="text/javascript" src="/static/js/jquery.tips.js"></script>
+<script type="text/javascript">
+		$(top.hangge());
+</script>
+</html>

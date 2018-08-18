@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>taskResult编辑</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8"> 
+	      <link rel="stylesheet" href="/static/ace/css/font-awesome1.css" />  
+	    <link href="/static/ace/css/style.min.css?v=4.1.0" rel="stylesheet">
+		<link href="/static/ace/css/bootstrap.min1.css" rel="stylesheet"> 
+		<!-- text fonts -->
+		<link rel="stylesheet" href="/static/ace/css/ace-fonts.css" />
+		<!-- ace styles -->
+		<link rel="stylesheet" href="/static/ace/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" /> 
+		<link href="/static/ace/js/sweetalert/sweetalert.css" rel="stylesheet">        
+		<script type="text/javascript" src="/static/ace/js/jquery.js"></script>  
+		<script src="/static/ace/js/bootstrap.js"></script>
+		<script src="/static/js/util.js"></script>
+		<script src="/static/ace/js/sweetalert/sweetalert.min.js"></script>
+		
+		   <script src="/static/ace/js/bootstrap-datetimepicker.js"></script>
+		<script src="/static/ace/js/bootstrap-datetimepicker.zh-CN.js"></script>
+		<link rel="stylesheet" href="/static/ace/css/bootstrap-datetimepicker.min.css" class="ace-main-stylesheet" id="main-ace-style" /> 
+			<link rel="stylesheet" href="/static/ace/bootstrapvalidator-master/dist/css/bootstrapValidator.css" />
+	<script type="text/javascript" src="/static/ace/bootstrapvalidator-master/dist/js/bootstrapValidator.js"></script>
+
+<!-- jsp文件头和头部 --> 
+<!-- 百度echarts -->
+<script src="/plugins/echarts/echarts.min.js"></script>
+</head>
+<body class="no-skin">
+
+	<!-- /section:basics/navbar.layout -->
+	<div class="main-container" id="main-container">
+	 
+	     
+    
+<ul id="myTab" class="nav nav-tabs">
+	<li class="active">
+		<a href="#home" data-toggle="tab">
+			 <span class="glyphicon glyphicon-floppy-open"></span> 内存监控
+		</a>
+	</li>
+	<li><a href="#ios"  data-toggle="tab">  
+  <span class="glyphicon glyphicon-user"></span> CPU监控
+ 
+	  </a></li>
+ 
+	<li><a href="#bsdata" data-toggle="tab">
+	<span class="glyphicon glyphicon-credit-card"></span>
+		
+	硬盘监控</a></li>
+	 
+	 <li><a href="#bsdata1" data-toggle="tab">
+	<span class="glyphicon glyphicon-credit-card"></span>
+		
+	网络流量</a></li>
+</ul>
+<div id="myTabContent" class="tab-content">
+	<div class="tab-pane fade in active" id="home" style="width:100%;">  
+	  <div id="main" style="height:490px;"></div>
+	</div>
+	<div class="tab-pane fade" id="ios">  
+	 <div id="heap" style="height:490px;"></div>
+	</div> 
+	<div class="tab-pane fade" id="bsdata"> 
+         <div id="disk"  class="row" style="height:490px;"></div>
+	</div>
+	<div class="tab-pane fade" id="bsdata1"> 
+         <div id="net"  class="row" style="height:490px;"></div>
+	</div>
+ 
+</div>
+							 
+							
+						   
+						  
+							<script type="text/javascript">
+							/* 
+							* 方法:Array.remove(dx) 通过遍历,重构数组 
+							* 功能:删除数组元素. 
+							* 参数:dx删除元素的下标. 
+							*/
+							Array.prototype.remove=function(dx) 
+							{ 
+							  if(isNaN(dx)||dx>this.length){return false;} 
+							  for(var i=0,n=0;i<this.length;i++) 
+							  { 
+							    if(this[i]!=this[dx]) 
+							    { 
+							      this[n++]=this[i] 
+							    } 
+							  } 
+							  this.length-=1 
+							} 
+							var d=new Date();
+							$("#main").width=$(window).width();
+							$("#heap").width=$(window).width();
+							$("#disk").width=$(window).width();
+							$("#net").width=$(window).width();
+							 
+								$(top.hangge());
+								$(function(){
+									query(); 
+									self.setInterval(doIt, 5000);
+							    }); 
+								
+								function doIt(){
+									query(); 
+								}
+							 
+							var arr=new Array();
+							var arrData=new Array();
+							
+							var arrHeap=new Array();
+							var arrHeapData=new Array();
+							
+							
+							var arrNet=new Array();
+							var arrNetRxData=new Array();
+							var arrNetTxData=new Array();
+							
+							var i=0;
+							function query(){
+								 $.ajax({
+										type : "GET",
+										url : '/monitor/list',
+										dataType : 'json',
+										cache : false,										 
+										success : function(data) {
+											 
+											   var d2 = new Date(); 
+											   arr[i]=d2.toLocaleString();   
+											   arrData[i]=data.memoryRate.used;
+											   arrHeap[i]=d2.toLocaleString();
+											   arrHeapData[i]=data.cpuRate*100;
+											   arrNet[i]=d2.toLocaleString();
+											   arrNetTxData[i]=data.netRate.txData;
+											   arrNetRxData[i]=data.netRate.rxData;
+										 	  i++;
+										 	  if(i>=101){
+										 		  i=1;
+										 	  }
+										 		 
+									        // 基于准备好的dom，初始化echarts实例
+									        var myChart = echarts.init(document.getElementById('main'));
+									
+									        option = {
+									        	    tooltip : {
+									        	        trigger: 'axis'
+									        	    },
+									        	    legend: {
+									        	        data:['内存使用情况']
+									        	    },
+									        	    toolbox: {
+									        	        show : true,
+									        	        feature : {
+									        	            mark : {show: true},
+									        	            dataView : {show: true, readOnly: false},
+									        	            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+									        	            restore : {show: true},
+									        	            saveAsImage : {show: true}
+									        	        }
+									        	    },
+									        	    calculable : true,
+									        	    xAxis : [
+									        	        {
+									        	            type : 'category',
+									        	            boundaryGap : false,
+									        	            data : arr
+									        	        }
+									        	    ],
+									        	    yAxis : [
+									        	        {
+									        	            type : 'value'
+									        	        }
+									        	    ],
+									        	    series : [
+									        	        {
+									        	            name:'内存使用情况',
+									        	            type:'line',
+									        	            stack: '内存使用情况',
+									        	            data:arrData
+									        	        } 
+									        	    ]
+									        	};
+									        	                    
+									        	                    
+									        option.yAxis[0].max= data.memoryRate.total;
+
+									        // 使用刚指定的配置项和数据显示图表。
+									        myChart.setOption(option);  	
+									        
+									        
+									        
+									        
+									        // 基于准备好的dom，初始化echarts实例
+									        var myChart1 = echarts.init(document.getElementById('heap'));
+									
+									        var option1 = {
+									        	    tooltip : {
+									        	        trigger: 'axis'
+									        	    },
+									        	    legend: {
+									        	        data:['CPU利用率']
+									        	    },
+									        	    toolbox: {
+									        	        show : true,
+									        	        feature : {
+									        	            mark : {show: true},
+									        	            dataView : {show: true, readOnly: false},
+									        	            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+									        	            restore : {show: true},
+									        	            saveAsImage : {show: true}
+									        	        }
+									        	    },
+									        	    calculable : true,
+									        	    xAxis : [
+									        	        {
+									        	            type : 'category',
+									        	            boundaryGap : false,
+									        	            data : arrHeap
+									        	        }
+									        	    ],
+									        	    yAxis : [
+									        	        {
+									        	            type : 'value'
+									        	        }
+									        	    ],
+									        	    series : [
+									        	        {
+									        	            name:'CPU利用率',
+									        	            type:'line',
+									        	            stack: 'CPU利用率',
+									        	            data:arrHeapData
+									        	        } 
+									        	    ]
+									        	};
+									        	                    
+									        	                    
+									        option1.yAxis[0].max= 100;
+
+									        // 使用刚指定的配置项和数据显示图表。
+									        myChart1.setOption(option1);  	
+									        
+									        
+									        
+									        
+									        
+									        // 基于准备好的dom，初始化echarts实例
+									        var myChartnet = echarts.init(document.getElementById('net'));
+									
+									        var optionnet = {
+									        	    tooltip : {
+									        	        trigger: 'axis'
+									        	    },
+									        	    legend: {
+									        	        data:['发送的字节数','接收的字节数']
+									        	    },
+									        	    toolbox: {
+									        	        show : true,
+									        	        feature : {
+									        	            mark : {show: true},
+									        	            dataView : {show: true, readOnly: false},
+									        	            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+									        	            restore : {show: true},
+									        	            saveAsImage : {show: true}
+									        	        }
+									        	    },
+									        	    calculable : true,
+									        	    xAxis : [
+									        	        {
+									        	            type : 'category',
+									        	            boundaryGap : false,
+									        	            data : arrNet
+									        	        }
+									        	    ],
+									        	    yAxis : [
+									        	        {
+									        	            type : 'value'
+									        	        }
+									        	    ],
+									        	    series : [
+									        	        {
+									        	            name:'发送的字节数',
+									        	            type:'line',
+									        	            stack: '发送的字节数',
+									        	            data:arrNetTxData,
+									        	            linStyle:{color:'red'}
+									        	        },
+									        	        {
+									        	            name:'接收的字节数',
+									        	            type:'line',
+									        	            stack: '接收的字节数',
+									        	            data:arrNetRxData,
+									        	            linStyle:{color:'green'}
+									        	        }  
+									        	    ]
+									        	};
+									        	                    
+									        	                     
+
+									        // 使用刚指定的配置项和数据显示图表。
+									        myChartnet.setOption(optionnet);  	
+									        
+									        
+									        
+									        // 基于准备好的dom，初始化echarts实例 
+									        $.each(data.diskRate,function(x,item){
+									        	  var div="<div id='dsk"+x+"' class=\"col-xs-6\" style=\"width: 30%;height:490px;\"></div>";
+									        	   $('#disk').append(div);
+									        	   var myChart3 = echarts.init(document.getElementById("dsk"+x));
+									        	    
+											        	option3 = {
+												        	    title : {
+												        	        text: item.name+'盘使用情况',
+												        	        subtext: '详细情况',
+												        	        x:'center'
+												        	    },
+												        	    tooltip : {
+												        	        trigger: 'item',
+												        	        formatter: "{a} <br/>{b} : {c} ({d}%)"
+												        	    },
+												        	    legend: {
+												        	        orient : 'vertical',
+												        	        x : 'left',
+												        	        data:item.name
+												        	    },
+												        	    toolbox: {
+												        	        show : true,
+												        	        feature : {
+												        	            mark : {show: true},
+												        	            dataView : {show: true, readOnly: false},
+												        	            magicType : {
+												        	                show: true, 
+												        	                type: ['line', 'bar', 'stack', 'tiled'],
+												        	                option: {
+												        	                    funnel: {
+												        	                        x: '25%',
+												        	                        width: '50%',
+												        	                        funnelAlign: 'left',
+												        	                        max: 1548
+												        	                    }
+												        	                }
+												        	            },
+												        	            restore : {show: true},
+												        	            saveAsImage : {show: true}
+												        	        }
+												        	    },
+												        	    calculable : true,
+												        	    series : [
+												        	        {
+												        	            name:'访问来源',
+												        	            type:'pie',
+												        	            radius : '55%',
+												        	            center: ['50%', '60%'],
+												        	            data:[  
+																				{value:item.useage, name:'已使用'},
+												        	                  {value:100-item.useage, name:'未使用'}
+												        	                
+												        	            ]
+												        	        }
+												        	    ]
+												        	};
+										        	                     
+													        // 使用刚指定的配置项和数据显示图表。
+													        myChart3.setOption(option3);  	
+													 });  
+										}
+									});
+							} 
+							 
+							
+							 
+							 
+							 				        
+						    </script>
+							
+						</div>
+					 
+
+
+	 
+ 
+	<!-- /.main-container -->
+
+	<!-- basic scripts -->
+	<!-- 页面底部js¨ --> 
+	<!-- ace scripts -->
+	<script src="/static/ace/js/ace/ace.js"></script>
+	<!-- inline scripts related to this page -->
+	<script type="text/javascript">
+		$(top.hangge());
+	</script>
+<script type="text/javascript" src="/static/ace/js/jquery.js"></script>
+</body>
+</html>
