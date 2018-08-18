@@ -25,7 +25,8 @@ import com.pms.rcm.phmtask.vo.TaskKnowledgeInfo;
 import com.pms.rcm.phmtask.vo.TaskRelevantData;
 import com.pms.rcm.radar.manager.RadarDeviceInfoManager;
 import com.pms.rcm.radar.vo.RadarDeviceInfo;
-import com.pms.socket.client.SocketTread; 
+import com.pms.socket.client.PacketMsg;
+import com.pms.socket.client.SocketTread;
 
 /**
  * Service object for domain model class PhmtaskInfo.
@@ -182,7 +183,12 @@ public class PhmtaskInfoManager extends BaseManager<PhmtaskInfo>{
 		}
 		///采用线程发送避免卡顿
 		SocketTread tre=new SocketTread();
-		tre.setMsg(entity.getId());
+		PacketMsg pkt=new PacketMsg();
+	    pkt.cmd =3;// (byte)(3);
+	    pkt.code=4;// (byte)(4);    	      	 
+	    pkt.len =1;///(short) (pkt.data.length);///1 ///长度都是1，
+	    pkt.sdata=2; 
+    	tre.setPkt(pkt);
 		Thread thread = new Thread(tre); 
 		thread.start(); 
 		return entity;
@@ -234,9 +240,14 @@ public class PhmtaskInfoManager extends BaseManager<PhmtaskInfo>{
 			taskKnow.setTaskId(entity.getId());
 			this.baseDao.insert(taskKnow);
 		}		
-		///采用线程发送避免卡顿
+		///采用线程发送避免卡顿 
 		SocketTread tre=new SocketTread();
-		tre.setMsg(entity.getId());
+		PacketMsg pkt=new PacketMsg();
+	    pkt.cmd =3;// (byte)(3);
+	    pkt.code=4;// (byte)(4);    	      	 
+	    pkt.len =1;///(short) (pkt.data.length);///1 ///长度都是1，
+	    pkt.sdata=2; 
+    	tre.setPkt(pkt);
 		Thread thread = new Thread(tre); 
 		thread.start(); 
 		return entity;

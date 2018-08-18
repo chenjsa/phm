@@ -1,36 +1,32 @@
 package com.pms.rcm.maintain.controller;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.annotation.Resource;
-import net.sf.json.JSONArray; 
-import net.sf.json.JSONObject;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.servlet.ModelAndView;
-import com.pms.base.controller.BaseController;
-import com.pms.base.util.AppUtil;
-import com.pms.base.util.Page;
-import com.pms.base.util.PageData;
-import com.pms.rcm.maintain.manager.LogInfoManager;
-import com.pms.rcm.maintain.vo.LogInfo;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.pms.base.controller.BaseController;
+import com.pms.base.util.Page;
+import com.pms.rcm.maintain.manager.LogInfoManager;
+import com.pms.rcm.maintain.vo.LogInfo;
+import com.pms.rcm.sys.manager.AdminInfoManager;
+import com.pms.rcm.sys.manager.UserManager;
+import com.pms.rcm.sys.vo.AdminInfo;
+import com.pms.rcm.sys.vo.User;
 /**
  * log_info表LogInfo维护
  * 
@@ -45,7 +41,10 @@ import io.swagger.annotations.ApiParam;
 @Api("LogInfo操作controller")
 public class LogInfoController  extends BaseController<LogInfo, LogInfoManager> {
 	private static final long serialVersionUID = 206789317729L;  
-	 
+	@Autowired
+	private UserManager userManager;
+	@Autowired
+	private AdminInfoManager adminInfoManager;
 	@ApiOperation(value="获取logInfo列表", notes="分页查询获取logInfo列表信息",httpMethod = "GET") 
 	@ResponseBody
 	@RequestMapping(value="/list")
@@ -55,6 +54,17 @@ public class LogInfoController  extends BaseController<LogInfo, LogInfoManager> 
 		List<LogInfo> logInfoList =this.baseManager.findPage(entity, page, true);
 		try
 		{  
+			for(LogInfo info:logInfoList){
+				User user=this.userManager.getUser(info.getRadarId());
+				if(user!=null)
+					info.setUserName(user.getName());
+				else{
+					AdminInfo adminInfo=adminInfoManager.get(info.getRadarId());
+					if(adminInfo!=null){
+						info.setUserName(adminInfo.getAdminId());
+					}
+				}
+			}
 		 	JSONArray jsonarray = JSONArray.fromObject(logInfoList);
 			JSONObject jsonobject = new JSONObject();
 			jsonobject.put("total", String.valueOf(page.getTotalPage()));

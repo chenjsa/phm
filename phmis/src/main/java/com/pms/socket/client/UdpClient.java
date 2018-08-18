@@ -9,15 +9,24 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress; 
+import java.net.InetAddress;
 
-//程序清单：codes\17\17.4\UdpClient.java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
 
+import com.pms.rcm.maintain.manager.SystemParametersInfoManager;
+import com.pms.rcm.maintain.vo.SystemParametersInfo;
+
+//程序清单：codes\17\17.4\UdpClient.java 
 public class UdpClient  
-{  
+{   
   // 定义发送数据报的目的地  
-  public static final int DEST_PORT = 5678;  
-  public static final String DEST_IP = "127.0.0.1";  
+  @Value("${udp.port}")
+  public  int DEST_PORT;
+  @Value("${udp.ip}")
+  public  String DEST_IP;
   // 定义每个数据报的最大大小为4KB  
   private static final int DATA_LEN = 4096;     
   // 定义接收网络数据的字节数组  
@@ -25,11 +34,29 @@ public class UdpClient
   // 以指定的字节数组创建准备接收数据的DatagramPacket对象  
   private DatagramPacket inPacket =   
       new DatagramPacket(inBuff , inBuff.length);  
-  // 定义一个用于发送的DatagramPacket对象  
+  
+  
+  public DatagramPacket getInPacket() {
+	return inPacket;
+}
+
+public void setInPacket(DatagramPacket inPacket) {
+	this.inPacket = inPacket;
+}
+// 定义一个用于发送的DatagramPacket对象  
   private DatagramPacket outPacket = null;   
-  private byte[] buf = new byte[6]; 
-  PacketMsg pkt = new PacketMsg(buf);
-  private byte[] ObjectToByte(Object obj) {  
+  ///private byte[] buf = new byte[6]; 
+  private PacketMsg pkt;// = new PacketMsg(buf);
+  
+  public PacketMsg getPkt() {
+	return pkt;
+}
+
+public void setPkt(PacketMsg pkt) {
+	this.pkt = pkt;
+}
+
+private byte[] ObjectToByte(Object obj) {  
       byte[] bytes = null;  
       try {  
           // object to bytearray  
@@ -64,18 +91,22 @@ public class UdpClient
       }
       return obj;
   }
-  
+  public UdpClient(PacketMsg pkt,String DEST_IP,int DEST_PORT){
+	  this.pkt=pkt;
+	  this.DEST_IP=DEST_IP;
+	  this.DEST_PORT=DEST_PORT;
+  }
   public void init()throws IOException  
   {  
       try  
       {  
-    	  pkt.seq = (short) (pkt.seq+1);
+    	 /* pkt.seq = (short) (pkt.seq+1);
     	  pkt.cmd = (byte)(3);
     	  pkt.code= (byte)(4);    	      	
     	  pkt.data=ObjectToByte((byte)2);
     	
     	  pkt.len =1;///(short) (pkt.data.length);///1 ///长度都是1，
-    		//according to the snPkt, create the sending byte stream
+*/    		//according to the snPkt, create the sending byte stream
   		ByteArrayOutputStream baos = new ByteArrayOutputStream();
   		DataOutputStream dos = new DataOutputStream(baos);
 
@@ -84,16 +115,10 @@ public class UdpClient
   			dos.writeByte(pkt.code);
   			dos.writeShort(pkt.seq); 
   			dos.writeShort(pkt.len);  
-  			dos.writeByte(2);///功能任务信息	02-》2	智能库的功能任务改变
+  			dos.writeByte(pkt.sdata);///功能任务信息	02-》2	智能库的功能任务改变
   		}catch (IOException e){
   			e.printStackTrace();
-  		}
-  	/*	try {
-			///dos.write(pkt.data, 0, pkt.len-6);  //write the data field.
-		}catch (IOException e){
-			e.printStackTrace();
-		}
-*/
+  		} 
   		pkt.message = baos.toByteArray();  
 		//System.arraycopy(pkt.data, 0, pkt.message, 6, pkt.len-6);
     	  // 创建一个客户端DatagramSocket，使用随机端口  
@@ -106,8 +131,8 @@ public class UdpClient
               socket.send(outPacket);  
               // 读取Socket中的数据，读到的数据放在inPacket所封装的字节数组中  
               socket.receive(inPacket);  
-              System.out.println(new String(inBuff , 0  
-                  , inPacket.getLength()));  
+          /*    System.out.println(new String(inBuff , 0  
+                  , inPacket.getLength()));  */
       }catch(Exception e){
     	  e.printStackTrace();
       }
@@ -115,6 +140,6 @@ public class UdpClient
   public static void main(String[] args)   
       throws IOException  
   {  
-      new UdpClient().init();  
+     // new UdpClient(new PacketMsg(),DEST_IP,DEST_PORT).init();  
   }  
 }

@@ -207,6 +207,10 @@ public class UserManager extends BaseManager<User> {
 		baseDao.initialize(user.getManageDeptSet());
 		return user;
 	}
+	public User getUser(Serializable id) throws BusinessException {
+		User user = super.get(id); 
+		return user;
+	}
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })

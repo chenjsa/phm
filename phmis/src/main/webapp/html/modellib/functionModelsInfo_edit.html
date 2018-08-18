@@ -222,24 +222,7 @@
   		init();
 	});
 	function init(){ 
-		  　 $.ajax({
-				type: "GET",
-				url: '/functionModelsInfo/getEntityById/'+getParamer("id"), 
-				dataType:'json',
-				cache: false,
-				success: function(data){
-				  //  alert(data);
-					if(data && data!=""){  
-					  $("#functionModelName").val(data.functionModelName);
-					  $("#phmfunctionTypeId").val(data.phmfunctionTypeId);
-					  $("#modelUrl").val(data.modelUrl);
-					  $("#modelDescription").val(data.modelDescription);
-
-					  $("#id").val(data.id);				     
-				    } 
-				 }
-			   });
-			   
+		  　 
 			     $.ajax({
 				type: "GET",
 				url: '/phmfunctionTypeInfo/getAll', 
@@ -255,10 +238,31 @@
 						      	$("#phmfunctionTypeId").append("<option  value='"+item.id+"'>"+item.phmfunctionTypeName+"</option>");	 
 					      　});      
 				    } 
+					initVo();
 				 }
 			   }); 
 		} 
 		
+	function initVo(){
+		$.ajax({
+			type: "GET",
+			url: '/functionModelsInfo/getEntityById/'+getParamer("id"), 
+			dataType:'json',
+			cache: false,
+			success: function(data){
+			  //  alert(data);
+				if(data && data!=""){  
+				  $("#functionModelName").val(data.functionModelName);
+				  $("#phmfunctionTypeId").val(data.phmfunctionTypeId);
+				  $("#modelUrl").val(data.modelUrl);
+				  $("#modelDescription").val(data.modelDescription);
+
+				  $("#id").val(data.id);				     
+			    } 
+			 }
+		   });
+		   
+	}
 		
 		
 		

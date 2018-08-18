@@ -80,7 +80,7 @@ public class LogInfo  implements java.io.Serializable {
 
 	 
 	
-	@ManyToOne(optional = true)
+	/*@ManyToOne(optional = false)
 	@JoinColumn(name = "Radar_id", insertable = false, updatable = false)
 	private User user;
 	public User getUser() {
@@ -88,7 +88,7 @@ public class LogInfo  implements java.io.Serializable {
 	}
 	public void setUser(User user) {
 		this.user = user;
-	}
+	}*/
 	
 	@ManyToOne(optional = true)
 	@JoinColumn(name = "Type_id", insertable = false, updatable = false)
@@ -100,7 +100,15 @@ public class LogInfo  implements java.io.Serializable {
 		this.logTypeInfo = logTypeInfo;
 	}
 	
-
+	@Transient
+	private String userName;
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
 	
 
   

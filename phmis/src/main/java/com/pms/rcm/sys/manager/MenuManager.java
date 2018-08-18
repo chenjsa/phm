@@ -710,4 +710,15 @@ public class MenuManager extends BaseManager<Menu> {
 		return this.jdbcHelper.getInt(hql);
 		
 	}
+	
+	public Menu getMenuByUrl(String url){
+		String hql="from Menu where actionPath like '%"+url+"%' ";
+		List<Menu> list=this.baseDao.find(hql);
+		if(list.isEmpty())
+			return null;
+		else{
+			return (Menu)list.get(0);
+		}
+	
+	}
 }

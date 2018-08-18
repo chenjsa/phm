@@ -73,7 +73,7 @@
 		<div style="position: absolute;top:5%;left:2%;"><img src="" width="60%" height="60%"/></div>
 		<div style="margin-top: 8%;color: #fff;margin-bottom: 0px;">
 			<h3>
-				<img alt="" src="static/login/images/LOGO.png">${pd.SYSNAME}
+				<img alt="" width="90" height="90" src="static/login/images/LOGO.png">${pd.SYSNAME}
 			</h3>
 		</div>
 		

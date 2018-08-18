@@ -42,6 +42,12 @@ public class SystemParametersInfoManager extends BaseManager<SystemParametersInf
 		SystemParametersInfo entity = super.get(id); 
 		return entity;
 	}
+    
+    public SystemParametersInfo getByProp(String code) throws BusinessException {
+		SystemParametersInfo entity = (SystemParametersInfo)this.baseDao.findSingle("from SystemParametersInfo where systemParametersCode='"+code+"'");
+		return entity;
+	}
+    
 	public SystemParametersInfo getByMybatis(String id) throws BusinessException {
 		SystemParametersInfo entity = systemParametersInfoMapper.get(id); 
 		return entity;

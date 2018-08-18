@@ -18,6 +18,7 @@ import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import com.pms.interceptor.LoginHandlerInterceptor;
+import com.pms.interceptor.SysemLogInterceptor;
  
 /**
  * @author zh
@@ -30,6 +31,11 @@ public class MyWebAppConfigurer
         extends WebMvcConfigurerAdapter {
 
 	@Bean
+	public SysemLogInterceptor sysemLogInterceptor() {
+	    return new SysemLogInterceptor();
+	}
+	
+	@Bean
 	public LoginHandlerInterceptor loginHandlerInterceptor() {
 	    return new LoginHandlerInterceptor();
 	}
@@ -40,7 +46,7 @@ public class MyWebAppConfigurer
         // addPathPatterns 用于添加拦截规则
         // excludePathPatterns 用户排除拦截
         registry.addInterceptor(loginHandlerInterceptor()).addPathPatterns("/**");
-       // registry.addInterceptor(new MyInterceptor2()).addPathPatterns("/**");
+        registry.addInterceptor(sysemLogInterceptor()).addPathPatterns("/**");
         super.addInterceptors(registry);
     }
     

@@ -180,6 +180,8 @@
 						formatter :function(value, options, rData) {     
 			         		  var html="<a id='goView-"+value+"'  style='display:none' class='btn btn-xs btn-success' title='查看' onclick=view('"+value+"');><i class='glyphicon glyphicon-search' title='查看'></i></a>";
 			          	 	  html=html+"&nbsp;&nbsp;<a id='goEdit-"+value+"'  style='display:none' class='btn btn-xs btn-success' title='修改' onclick=edit('"+value+"');><i class='glyphicon glyphicon-log-out' title='修改'></i></a>";
+			          	 	  html=html+"&nbsp;&nbsp;<a id='dwon-"+value+"'    class='btn btn-xs btn-success' title='下载' onclick=downFile('"+value+"');><i class='glyphicon glyphicon-download-alt' title='下载'></i></a>";
+
 			          	 	  html=html+"&nbsp;&nbsp;<a id='delete-"+value+"'  style='display:none' class='btn btn-xs btn-danger' title='删除' onclick=del('"+value+"');><i class='glyphicon glyphicon-remove' title='删除'></i></a>";
 			          	 	  return html; 
 			           }     	   
@@ -335,6 +337,11 @@
 					layer.close(index);
 				}
 			  });   
+		}
+		
+		function downFile(id){ 
+			//alert(url);
+			 window.location='/helpInfo/downFile/'+id;
 		}
 		 
 		function init(){ 

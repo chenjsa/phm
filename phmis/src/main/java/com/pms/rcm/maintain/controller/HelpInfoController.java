@@ -1,26 +1,37 @@
 package com.pms.rcm.maintain.controller;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray; 
 import net.sf.json.JSONObject;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestBody;
+
 import com.pms.base.controller.BaseController;
 import com.pms.base.util.Page;
 import com.pms.rcm.maintain.manager.HelpInfoManager;
 import com.pms.rcm.maintain.manager.LogInfoManager;
 import com.pms.rcm.maintain.vo.HelpInfo;
 import com.pms.rcm.maintain.vo.LogInfo;
+import com.pms.rcm.soft.vo.SoftwareVersionInfo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -68,6 +79,43 @@ public class HelpInfoController  extends BaseController<HelpInfo, HelpInfoManage
 			return null;
 		}
 	}
+	@ResponseBody
+    @RequestMapping(value = "/downFile/{id}" ,method = RequestMethod.GET)
+    public void downFile(@PathVariable("id") String id,HttpServletRequest request,HttpServletResponse response){
+		  HelpInfo entity=this.baseManager.get(id);
+	      String fileName = entity.getDataName()+"."+entity.getDataUrl().substring(entity.getDataUrl().lastIndexOf(".")+1);
+	      response.setHeader("content-type", "application/octet-stream");
+	      response.setContentType("application/octet-stream");
+	      try {
+			response.setHeader("Content-Disposition", "attachment;filename=" + new String(fileName.getBytes("GB2312"),"ISO-8859-1"));
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	      byte[] buff = new byte[1024];
+	      BufferedInputStream bis = null;
+	      OutputStream os = null;
+	      try {
+	        os = response.getOutputStream();
+	        bis = new BufferedInputStream(new FileInputStream(new File(entity.getDataUrl())));
+	        int i = bis.read(buff);
+	        while (i != -1) {
+	          os.write(buff, 0, buff.length);
+	          os.flush();
+	          i = bis.read(buff);
+	        }
+	      } catch (IOException e) {
+	        e.printStackTrace();
+	      } finally {
+	        if (bis != null) {
+	          try {
+	            bis.close();
+	          } catch (IOException e) {
+	            e.printStackTrace();
+	          }
+	        }
+	      } 
+    }
 	@ResponseBody
 	@ApiOperation(value="helpInfo信息", notes="根据url的id来获取helpInfo信息",httpMethod = "GET")
 	@ApiImplicitParam(name = "id", value = "helpInfo的ID", required = true, dataType = "String", paramType = "path")

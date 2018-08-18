@@ -66,7 +66,7 @@
 			<td style="width:33%;text-align: right;padding-top: 13px;">
 				启动_后台服务程序：</td>
 			<td class="controlcontent" style="width:33%"><input type="text"
-				id="" name="" onblur="" ;  placeholder="点击 启动 按钮可远程启动后台服务程序！"
+				id="startService1" name="" onblur="" ;  placeholder="点击 启动 按钮可远程启动后台服务程序！"
 				title="" style="width:98%;" readonly="readonly" /></td>
 			<td>
 				<button type="button" id="startService" onclick='startService();'
@@ -120,10 +120,10 @@
 
     //发送启动命令
 	function startService() {
-		var commandId = '2c9249dd64d56c9e0164d60e385f0019';
+		////var commandId = '2c9249dd64d56c9e0164d60e385f0019';
 		$.ajax({
 			type : "GET",
-			url : '/servicePlatControl/postCommand/' + serIPId + '/' + serPointId + '/' + commandId,
+			url : '/servicePlatControl/postCommand/1',
 			dataType : 'json',
 			cache : false,
 			success : function(data) {
@@ -137,11 +137,10 @@
 	}
 	
 	//发送关闭命令
-	function closeService() {
-		var commandId = '2c9249dd64d56c9e0164d60fc5df001';
+	function closeService() { 
 		$.ajax({
 			type : "GET",
-			url : '/servicePlatControl/postCommand/' + serIPId + '/' + serPointId + '/' + commandId,
+			url : '/servicePlatControl/postCommand/2',
 			dataType : 'json',
 			cache : false,
 			success : function(data) {
@@ -155,11 +154,10 @@
 	}
 	
 	//发送重启命令
-	function reStartService() {
-		var commandId = '2c9249dd64d56c9e0164d60eb778001a';
+	function reStartService() { 
 		$.ajax({
 			type : "GET",
-			url : '/servicePlatControl/postCommand/' + serIPId + '/' + serPointId + '/' + commandId,
+			url : '/servicePlatControl/postCommand/3',
 			dataType : 'json',
 			cache : false,
 			success : function(data) {
@@ -172,6 +170,24 @@
 		});
 	}
 	
+	//发送重启命令
+	function init() { 
+		$.ajax({
+			type : "GET",
+			url : '/servicePlatControl/getServer',
+			dataType : 'json',
+			cache : false,
+			success : function(data) {
+				if (data && data != "") { 
+					if(data.cmd=='2'){
+						$("#startService1").val('已启动');
+					}
+				}
+			}
+		});
+	}
+	
+	init();
 	
 </script>
 

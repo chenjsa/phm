@@ -32,6 +32,15 @@ import org.springframework.stereotype.Repository;
 public class JdbcHelper{
 	@Autowired
     private JdbcTemplate jdbcTemplate;
+	
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+
 	public List SqlQuery(String sql) {
 		List list = jdbcTemplate.queryForList(sql);
 		return convertMapToObjectArray(list);

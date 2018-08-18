@@ -12,6 +12,8 @@ import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import com.pms.filter.SessionFilter;
  
 @SpringBootApplication
 @EnableTransactionManagement  
@@ -36,6 +38,10 @@ public class PmsWebApplication {
        // converter.setSupportedMediaTypes(ImmutableList.of(MediaType.TEXT_HTML, MediaType.APPLICATION_JSON));
         return converter;
     }
+    @Bean
+	public SessionFilter getSessionFilter() {
+		return new SessionFilter();
+	}
     
 	 
 	  

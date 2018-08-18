@@ -319,7 +319,12 @@
 		<artifactId>spring-boot-starter-actuator</artifactId>
 	</dependency>
 	
-	
+		<!-- https://mvnrepository.com/artifact/org.fusesource/sigar -->
+	<dependency>
+	    <groupId>org.fusesource</groupId>
+	    <artifactId>sigar</artifactId>
+	    <version>1.6.4</version>
+	</dependency>
 	<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>

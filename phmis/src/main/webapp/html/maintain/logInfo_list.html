@@ -104,12 +104,7 @@
 							<span class="glyphicon glyphicon-search"></span> 查询
 						</button>
 					</div>
-					<div class="widget-toolbar">
-						<button type="button" id="goAdd" onclick='add();'
-							style="display:none" class="btn btn-xs btn-warning">
-							<span class="glyphicon glyphicon-export"></span>新增
-						</button>
-					</div>
+					 
 			</div>
 			<div class="widget-body">
 				<div class="widget-main">
@@ -154,44 +149,33 @@
 					'<span class="glyphicon glyphicon-list-alt"></span>维护时间',
 					'<span class="glyphicon glyphicon-list-alt"></span>日志类型',
 					'<span class="glyphicon glyphicon-list-alt"></span>日志内容',
-					'<span class="glyphicon glyphicon-list-alt"></span>维护人员',
-
-					'<span class="glyphicon glyphicon-check"></span>操作'
+					'<span class="glyphicon glyphicon-list-alt"></span>维护人员'
 				],
 				colModel : [
 					{
 						name : 'dateStr',
-						index : 'dateStr',
-						sortable : true
+						index : 'date',
+						sortable : true,
+						width:30
 					},
 					{
 						name : 'logTypeInfo.logTypeName',
 						index : 'logTypeInfo.logTypeName',
-						sortable : true
+						sortable : true,
+						width:30
 					},
 					{
 						name : 'logContent',
 						index : 'logContent',
 						sortable : true
+						 
 					},
 					{
-						name : 'user.name',
-						index : 'user.name',
-						sortable : true
-					},
-
-					{
-						name : "id",
-						index : "id",
-						align : "center",
-						sortable : false,
-						formatter : function(value, options, rData) {
-							var html = "<a id='goView-" + value + "'  style='display:none' class='btn btn-xs btn-success' title='查看' onclick=view('" + value + "');><i class='glyphicon glyphicon-search' title='查看'></i></a>";
-							html = html + "&nbsp;&nbsp;<a id='goEdit-" + value + "'  style='display:none' class='btn btn-xs btn-success' title='修改' onclick=edit('" + value + "');><i class='glyphicon glyphicon-log-out' title='修改'></i></a>";
-							html = html + "&nbsp;&nbsp;<a id='delete-" + value + "'  style='display:none' class='btn btn-xs btn-danger' title='删除' onclick=del('" + value + "');><i class='glyphicon glyphicon-remove' title='删除'></i></a>";
-							return html;
-						}
-					}
+						name : 'userName',
+						index : 'userName',
+						sortable : true,
+						width:30
+					}  
 				],
 				rowNum : 10,
 				rowList : [ 10, 20, 30 ],
